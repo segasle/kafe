@@ -94,7 +94,6 @@ function events(){
         }
         if (empty($errors)){
             $result = do_query("SELECT COUNT(*) as count FROM events WHERE `data` = '{$data['data']}'");
-            echo $result;
             $result = $result->fetch_object();
             if (!empty($result->count)){
                 echo '<div style="background: red; color: white">К сожелению эта дата занята, выберите другой день!</div>';
