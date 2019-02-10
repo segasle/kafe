@@ -1,10 +1,10 @@
 <h1 class="text-center">Мероприятия</h1>
-<?php  events(); ?>
+<?php  events(); event_mail();?>
 <form action="" method="post" class="form-input">
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <label for="name">Ваше имя</label>
-            <input type="text" name="name" placeholder="Имя" id="name" value="<?php echo $_POST['name']; ?>" class="form-control">
+            <input type="text" name="name" placeholder="Имя" id="name"  class="form-control">
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <label for="surname">Ваша фамилия</label>
@@ -33,7 +33,7 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label for="data">Выберите дату и время</label>
-            <input type="datetime-local" name="data" id="data" class="form-control">
+            <input type="date" name="data" id="data" class="form-control">
         </div>
     </div>
     <button type="submit" class="btn btn-default" name="submit">Отправиить</button>

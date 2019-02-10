@@ -29,7 +29,7 @@ function comm(){
         $data = $_POST;
             $result = do_query("SELECT COUNT(*) as count FROM comment WHERE `name` = '{$data['name']}'");
             $result = $result->fetch_object();
-
+            $errors = array();
             if ($data['name'] == '' or $data['name'] == ' '){
                 $errors = 'Вы не ввели имя';
                 if (trim($data['name']) <= 3 or trim($data['name']) >= 16){
@@ -80,6 +80,8 @@ function events(){
     if (isset($_POST['submit'])){
         $data = $_POST;
         $errors = array();
+        $tempate = '^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$';
+        $sub = $data['phone'];
         if (empty($data['name'])){
             $errors = 'Вы не ввели имя';
         }
@@ -92,15 +94,19 @@ function events(){
         if (empty($data['data'])){
             $errors = 'Вы не ввели дату';
         }
+        if (preg_match("$tempate", "$sub",$matc) == false){
+            $errors = 'Введите правильный формат, пример 89153213322';
+        }
         if (empty($errors)){
             $result = do_query("SELECT COUNT(*) as count FROM events WHERE `data` = '{$data['data']}'");
+
             $result = $result->fetch_object();
             if (!empty($result->count)){
                 echo '<div style="background: red; color: white">К сожелению эта дата занята, выберите другой день!</div>';
             }
             else{
                 // сохраняет все данные в БД
-                $wer =  do_query("INSERT INTO `events` (`id`, `name`, `surname`, `phone`, `event`, `rooms`, `data`) VALUES (NULL, '{$data['name']}', '{$data['surname']}', '{$data['phone']}', '{$data['event']}', '{$data['rooms']}', '{$data['data']}')");
+                $wer =  do_query("INSERT INTO `events` (`id`, `name`, `surname`, `phone`, `event`, `rooms`, `data`) VALUES (NULL, '{$data['name']}', '{$data['surname']}', $matc, '{$data['event']}', '{$data['rooms']}', '{$data['data']}')");
                 if (!empty($wer)){
                     echo '<div style="background: #4cae4c; color: #ffffff;">Успешно отправлено! Подождите, когда наш оператор свяжется с вами</div>';
                 }
@@ -121,7 +127,7 @@ function event_mail(){
 
         if (!empty($data)){
             $mess = implode("", $data);
-            $to      = 'segasle@yandex.ru';
+            $to      = 'kafe-lyi@yandex.ru';
             $subject = 'Заказ';
             $message = "$mess";
             $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
@@ -129,9 +135,8 @@ function event_mail(){
                 "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
                 .'X-Mailer: PHP/' . phpversion();
 
-            if (mail("$to", "$subject", "$message", "$headers")){
-                echo '<div style="background: #2aabd2; color: white;">УСПЕШНО</div>';
-            }
+            mail("$to", "$subject", "$message", "$headers");
+
         }
     }
     return;

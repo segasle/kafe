@@ -17,7 +17,7 @@
     <link rel="icon" href="photo/logo.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?t=<?php echo(microtime(true).rand()); ?>">
     <script type="text/javascript" >
         (function (d, w, c) {
             (w[c] = w[c] || []).push(function() {
