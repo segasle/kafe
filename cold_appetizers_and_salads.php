@@ -215,48 +215,6 @@
         <div class="block_content">
             <div class="row">
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                    <p class="elements">&laquo;Куринная лапша&raquo;</p>
-                    <p class="text_content elements">куринное филе, лук репчаты, морковь, лашпа</p>
-                </div>
-                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                    <div class="pull-right">
-                        <div class="block_weight_price elements">
-                            <p class="weight">300гр</p>
-                            <p class="price">80р</p>
-                        </div>
-                        <div class="elements">
-                            <form action="" method="post">
-                                <button type="button">Добавить</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="block_content">
-            <div class="row">
-                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                    <p class="elements">&laquo;Крем-суп сливочно-грибной&raquo;</p>
-                    <p class="text_content elements">шампиньоны, лук репчаты, картофель сливки, сыр &laquo;Пармезан&raquo;, гренки </p>
-                </div>
-                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                    <div class="pull-right">
-                        <div class="block_weight_price elements">
-                            <p class="weight">470гр</p>
-                            <p class="price">150р</p>
-                        </div>
-                        <div class="elements">
-                            <form action="" method="post">
-                                <button type="button">Добавить</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="block_content">
-            <div class="row">
-                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                     <p class="elements">&laquo;Рулеты из Баклажанов&raquo;</p>
                     <p class="text_content elements">баклажаны, сыр, чеснок, майонез, грецкий орех, укроп </p>
                 </div>
@@ -306,7 +264,7 @@
                     <div class="pull-right">
                         <div class="block_weight_price elements">
                             <p class="weight">250гр</p>
-                            <p class="price">300р</p>
+                            <p class="price">600р</p>
                         </div>
                         <div class="elements">
                             <form action="" method="post">

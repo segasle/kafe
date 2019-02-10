@@ -194,27 +194,7 @@
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <p class="h3 text-center">Первые блюда</p>
-        <div class="block_content">
-            <div class="row">
-                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                    <p class="elements">&laquo;Куриная лапша&raquo;</p>
-                    <p class="text_content elements">куриный бульон, лук репчатый, морковь, лапша </p>
-                </div>
-                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                    <div class="pull-right">
-                        <div class="block_weight_price elements">
-                            <p class="weight">250гр</p>
-                            <p class="price">100р</p>
-                        </div>
-                        <div class="elements">
-                            <form action="">
-                                <button type="button">добавить</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="block_content">
             <div class="row">
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
