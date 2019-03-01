@@ -27,7 +27,16 @@ function do_query($query)
     $result = mysqli_query($mysqli, $query);
     return $result;
 }
+function menu(){
+    $menu = do_query("SELECT * FROM `menu` WHERE `parent` = '0' ORDER BY menu.id");
+     $out = '<ul>';
+    foreach ($menu as $item){
+                $out .= '<li><a href="'.$item['link'].'">'.$item['title'].'</a></li>';
+    }
+    $out .= '</ul>';
+    return $out;
 
+}
 function comm(){
     if (isset($_POST['comm'])){
         $data = $_POST;
@@ -145,25 +154,25 @@ function event_mail(){
     }
     return;
 }
-function menu_account($user_accont) {
-    $out   = '';
-    $ul_class = 'user_account';
-    foreach ( $user_accont as $item ) {
-
-        $out .= '<li><a href="?page=' . $item['way'] . '">' . $item['lnscription'] . '</a></li>';
-    }
-
-    $out = '<ul class="'.$ul_class.'">' . $out . '</ul>';
-
-    return $out;
-}
-function meun_food($meun_food) {
-    $out   = '';
-    foreach ( $meun_food as $item ) {
-        $out .= '<li><a href="?page=' . $item['way'] . '">' . $item['lnscription'] . '</a></li>';
-    }
-
-    $out = '<ul>' . $out . '</ul>';
-
-    return $out;
-}
+//function menu_account($user_accont) {
+//    $out   = '';
+//    $ul_class = 'user_account';
+//    foreach ( $user_accont as $item ) {
+//
+//        $out .= '<li><a href="?page=' . $item['way'] . '">' . $item['lnscription'] . '</a></li>';
+//    }
+//
+//    $out = '<ul class="'.$ul_class.'">' . $out . '</ul>';
+//
+//    return $out;
+//}
+//function meun_food($meun_food) {
+//    $out   = '';
+//    foreach ( $meun_food as $item ) {
+//        $out .= '<li><a href="?page=' . $item['way'] . '">' . $item['lnscription'] . '</a></li>';
+//    }
+//
+//    $out = '<ul>' . $out . '</ul>';
+//
+//    return $out;
+//}
