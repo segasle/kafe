@@ -12,7 +12,11 @@ function connections(){
         $file = $_GET['page'];
     }
     include 'tempate/header.php';
-    include  $file . '.php';
+    if (file_exists('food/'.$file.'.php')){
+        include 'food/'. $file . '.php';
+    }else{
+        include 'upmenu/'. $file . '.php';
+    }
     include 'tempate/footer.php';
 
 }
