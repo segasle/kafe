@@ -46,7 +46,7 @@ function comm(){
             if ($data['name'] == '' or $data['name'] == ' '){
                 $errors = 'Вы не ввели имя';
                 if (trim($data['name']) <= 3 or trim($data['name']) >= 16){
-                    $errors = 'имя должен составлять от 3 до 16 символов';
+                    $errors[] = 'имя должен составлять от 3 до 16 символов';
 
                 }
 
@@ -55,7 +55,7 @@ function comm(){
             if (empty($data['content'])) {
                 $errors = 'Вы не написали отзыв';
                 if ($data['content'] <= 10 or $data['content'] >= 1000) {
-                    $errors = 'Отзыв должен составлять от 10 до 1000 символов';
+                    $errors[] = 'Отзыв должен составлять от 10 до 1000 символов';
                 }
             }
             if (empty($errors)){
@@ -63,11 +63,11 @@ function comm(){
                     // сохраняет все данные в БД
                     $wer =  do_query("INSERT INTO comment (`name`,`content`)VALUES ('{$data['name']}','{$data['content']}')");
                     if (!empty($wer)){
-                         echo '<div style="background: #4cae4c; color: #ffffff;">Успешно отправлено</div>';
+                         echo '<div class="go">Успешно отправлено</div>';
                     }
                 }
             }else{
-                    echo '<div style="color: red;">'.$errors.'</div>';
+                    echo '<div class="errors">'.array_shift($errors).'</div>';
             }
     }
     return;
@@ -99,34 +99,34 @@ function events(){
             $errors = 'Вы не ввели имя';
         }
         if (empty($data['surname'])){
-            $errors = 'Вы не ввели фамилию';
+            $errors[] = 'Вы не ввели фамилию';
         }
         if (empty($data['phone'])){
-            $errors = 'Вы не ввели телефлон';
+            $errors[] = 'Вы не ввели телефлон';
         }
         if (empty($data['data'])){
-            $errors = 'Вы не ввели дату';
+            $errors[] = 'Вы не ввели дату';
         }
         if (preg_match("$tempate", "$sub",$matc) == false){
-            $errors = 'Введите правильный формат, пример 89153213322';
+            $errors[] = 'Введите правильный формат, пример 89153213322';
         }
         if (empty($errors)){
             $result = do_query("SELECT COUNT(*) as count FROM events WHERE `data` = '{$data['data']}'");
 
             $result = $result->fetch_object();
             if (!empty($result->count)){
-                echo '<div style="background: red; color: white">К сожелению эта дата занята, выберите другой день!</div>';
+                echo '<div class="errors">К сожелению эта дата занята, выберите другой день!</div>';
             }
             else{
                 // сохраняет все данные в БД
                 $wer =  do_query("INSERT INTO `events` (`id`, `name`, `surname`, `phone`, `event`, `rooms`, `data`) VALUES (NULL, '{$data['name']}', '{$data['surname']}', $matc, '{$data['event']}', '{$data['rooms']}', '{$data['data']}')");
                 if (!empty($wer)){
-                    echo '<div style="background: #4cae4c; color: #ffffff;">Успешно отправлено! Подождите, когда наш оператор свяжется с вами</div>';
+                    echo '<div class="go">Успешно отправлено! Подождите, когда наш оператор свяжется с вами</div>';
                 }
             }
         }
         else{
-            echo '<div style="color: red;">'.$errors.'</div>';
+            echo '<div class="errors">'.array_shift($errors).'</div>';
         }
     }
     return;
@@ -154,25 +154,3 @@ function event_mail(){
     }
     return;
 }
-//function menu_account($user_accont) {
-//    $out   = '';
-//    $ul_class = 'user_account';
-//    foreach ( $user_accont as $item ) {
-//
-//        $out .= '<li><a href="?page=' . $item['way'] . '">' . $item['lnscription'] . '</a></li>';
-//    }
-//
-//    $out = '<ul class="'.$ul_class.'">' . $out . '</ul>';
-//
-//    return $out;
-//}
-//function meun_food($meun_food) {
-//    $out   = '';
-//    foreach ( $meun_food as $item ) {
-//        $out .= '<li><a href="?page=' . $item['way'] . '">' . $item['lnscription'] . '</a></li>';
-//    }
-//
-//    $out = '<ul>' . $out . '</ul>';
-//
-//    return $out;
-//}
