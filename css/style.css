@@ -89,7 +89,7 @@ div:before {
 }
 .heder .cap .meun_up .user_account {
   padding-left: 16px;
-  display: none;
+  display: block;
   float: right;
 }
 .heder .cap .meun_up .user_account li:nth-child(1) {
@@ -439,4 +439,3 @@ div:before {
     float: none;
   }
 }
-/*# sourceMappingURL=style.css.map */
