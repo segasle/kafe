@@ -78,7 +78,10 @@
                 <label class="burger" for="checkbox">
                     <div class="fa fa-5x fa-bars"></div>
                 </label>
-                <?php echo menu();?>
+                <nav>
+                    <?php echo menu();?>
+                </nav>
+
 
             </div>
 
