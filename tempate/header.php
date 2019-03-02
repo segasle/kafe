@@ -72,9 +72,8 @@
 <description>
     <div class="heder">
         <div class="cap">
-            <div class="meun_up">
                 <?php echo menu();?>
-        </div>
+
     </div>
 </description>
 <description>
