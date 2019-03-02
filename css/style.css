@@ -42,6 +42,19 @@ div:before {
   background: url(../photo/cap.jpg) 100% 0 / cover no-repeat;
   min-height: 300px;
 }
+.heder .cap .meun #checkbox {
+  display: none;
+}
+.heder .cap .meun #checkbox:checked ~ .nav,
+.heder .cap .meun #checkbox:checked ~ nav {
+  display: block;
+}
+.heder .cap .meun label {
+  cursor: pointer;
+  z-index: 2;
+  position: absolute;
+  display: block;
+}
 .heder .cap .meun_up ul {
   padding-left: 16px;
   display: block;
@@ -91,12 +104,6 @@ div:before {
   padding-left: 16px;
   display: block;
   float: right;
-}
-.heder .cap .meun_up .user_account li:nth-child(1) {
-  background: url(../photo/input.png) no-repeat center left;
-}
-.heder .cap .meun_up .user_account li:nth-child(2) {
-  background: url(../photo/registration.png) no-repeat center left;
 }
 .heder .cap .meun_food {
   margin: 0 15px;
