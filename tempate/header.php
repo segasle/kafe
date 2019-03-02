@@ -70,7 +70,8 @@
 </head>
 
 <body>
-<description>
+<div class="container-fluid">
+<header>
     <div class="heder">
         <div class="cap">
             <div class="menu">
@@ -86,6 +87,7 @@
             </div>
 
     </div>
-</description>
+        </div>
+</header>
 <description>
     <div class="content">
