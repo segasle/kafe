@@ -35,99 +35,8 @@ div:before {
   overflow: auto;
   min-height: 100px;
 }
-.heder {
-  width: 100%;
-}
-.heder .cap {
-  background: url(../photo/cap.jpg) 100% 0 / cover no-repeat;
-  min-height: 300px;
-}
-.heder .cap .meun #checkbox {
-  display: none;
-}
-.heder .cap .meun #checkbox:checked ~ .nav,
-.heder .cap .meun #checkbox:checked ~ nav {
-  display: block;
-}
-.heder .cap .meun label {
-  cursor: pointer;
-  z-index: 2;
-  position: absolute;
-  display: block;
-}
-.heder .cap .meun_up ul {
-  padding-left: 16px;
-  display: block;
-  float: left;
-}
-.heder .cap .meun_up ul li {
-  float: left;
-  background: url(../photo/home-kafe.png) no-repeat center left;
-  padding-right: 10px;
-  list-style: none;
-  padding-left: 42px;
-  position: relative;
-}
-.heder .cap .meun_up ul li:hover > ul {
-  background: #6B1544;
-  display: table;
-  position: absolute;
-  top: 100%;
-  left: 20%;
-  width: 100%;
-  padding: 0;
-}
-.heder .cap .meun_up ul li a {
+.fa-bars {
   color: #ffffff;
-  display: block;
-  font-size: 16px;
-  text-decoration: none;
-  font-weight: 100;
-  font-family: cursive;
-  padding: 10px;
-}
-.heder .cap .meun_up ul li a:hover {
-  background: #8b00ff;
-}
-.heder .cap .meun_up ul ul {
-  display: none;
-}
-.heder .cap .meun_up ul ul li {
-  float: none;
-  background: none;
-  padding: 0;
-}
-.heder .cap .meun_up ul ul li a {
-  text-align: left;
-}
-.heder .cap .meun_up .user_account {
-  padding-left: 16px;
-  display: block;
-  float: right;
-}
-.heder .cap .meun_food {
-  margin: 0 15px;
-}
-.heder .cap .meun_food ul li {
-  background: #971a22;
-  margin: 10px 30px;
-  text-align: center;
-  list-style-image: url(../photo/Food.png);
-  position: static;
-  padding: 5px 10px;
-  float: left;
-}
-.heder .cap .meun_food ul li:hover {
-  background: #8b00ff;
-}
-.heder .cap .meun_food ul li a {
-  color: #ffffff;
-  display: block;
-  font-size: 16px;
-  text-decoration: none;
-  font-weight: 100;
-  font-family: cursive;
-  padding: 0;
 }
 .content {
   background: #D8D6C6;
@@ -354,95 +263,83 @@ div:before {
   height: 200px;
   padding: 10px;
 }
-@media (max-width: 1280px) {
-  .heder .cap {
-    background: url(../photo/cap-md.jpg) 100% 0 / cover no-repeat;
-    min-height: 300px;
-  }
+.heder {
+  width: 100%;
 }
-@media (max-width: 890px) {
-  .heder {
-    width: 100%;
-  }
-  .heder .cap {
-    background: url(../photo/cap-xs.jpg) 100% 0 / cover no-repeat;
-    min-height: 100px;
-  }
-  .heder .cap .meun_up {
-    display: none;
-  }
-  .heder .cap .meun_food {
-    display: none;
-  }
-  .btn-default:active,
-  .btn-default.active,
-  .open > .dropdown-toggle.btn-default {
-    background: #781023;
-    color: #ffffff;
-  }
-  .btn {
-    display: block;
-    width: 100%;
-    border: none;
-    padding: 0 0 0 10px;
-    font-size: 18px;
-    line-height: normal;
-    text-align: left;
-    background: #781023;
-    color: #ffffff;
-  }
-  .dropdown-menu {
-    margin: 0;
-    width: 100%;
-    list-style: none;
-    background: #781023;
-    color: #ffffff;
-  }
-  .dropdown-menu ul {
-    display: none;
-    margin-left: 20px;
-    list-style: none;
-  }
-  .dropdown-menu ul li a {
-    display: block;
-    text-decoration: none;
-    color: #ffffff;
-  }
-  .dropdown-menu ul li a:hover {
-    background: #ffffff;
-    color: black;
-  }
-  .dropdown-menu > li:hover > ul {
-    display: block;
-  }
-  .dropdown-menu > li > a {
-    color: #ffffff;
-  }
-  .meun_up ul,
-  .meun_up .user_account {
-    padding-left: 16px;
-    display: block;
-    width: 100%;
-    float: none;
-  }
-  .meun_up .user_account li {
-    position: static;
-  }
-  .content .substrate .box_content {
-    float: none;
-    margin: 0;
-  }
-  .content .comment {
-    width: 100%;
-  }
+.heder .cap {
+  background: url(../photo/cap.jpg) 100% 0 / cover no-repeat;
+  min-height: 300px;
 }
-@media (min-width: 891px) {
-  .dropdown {
-    display: none;
-  }
+.heder .cap .menu {
+  height: 73px;
+  position: relative;
 }
-@media (max-width: 320px) {
-  .meun_up ul li {
-    float: none;
-  }
+.heder .cap .menu #checkbox {
+  display: none;
+}
+.heder .cap .menu #checkbox:checked ~ nav {
+  display: block;
+}
+.heder .cap .menu label {
+  cursor: pointer;
+  z-index: 2;
+  position: relative;
+  display: block;
+}
+.heder .cap .menu .burger {
+  position: absolute;
+  right: 30px;
+  top: 12px;
+}
+.heder .cap .menu nav {
+  z-index: 1;
+  width: 100%;
+  background: #6B1544;
+  position: absolute;
+  top: 100%;
+  display: none;
+}
+.heder .cap .menu_up ul,
+.heder .cap .menu_up .user_account {
+  width: 50%;
+}
+.heder .cap .menu_up ul {
+  padding-left: 16px;
+  display: block;
+  float: left;
+}
+.heder .cap .menu_up ul li {
+  list-style: none;
+}
+.heder .cap .menu_up ul li a {
+  color: #ffffff;
+  display: block;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 100;
+  font-family: cursive;
+  padding: 10px;
+}
+.heder .cap .menu_up ul li a:hover {
+  background: #8b00ff;
+}
+.heder .cap .menu_up .user_account {
+  padding-left: 16px;
+  display: block;
+  float: right;
+}
+.heder .cap .menu_food {
+  margin: 0 15px;
+}
+.heder .cap .menu_food ul li:hover {
+  background: #8b00ff;
+}
+.heder .cap .menu_food ul li a {
+  color: #ffffff;
+  padding: 16px;
+  display: block;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 100;
+  font-family: cursive;
 }
