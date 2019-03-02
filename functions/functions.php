@@ -31,7 +31,7 @@ function menu(){
     $menu = do_query("SELECT * FROM `menu` WHERE `parent` = '0' ORDER BY menu.id");
     $user = do_query("SELECT * FROM `menu` WHERE `parent` = '1' ORDER BY menu.id");
     $food = do_query("SELECT * FROM `menu` WHERE `parent` = '2' ORDER BY menu.id");
-     $out = '<div class="meun_up"><ul>';
+     $out = '<div class="menu_up"><ul>';
     foreach ($menu as $item){
                 $out .= '<li><a href="'.$item['link'].'">'.$item['title'].'</a></li>';
     }
@@ -41,7 +41,7 @@ function menu(){
                 $out1 .= '<li><a href="'.$item['link'].'">'.$item['title'].'</a></li>';
     }
     $out1 .= '</ul></div>';
-    $out2 = '<div class="meun_food"><ul>';
+    $out2 = '<div class="menu_food"><ul>';
     foreach ($food as $item){
                 $out2 .= '<li><a href="'.$item['link'].'">'.$item['title'].'</a></li>';
     }
