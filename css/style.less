@@ -7,44 +7,34 @@
 @bg-black: 0 -5px 0 0 rgba(50, 50, 50, 0.50);
 @bs-cover: 5px 5px 4px 0px rgba(50, 50, 50, 0.50);
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:800&subset=cyrillic');
 
 body {
-    width: 100%;
+  width: 100%;
 }
 
-div {
-    box-sizing: border-box;
-    &:after,
-    &:before {
-        content: '';
-        display: block;
-        clear: both;
-    }
+div, ul {
+  box-sizing: border-box;
+  &:after,
+  &:before {
+    content: '';
+    display: block;
+    clear: both;
+  }
 }
-.modal{
-    display: none;
-    background: rgba(0, 0, 0, 0.4);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    .modal-window{
-        background: @bg-white;
-        width: 50%;
-        margin: 10% auto;
-        overflow: auto;
-        min-height: 100px;
-    }
+
+.fa {
+  &-bars {
+    color: @bg-white;
+  }
 }
-.fa{
-    &-bars{
-      color: @bg-white;
-    }
+
+.container-fluid {
+  padding: 0;
 }
 
 .content {
@@ -69,10 +59,10 @@ div {
       }
     }
     p.elements {
-      &:nth-child(odd){
+      &:nth-child(odd) {
         font-size: 18px;
       }
-      &:nth-child(even){
+      &:nth-child(even) {
         font-size: 13px;
         color: @bg-purple;
       }
@@ -231,44 +221,44 @@ div {
       }
     }
   }
-  .point{
-    &:after{
+  .point {
+    &:after {
       content: '*';
       color: #971a22;
       font-size: 20px;
       font-weight: 900;
     }
   }
-  .no_comm{
+  .no_comm {
     font-size: 30px;
   }
-  .comment{
+  .comment {
     background: #2aabd2;
     width: 50%;
     margin: 10px auto;
     border: 2px solid black;
     padding: 5px 10px;
-    .user{
+    .user {
       font-weight: bold;
     }
-    .user, .data{
+    .user, .data {
       font-size: 18px;
       margin-left: 10px;
     }
-    p{
+    p {
       font-size: 20px;
 
     }
   }
-  .form-input{
-    .row{
+  .form-input {
+    .row {
       margin: 20px 0;
     }
-    textarea{
+    textarea {
       width: 100%;
     }
 
-    button{
+    button {
       display: block;
     }
   }
@@ -290,103 +280,159 @@ div {
 }
 
 .heder {
-    width: 100%;
-    .cap {
-        background: url(../photo/cap.jpg) 100% 0 ~'/' cover no-repeat;
-        min-height: 300px;
-        .menu {
-          height: 73px;
+  width: 100%;
+  .cap {
+    background: url(../photo/cap.jpg) 100% 0 ~'/' cover no-repeat;
+    min-height: 300px;
+    .menu {
+      height: 73px;
+      position: relative;
+      #checkbox {
+        display: none;
+        &:checked ~ nav {
+          display: block;
+        }
+      }
+      label {
+        cursor: pointer;
+        z-index: 20;
         position: relative;
-            #checkbox {
-                display: none;
-                &:checked ~ nav {
-                    display: block;
-                  //margin-top: 100%;
-                }
-            }
-            label {
-                cursor: pointer;
-                z-index: 2;
-                position: relative;
-                display: block;
-            }
+        display: block;
+      }
 
-            .burger {
-                position: absolute;
-                right: 30px;
-                top: 12px;
+      .burger {
+        position: absolute;
+        right: 30px;
+        top: 12px;
+      }
+      nav {
+        z-index: 19;
+        width: 100%;
+        background: @bg-purple;
+        position: absolute;
+        top: 100%;
+        display: none;
+      }
+      &_up {
+        ul, .user_account {
+          width: 50%;
+        }
+        ul {
+          padding-left: 16px;
+          display: block;
+          float: left;
+          li {
+
+            list-style: none;
+            //padding-left: 42px;
+            //position: relative;
+
+            a {
+              color: @bg-white;
+              display: block;
+              font-size: 16px;
+              text-decoration: none;
+              font-weight: 100;
+              font-family: cursive;
+              padding: 10px;
+              &:hover {
+                background: @bg-hover;
+              }
             }
-          nav{
-            z-index: 1;
-            width: 100%;
-            background: @bg-purple;
-            position: absolute;
-            top: 100%;
+          }
+        }
+        .user_account {
+          padding-left: 16px;
+          display: block;
+          float: right;
+          li {
+          }
+        }
+      }
+      &_food {
+        margin: 0 15px;
+        ul {
+          li {
+            //       background: @bg-red;
+            // margin: 10px 30px;
+            //   text-align: center;
+            //     list-style-image: url(../photo/Food.png);
+            //position: static;
+            // float: left;
+            &:hover {
+              background: @bg-hover;
+            }
+            a {
+              color: @bg-white;
+              padding: 16px;
+              display: block;
+              font-size: 16px;
+              text-decoration: none;
+              font-weight: 100;
+              font-family: cursive;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px ) {
+  .heder {
+    .cap {
+      .menu {
+        height: fit-content;
+        position: inherit;
+        #checkbox {
+          display: none;
+          &:checked ~ nav {
             display: none;
           }
-            &_up {
-              ul, .user_account{
-                width: 50%;
-              }
-                ul {
-                    padding-left: 16px;
-                    display: block;
-                    float: left;
-                    li {
-                     //   float: left;
-                       // background: url(../photo/home-kafe.png) no-repeat center left;
-                        //padding-right: 10px;
-                        list-style: none;
-                        //padding-left: 42px;
-                        //position: relative;
-
-                        a {
-                            color: @bg-white;
-                            display: block;
-                            font-size: 16px;
-                            text-decoration: none;
-                            font-weight: 100;
-                            font-family: cursive;
-                            padding: 10px;
-                            &:hover {
-                                background: @bg-hover;
-                            }
-                        }
-                    }
-                }
-                .user_account {
-                    padding-left: 16px;
-                    display: block;
-                  float: right;
-                    li {
-                    }
-                }
-            }
-            &_food {
-                margin: 0 15px;
-                ul {
-                    li {
-                 //       background: @bg-red;
-                       // margin: 10px 30px;
-                     //   text-align: center;
-                   //     list-style-image: url(../photo/Food.png);
-                        //position: static;
-                       // float: left;
-                        &:hover {
-                            background: @bg-hover;
-                        }
-                        a {
-                            color: @bg-white;
-                          padding: 16px;
-                            display: block;
-                            font-size: 16px;
-                            text-decoration: none;
-                            font-weight: 100;
-                            font-family: cursive;
-                        }
-                    }
-                }
-            }
         }
+
+        label {
+          cursor: pointer;
+          z-index: 20;
+          position: relative;
+          display: none;
+        }
+        nav {
+          display: block;
+          background: none;
+          position: inherit;
+          top: inherit;
+        }
+        &_up {
+          ul {
+            float: none;
+            width: auto;
+            li {
+              float: left;
+              &.red {
+                background: @bg-red;
+                margin: 5px 10px;
+              }
+            }
+          }
+        }
+        &_food {
+          height: 134px;
+          margin: 0 15px;
+          position: relative;
+          ul {
+
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            li {
+              float: left;
+              background: @bg-red;
+              margin: 0 15px;
+            }
+          }
+        }
+      }
     }
+  }
 }

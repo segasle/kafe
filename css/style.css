@@ -11,32 +11,23 @@
 body {
   width: 100%;
 }
-div {
+div,
+ul {
   box-sizing: border-box;
 }
 div:after,
-div:before {
+ul:after,
+div:before,
+ul:before {
   content: '';
   display: block;
   clear: both;
 }
-.modal {
-  display: none;
-  background: rgba(0, 0, 0, 0.4);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
-.modal .modal-window {
-  background: #ffffff;
-  width: 50%;
-  margin: 10% auto;
-  overflow: auto;
-  min-height: 100px;
-}
 .fa-bars {
   color: #ffffff;
+}
+.container-fluid {
+  padding: 0;
 }
 .content {
   background: #D8D6C6;
@@ -282,7 +273,7 @@ div:before {
 }
 .heder .cap .menu label {
   cursor: pointer;
-  z-index: 2;
+  z-index: 20;
   position: relative;
   display: block;
 }
@@ -292,7 +283,7 @@ div:before {
   top: 12px;
 }
 .heder .cap .menu nav {
-  z-index: 1;
+  z-index: 19;
   width: 100%;
   background: #6B1544;
   position: absolute;
@@ -342,4 +333,54 @@ div:before {
   text-decoration: none;
   font-weight: 100;
   font-family: cursive;
+}
+@media (min-width: 1024px) {
+  .heder .cap .menu {
+    height: fit-content;
+    position: inherit;
+  }
+  .heder .cap .menu #checkbox {
+    display: none;
+  }
+  .heder .cap .menu #checkbox:checked ~ nav {
+    display: none;
+  }
+  .heder .cap .menu label {
+    cursor: pointer;
+    z-index: 20;
+    position: relative;
+    display: none;
+  }
+  .heder .cap .menu nav {
+    display: block;
+    background: none;
+    position: inherit;
+    top: inherit;
+  }
+  .heder .cap .menu_up ul {
+    float: none;
+    width: auto;
+  }
+  .heder .cap .menu_up ul li {
+    float: left;
+  }
+  .heder .cap .menu_up ul li.red {
+    background: #971a22;
+    margin: 5px 10px;
+  }
+  .heder .cap .menu_food {
+    height: 134px;
+    margin: 0 15px;
+    position: relative;
+  }
+  .heder .cap .menu_food ul {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  .heder .cap .menu_food ul li {
+    float: left;
+    background: #971a22;
+    margin: 0 15px;
+  }
 }
