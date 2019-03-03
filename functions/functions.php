@@ -36,17 +36,17 @@ function menu(){
                 $out .= '<li><a href="'.$item['link'].'">'.$item['title'].'</a></li>';
     }
     $out .= '</ul>';
-    $out1 = '<ul class="user_account">';
+    $out1 = '<div class="menu_food"><ul class="user_account">';
     foreach ($user as $item){
                 $out1 .= '<li><a href="'.$item['link'].'">'.$item['title'].'</a></li>';
     }
     $out1 .= '</ul></div>';
-    $out2 = '<div class="menu_food"><ul>';
+    $out2 = '<ul>';
     foreach ($food as $item){
-                $out2 .= '<li><a href="'.$item['link'].'">'.$item['title'].'</a></li>';
+                $out2 .= '<li class="red"><a href="'.$item['link'].'">'.$item['title'].'</a></li>';
     }
     $out2 .= '</ul></div>';
-    return $out . $out1 . $out2;
+    return $out . $out2 . $out1;
 
 }
 function comm(){
