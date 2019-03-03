@@ -344,7 +344,7 @@ ul:before {
   font-weight: 100;
   font-family: cursive;
 }
-@media screen and (min-width: 1024px) and (max-width: 2560px) {
+@media screen and (min-width: 1024px) {
   .heder .cap .menu {
     height: fit-content;
     position: inherit;
@@ -384,6 +384,7 @@ ul:before {
     position: relative;
   }
   .heder .cap .menu_food ul {
+    list-style: none;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -392,5 +393,10 @@ ul:before {
     float: left;
     background: #971a22;
     margin: 0 15px;
+  }
+}
+@media screen and (min-width: 1394px) {
+  .heder .cap .menu_food {
+    height: 186px;
   }
 }
