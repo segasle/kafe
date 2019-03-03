@@ -166,3 +166,41 @@ function event_mail(){
     }
     return;
 }
+function get_product(){
+    $product = do_query("SELECT * FROM `products` JOIN `menu` WHERE products.categories = menu.id");
+    $out = '<div class="row">';
+    foreach ($product as $item){
+        $out .= '<div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"> <img src="photo/pizza/pizza6.png" alt="Милано" class="img elements"> </div>
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                    <div class="block_content">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="elements">
+                                    <p class="elements">&laquo;Милано&raquo;</p>
+                                </div>
+                                <div class="elements">
+                                    <p class="text_content">колбаса пепперони, сыр &laquo;Моцарелла&raquo;, говядина, лук, томаты черри, соус томати, огурцы, маслины</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="pull-right">
+                                    <div class="elements">
+                                        <div class="block_weight_price">
+                                            <p class="weight"></p>
+                                            <p class="price">500р</p>
+                                        </div>
+                                    </div>
+                                    <div class="elements">
+                                        <button type="button">добавить</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>';
+    }
+    $out .= '</dov>';
+    return $out;
+}
