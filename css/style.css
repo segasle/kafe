@@ -344,7 +344,7 @@ ul:before {
   font-weight: 100;
   font-family: cursive;
 }
-@media (min-width: 1024px) {
+@media screen and (min-width: 1024px) and (max-width: 2560px) {
   .heder .cap .menu {
     height: fit-content;
     position: inherit;
