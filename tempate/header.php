@@ -71,23 +71,21 @@
 
 <body>
 <div class="container-fluid">
-<header>
-    <div class="heder">
-        <div class="cap">
-            <div class="menu">
-                <input type="checkbox" id="checkbox">
-                <label class="burger" for="checkbox">
-                    <div class="fa fa-5x fa-bars"></div>
-                </label>
-                <nav>
-                    <?php echo menu();?>
-                </nav>
-
-
+    <button type="submit" name="sumbit" class="basket"><i class="fa fa-shopping-basket fa-2x"></i></button>
+    <header>
+        <div class="heder">
+            <div class="cap">
+                <div class="menu">
+                    <input type="checkbox" id="checkbox">
+                    <label class="burger" for="checkbox">
+                        <div class="fa fa-5x fa-bars"></div>
+                    </label>
+                    <nav>
+                        <?php echo menu(); ?>
+                    </nav>
+                </div>
             </div>
-
-    </div>
         </div>
-</header>
-<description>
-    <div class="content">
+    </header>
+    <description>
+        <div class="content">
