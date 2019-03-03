@@ -4,22 +4,24 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 header('Content-Type: text/html; charset=utf-8');
 
-function connections(){
+function connections()
+{
     $file = '';
-    if (empty($_GET['page'])){
+    if (empty($_GET['page'])) {
         $file = 'main';
-    }else{
+    } else {
         $file = $_GET['page'];
     }
     include 'tempate/header.php';
-    if (file_exists('food/'.$file.'.php')){
-        include 'food/'. $file . '.php';
-    }else{
-        include 'upmenu/'. $file . '.php';
+    if (file_exists('food/' . $file . '.php')) {
+        include 'food/' . $file . '.php';
+    } else {
+        include 'upmenu/' . $file . '.php';
     }
     include 'tempate/footer.php';
 
 }
+
 function do_query($query)
 {
     global $mysqli;
@@ -27,64 +29,70 @@ function do_query($query)
     $result = mysqli_query($mysqli, $query);
     return $result;
 }
-function menu(){
+
+function menu()
+{
     $menu = do_query("SELECT * FROM `menu` WHERE `parent` = '0' ORDER BY menu.id");
     $user = do_query("SELECT * FROM `menu` WHERE `parent` = '1' ORDER BY menu.id");
     $food = do_query("SELECT * FROM `menu` WHERE `parent` = '2' ORDER BY menu.id");
-     $out = '<div class="menu_up"><ul>';
-    foreach ($menu as $item){
-                $out .= '<li><a href="'.$item['link'].'">'.$item['title'].'</a></li>';
+    $out = '<div class="menu_up"><ul>';
+    foreach ($menu as $item) {
+        $out .= '<li><a href="' . $item['link'] . '">' . $item['title'] . '</a></li>';
     }
     $out .= '</ul>';
     $out1 = '<div class="menu_food"><ul class="user_account">';
-    foreach ($user as $item){
-                $out1 .= '<li><a href="'.$item['link'].'">'.$item['title'].'</a></li>';
+    foreach ($user as $item) {
+        $out1 .= '<li><a href="' . $item['link'] . '">' . $item['title'] . '</a></li>';
     }
     $out1 .= '</ul></div>';
     $out2 = '<ul>';
-    foreach ($food as $item){
-                $out2 .= '<li class="red"><a href="'.$item['link'].'">'.$item['title'].'</a></li>';
+    foreach ($food as $item) {
+        $out2 .= '<li class="red"><a href="' . $item['link'] . '">' . $item['title'] . '</a></li>';
     }
     $out2 .= '</ul></div>';
     return $out . $out2 . $out1;
 
 }
-function comm(){
-    if (isset($_POST['comm'])){
+
+function comm()
+{
+    if (isset($_POST['comm'])) {
         $data = $_POST;
-            $result = do_query("SELECT COUNT(*) as count FROM comment WHERE `name` = '{$data['name']}'");
-            $result = $result->fetch_object();
-            $errors = array();
-            if ($data['name'] == '' or $data['name'] == ' '){
-                $errors = 'Вы не ввели имя';
-                if (trim($data['name']) <= 3 or trim($data['name']) >= 16){
-                    $errors[] = 'имя должен составлять от 3 до 16 символов';
-
-                }
+        $result = do_query("SELECT COUNT(*) as count FROM comment WHERE `name` = '{$data['name']}'");
+        $result = $result->fetch_object();
+        $errors = array();
+        if ($data['name'] == '' or $data['name'] == ' ') {
+            $errors = 'Вы не ввели имя';
+            if (trim($data['name']) <= 3 or trim($data['name']) >= 16) {
+                $errors[] = 'имя должен составлять от 3 до 16 символов';
 
             }
 
-            if (empty($data['content'])) {
-                $errors = 'Вы не написали отзыв';
-                if ($data['content'] <= 10 or $data['content'] >= 1000) {
-                    $errors[] = 'Отзыв должен составлять от 10 до 1000 символов';
+        }
+
+        if (empty($data['content'])) {
+            $errors = 'Вы не написали отзыв';
+            if ($data['content'] <= 10 or $data['content'] >= 1000) {
+                $errors[] = 'Отзыв должен составлять от 10 до 1000 символов';
+            }
+        }
+        if (empty($errors)) {
+            if (!empty($result)) {
+                // сохраняет все данные в БД
+                $wer = do_query("INSERT INTO comment (`name`,`content`)VALUES ('{$data['name']}','{$data['content']}')");
+                if (!empty($wer)) {
+                    echo '<div class="go">Успешно отправлено</div>';
                 }
             }
-            if (empty($errors)){
-                if (!empty($result)) {
-                    // сохраняет все данные в БД
-                    $wer =  do_query("INSERT INTO comment (`name`,`content`)VALUES ('{$data['name']}','{$data['content']}')");
-                    if (!empty($wer)){
-                         echo '<div class="go">Успешно отправлено</div>';
-                    }
-                }
-            }else{
-                    echo '<div class="errors">'.array_shift($errors).'</div>';
-            }
+        } else {
+            echo '<div class="errors">' . array_shift($errors) . '</div>';
+        }
     }
     return;
 }
-function post_comm() {
+
+function post_comm()
+{
     $query = do_query("SELECT `name`, `content`, `data` FROM `comment` ORDER BY `id` DESC");
     $myrow_otzivi = mysqli_fetch_array($query);
 
@@ -99,66 +107,68 @@ function post_comm() {
     } else {
         echo 'нет отзыва, вы будете первыми';
     }
-return;
+    return;
 }
-function events(){
-    if (isset($_POST['submit'])){
+
+function events()
+{
+    if (isset($_POST['submit'])) {
         $data = $_POST;
         $errors = array();
         $tempate = '^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$';
         $sub = $data['phone'];
-        if (empty($data['name'])){
+        if (empty($data['name'])) {
             $errors = 'Вы не ввели имя';
         }
-        if (empty($data['surname'])){
+        if (empty($data['surname'])) {
             $errors[] = 'Вы не ввели фамилию';
         }
-        if (empty($data['phone'])){
+        if (empty($data['phone'])) {
             $errors[] = 'Вы не ввели телефлон';
         }
-        if (empty($data['data'])){
+        if (empty($data['data'])) {
             $errors[] = 'Вы не ввели дату';
         }
-        if (preg_match("$tempate", "$sub",$matc) == false){
+        if (preg_match("$tempate", "$sub", $matc) == false) {
             $errors[] = 'Введите правильный формат, пример 89153213322';
         }
-        if (empty($errors)){
+        if (empty($errors)) {
             $result = do_query("SELECT COUNT(*) as count FROM events WHERE `data` = '{$data['data']}'");
 
             $result = $result->fetch_object();
-            if (!empty($result->count)){
+            if (!empty($result->count)) {
                 echo '<div class="errors">К сожелению эта дата занята, выберите другой день!</div>';
-            }
-            else{
+            } else {
                 // сохраняет все данные в БД
-                $wer =  do_query("INSERT INTO `events` (`id`, `name`, `surname`, `phone`, `event`, `rooms`, `data`) VALUES (NULL, '{$data['name']}', '{$data['surname']}', $matc, '{$data['event']}', '{$data['rooms']}', '{$data['data']}')");
-                if (!empty($wer)){
+                $wer = do_query("INSERT INTO `events` (`id`, `name`, `surname`, `phone`, `event`, `rooms`, `data`) VALUES (NULL, '{$data['name']}', '{$data['surname']}', $matc, '{$data['event']}', '{$data['rooms']}', '{$data['data']}')");
+                if (!empty($wer)) {
                     echo '<div class="go">Успешно отправлено! Подождите, когда наш оператор свяжется с вами</div>';
                 }
             }
-        }
-        else{
-            echo '<div class="errors">'.array_shift($errors).'</div>';
+        } else {
+            echo '<div class="errors">' . array_shift($errors) . '</div>';
         }
     }
     return;
 }
-function event_mail(){
 
-    if (isset($_POST)){
+function event_mail()
+{
+
+    if (isset($_POST)) {
 
 
         $data = $_POST;
 
-        if (!empty($data)){
+        if (!empty($data)) {
             $mess = implode("", $data);
-            $to      = 'kafe-lyi@yandex.ru';
+            $to = 'kafe-lyi@yandex.ru';
             $subject = 'Заказ';
             $message = "$mess";
             $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
                 'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
                 "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
-                .'X-Mailer: PHP/' . phpversion();
+                . 'X-Mailer: PHP/' . phpversion();
 
             mail("$to", "$subject", "$message", "$headers");
 
@@ -166,21 +176,40 @@ function event_mail(){
     }
     return;
 }
-function get_product(){
+
+function get_product()
+{
     $product = do_query("SELECT * FROM `products` JOIN `menu` WHERE products.categories = menu.id");
     $out = '<div class="row">';
-    foreach ($product as $item){
-        $out .= '<div class="row">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"> <img src="photo/pizza/pizza6.png" alt="Милано" class="img elements"> </div>
+    foreach ($product as $item) {
+        if (isset($item['img'])){
+            $img = '<img src="photo/pizza/'.$item['img'].'" class="img elements">';
+        }else{
+            $img = '';
+        }
+        if (isset($item['weight'])){
+            $weight = $item['weight'].'гр';
+        }else{
+            $weight = '';
+        }
+        if (isset($item['description'])){
+            $description = $item['description'];
+        }else{
+            $description = '';
+        }
+        if ($item['link'] === $_GET['page']){
+            $out .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">'.$img.'</div>
                 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
                     <div class="block_content">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <div class="elements">
-                                    <p class="elements">&laquo;Милано&raquo;</p>
+                                    <p class="elements">'.$item['header'].'</p>
                                 </div>
                                 <div class="elements">
-                                    <p class="text_content">колбаса пепперони, сыр &laquo;Моцарелла&raquo;, говядина, лук, томаты черри, соус томати, огурцы, маслины</p>
+                                    <p class="text_content">'.$description.'</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -188,7 +217,7 @@ function get_product(){
                                     <div class="elements">
                                         <div class="block_weight_price">
                                             <p class="weight"></p>
-                                            <p class="price">500р</p>
+                                            <p class="price">'.$item['price'].'р</p>
                                         </div>
                                     </div>
                                     <div class="elements">
@@ -199,7 +228,10 @@ function get_product(){
                         </div>
                     </div>
                 </div>
-            </div>';
+            </div>
+         </div>';
+        }
+
     }
     $out .= '</dov>';
     return $out;
