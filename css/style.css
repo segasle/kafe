@@ -28,6 +28,7 @@ ul:before {
   color: #ffffff;
 }
 .basket {
+  z-index: 18;
   position: fixed;
   left: 0;
   background: #8b00ff;
@@ -384,7 +385,6 @@ ul:before {
     position: relative;
   }
   .heder .cap .menu_food ul {
-    list-style: none;
     position: absolute;
     bottom: 0;
     right: 0;
