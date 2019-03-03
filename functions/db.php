@@ -7,19 +7,19 @@ $bd = array(
         'password' => $us,
         'database' => array(
             array(
+                'name' => 'kade_louis',
+            ),
+            array(
                 'name' => 'kafe',
             ),
         ),
     ),
 );
 global $mysqli;
-foreach ($bd as $item=>$key){
+foreach ($bd as $item => $key) {
     if (isset($key['database'])) {
         if (is_array($key['database']) || is_object($key['database'])) {
             foreach ($key['database'] as $value) {
-                /*echo '<pre>';
-                print_r($value);
-                echo '</pre>';                                           */
                 if (isset($value['name'])) {
                     $base = $value['name'];
                 }
@@ -31,9 +31,6 @@ foreach ($bd as $item=>$key){
                     echo 'ошибка в подключении к БД (' . mysqli_connect_errno() . ')' . mysqli_connect_error();
                 }
             }
-
         }
-
-
     }
 }
