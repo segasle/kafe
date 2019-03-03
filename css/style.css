@@ -23,8 +23,18 @@ ul:before {
   display: block;
   clear: both;
 }
-.fa-bars {
+.fa-bars,
+.fa-shopping-basket {
   color: #ffffff;
+}
+.basket {
+  position: fixed;
+  left: 0;
+  background: #8b00ff;
+  top: 50%;
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
 }
 .container-fluid {
   padding: 0;
