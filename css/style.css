@@ -273,6 +273,11 @@ ul:before {
   text-align: center;
   margin: 0;
 }
+.content .table-cell .block_description {
+  background: #ffffff;
+  border: 1px solid #000000;
+  height: 100px;
+}
 .img {
   display: block;
   margin: 20px auto;
@@ -419,6 +424,7 @@ ul:before {
     margin: 0 15px;
   }
   .content .table-cell {
+    width: 20%;
     display: table-cell;
   }
   .number {

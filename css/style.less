@@ -173,7 +173,7 @@ div, ul {
     float: none;
     margin: 5px auto;
   }
-  .number{
+  .number {
     width: 83px;
   }
   .weight {
@@ -276,22 +276,27 @@ div, ul {
       display: block;
     }
   }
-  .table{
+  .table {
     display: table;
     width: 100%;
-    &-cell{
+    &-cell {
       display: block;
-      .block{
-        &_title{
+      .block {
+        &_title {
           background: @bg-white;
           color: @bg-purple;
           font-weight: bold;
           border: 1px solid @bag-black;
           padding: 10px;
-          p{
+          p {
             text-align: center;
             margin: 0;
           }
+        }
+        &_description{
+           background: @bg-white;
+          border: 1px solid @bag-black;
+          height: 100px;
         }
       }
     }
@@ -461,21 +466,25 @@ div, ul {
       }
     }
   }
-  .content{
-    .table{
-      &-cell{
+
+  .content {
+    .table {
+      &-cell {
+        width: 20%;
         display: table-cell;
       }
     }
   }
-  .number{
+
+  .number {
 
     float: left;
     height: 40px;
     margin-top: 8px;
     margin-right: 10px;
   }
-  button{
+
+  button {
     float: left;
   }
 }
