@@ -238,7 +238,11 @@ function get_product()
                                         </div>
                                     </div>
                                     <div class="elements">
-                                        <button type="submit" name="submit">добавить</button>
+                                    <form action="">
+                                    <input type="number" value="1" class="number"> 
+                                    <button type="submit" name="submit">добавить</button>
+</form>
+                                       
                                     </div>
                                 </div>
                             </div>
