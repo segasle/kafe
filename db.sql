@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:8889
--- Время создания: Мар 03 2019 г., 14:02
+-- Время создания: Мар 04 2019 г., 08:25
 -- Версия сервера: 5.7.23
 -- Версия PHP: 7.2.8
 
@@ -54,28 +54,29 @@ CREATE TABLE `menu` (
   `id` int(10) NOT NULL,
   `title` varchar(255) NOT NULL,
   `parent` int(10) NOT NULL DEFAULT '0',
-  `link` varchar(255) NOT NULL DEFAULT '?page='
+  `link` varchar(255) NOT NULL DEFAULT '?page=',
+  `catg` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `menu`
 --
 
-INSERT INTO `menu` (`id`, `title`, `parent`, `link`) VALUES
-(1, 'Главная', 0, '?page=main'),
-(2, 'Мероприятия', 0, '?page=events'),
-(3, 'Отзывы', 0, '?page=comments'),
-(4, 'Контакты', 0, '?page=contacts'),
-(5, 'Вход', 1, '?page=input'),
-(6, 'Регистрация', 1, '?page=reg'),
-(7, 'Пицца', 2, '?page=pizza'),
-(8, 'Горячите напитки ', 2, '?page=hot_drink'),
-(9, 'Напитки', 2, '?page=drinks'),
-(10, 'Холодные закуски и сэндвичи', 2, '?page=cold_appetizers_and_salads'),
-(11, 'Горячие блюда и пасты', 2, '?page=hot_dishes_and_pasta'),
-(12, 'Выпечка и десерты', 2, '?page=pastries_and_desserts'),
-(13, 'Гарниры, закуски и соусы', 2, '?page=Side_dishes_snacks_and_sauces'),
-(14, 'Салаты и первые блюда', 2, '?page=Salads_and_first_courses');
+INSERT INTO `menu` (`id`, `title`, `parent`, `link`, `catg`) VALUES
+(1, 'Главная', 0, '?page=main', NULL),
+(2, 'Мероприятия', 0, '?page=events', NULL),
+(3, 'Отзывы', 0, '?page=comments', NULL),
+(4, 'Контакты', 0, '?page=contacts', NULL),
+(5, 'Вход', 1, '?page=input', NULL),
+(6, 'Регистрация', 1, '?page=reg', NULL),
+(7, 'Пицца', 2, '?page=pizza', 'pizza'),
+(8, 'Горячите напитки ', 2, '?page=hot_drink', NULL),
+(9, 'Напитки', 2, '?page=drinks', NULL),
+(10, 'Холодные закуски и сэндвичи', 2, '?page=cold_appetizers_and_salads', 'cold_appetizers_and_salads'),
+(11, 'Горячие блюда и пасты', 2, '?page=hot_dishes_and_pasta', NULL),
+(12, 'Выпечка и десерты', 2, '?page=pastries_and_desserts', NULL),
+(13, 'Гарниры, закуски и соусы', 2, '?page=Side_dishes_snacks_and_sauces', NULL),
+(14, 'Салаты и первые блюда', 2, '?page=Salads_and_first_courses', NULL);
 
 -- --------------------------------------------------------
 
@@ -85,8 +86,8 @@ INSERT INTO `menu` (`id`, `title`, `parent`, `link`) VALUES
 
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
+  `header` varchar(255) NOT NULL,
+  `description` text,
   `price` float NOT NULL,
   `weight` float DEFAULT NULL,
   `img` text,
@@ -97,7 +98,7 @@ CREATE TABLE `products` (
 -- Дамп данных таблицы `products`
 --
 
-INSERT INTO `products` (`id`, `title`, `description`, `price`, `weight`, `img`, `categories`) VALUES
+INSERT INTO `products` (`id`, `header`, `description`, `price`, `weight`, `img`, `categories`) VALUES
 (1, '«Милано»', 'колбаса пепперони, сыр «Моцарелла», говядина, лук, томаты черри, соус томати, огурцы, маслины', 500, NULL, 'pizza6.png', 7),
 (2, '«Франческо»', 'ветчина, сыр «Моцарелла», грибы, соус сливочный', 460, NULL, 'pizza5.png', 7),
 (3, '«Цезарь»', 'соус Цезарь, криное филе, сыр «Моцарелла», сыр «Пармезан», помидоры, салат «Айсберг»', 480, NULL, 'pizza4.png', 7),
@@ -109,7 +110,8 @@ INSERT INTO `products` (`id`, `title`, `description`, `price`, `weight`, `img`, 
 (11, '«Четыре сыра»', 'сыр «Моцарелла», сыр «рокфор», сыр «Чеддер», сыр «Пармезан»', 500, NULL, 'pizzza10.png', 7),
 (12, '«Каприоччиоза»', '\r\nветчина, сыр «Моцарелла», куриное филе, соус томати, помидоры, огурцы, маслины', 450, NULL, 'pizza9.png', 7),
 (13, '«Баварская»', 'баварские колбаски, сыр «моцарелла», бекон, перец болгарский, помидоры, лук', 500, NULL, 'pizza8.png', 7),
-(14, '«Вилаччи»', 'ветчина, сыр «Моцарелла», бекон, перец болгарский, грибы, соус томатни, лук', 480, NULL, 'pizza7.png', 7);
+(14, '«Вилаччи»', 'ветчина, сыр «Моцарелла», бекон, перец болгарский, грибы, соус томатни, лук', 480, NULL, 'pizza7.png', 7),
+(15, '«Сырная тарелка »', 'сыр \"Пармезан\", сыр \"Рокфор\", сыр \"Чеддер\", сыр \"Моцарэлла\"', 400, 300, NULL, 10);
 
 -- --------------------------------------------------------
 
@@ -184,7 +186,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
