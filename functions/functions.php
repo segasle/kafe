@@ -188,7 +188,7 @@ function get_product()
             $img = '';
         }
         if (isset($item['weight'])){
-            $weight = $item['weight'].'гр';
+            $weight = ' <p class="weight">'.$item['weight'].'гр </p>';
         }else{
             $weight = '';
         }
@@ -214,9 +214,13 @@ function get_product()
         }else{
             $price = '';
         }
-        if (isset($item['img']) or isset($item['weight']) or isset($item['description']) or isset($item['header']) or isset($item['price'])){
-            $col = '  
-                    <div class="block_content">
+        if (isset($item['price2'])){
+            $price2 = '<p class="price">'.$item['price2'].'p</p>';
+        }else{
+            $price2 = '';
+        }
+        if (isset($item['img']) or isset($item['weight']) or isset($item['description']) or isset($item['header']) or isset($item['price']) or isset($item['price2'])){
+            $col = ' <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">             <div class="block_content">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 ' . $header . '   
@@ -228,8 +232,9 @@ function get_product()
                                 <div class="pull-right">
                                     <div class="elements">
                                         <div class="block_weight_price">
-                                            <p class="weight"></p>
-                                            ' . $price . '
+                                           
+                                            '.$weight . $price . $price2.'
+                                            
                                         </div>
                                     </div>
                                     <div class="elements">
@@ -238,6 +243,7 @@ function get_product()
                                 </div>
                             </div>
                         </div>
+                        </div>
                 </div>';
         }else{
             $col = '';
@@ -245,9 +251,9 @@ function get_product()
         if ($item['catg'] == $_GET['page']){
             $out .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="row">
-                '.$img.$head.'
-              <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">'.$col.'
-            </div>
+                '.$img.$head.$col.'
+            
+            
             </div>
          </div>';
         }
