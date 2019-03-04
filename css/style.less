@@ -276,6 +276,26 @@ div, ul {
       display: block;
     }
   }
+  .table{
+    display: table;
+    width: 100%;
+    &-cell{
+      display: block;
+      .block{
+        &_title{
+          background: @bg-white;
+          color: @bg-purple;
+          font-weight: bold;
+          border: 1px solid @bag-black;
+          padding: 10px;
+          p{
+            text-align: center;
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
 }
 
 .img {
@@ -438,6 +458,13 @@ div, ul {
             }
           }
         }
+      }
+    }
+  }
+  .content{
+    .table{
+      &-cell{
+        display: table-cell;
       }
     }
   }

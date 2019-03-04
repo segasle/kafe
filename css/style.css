@@ -255,6 +255,24 @@ ul:before {
 .content .form-input button {
   display: block;
 }
+.content .table {
+  display: table;
+  width: 100%;
+}
+.content .table-cell {
+  display: block;
+}
+.content .table-cell .block_title {
+  background: #ffffff;
+  color: #6B1544;
+  font-weight: bold;
+  border: 1px solid #000000;
+  padding: 10px;
+}
+.content .table-cell .block_title p {
+  text-align: center;
+  margin: 0;
+}
 .img {
   display: block;
   margin: 20px auto;
@@ -399,6 +417,9 @@ ul:before {
     float: left;
     background: #971a22;
     margin: 0 15px;
+  }
+  .content .table-cell {
+    display: table-cell;
   }
   .number {
     float: left;
