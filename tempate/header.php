@@ -71,7 +71,9 @@
 
 <body>
 <div class="container-fluid">
-    <button type="submit" name="sumbit" class="basket"><i class="fa fa-shopping-basket fa-2x"></i></button>
+    <form action="" method="post">
+        <button type="submit" name="basket" class="basket"><i class="fa fa-shopping-basket fa-2x"></i></button>
+    </form>
     <header>
         <div class="heder">
             <div class="cap">
