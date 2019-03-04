@@ -162,6 +162,9 @@ ul:before {
   float: none;
   margin: 5px auto;
 }
+.content .number {
+  width: 83px;
+}
 .content .weight {
   font-size: 16px;
   font-weight: normal;
@@ -396,6 +399,15 @@ ul:before {
     float: left;
     background: #971a22;
     margin: 0 15px;
+  }
+  .number {
+    float: left;
+    height: 40px;
+    margin-top: 8px;
+    margin-right: 10px;
+  }
+  button {
+    float: left;
   }
 }
 @media screen and (min-width: 1394px) {
