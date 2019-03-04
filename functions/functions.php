@@ -238,7 +238,7 @@ function get_product()
                                         </div>
                                     </div>
                                     <div class="elements">
-                                        <button type="button">добавить</button>
+                                        <button type="submit" name="submit">добавить</button>
                                     </div>
                                 </div>
                             </div>
@@ -260,4 +260,9 @@ function get_product()
     }
     $out .= '</dov>';
     return $out;
+}
+function basket_open(){
+    if (isset($_POST['basket'])){
+        header('location: ?page=basket');
+    }
 }
