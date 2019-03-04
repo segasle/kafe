@@ -154,7 +154,7 @@ ul:before {
   background: #6B1544;
   color: #ffffff;
   margin: 10px auto;
-  display: none;
+  display: block;
   border: none;
   text-transform: capitalize;
 }
@@ -332,6 +332,9 @@ ul:before {
 }
 .heder .cap .menu_food {
   margin: 0 15px;
+}
+.heder .cap .menu_food ul li {
+  list-style: none;
 }
 .heder .cap .menu_food ul li:hover {
   background: #8b00ff;
