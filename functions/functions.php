@@ -197,7 +197,7 @@ function get_product()
         }else{
             $description = '';
         }
-        if ($item['link'] === $_GET['page']){
+        if ($item['catg'] == $_GET['page']){
             $out .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">'.$img.'</div>
