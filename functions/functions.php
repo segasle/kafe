@@ -183,7 +183,7 @@ function get_product()
     $out = '<div class="row">';
     foreach ($product as $item) {
         if (isset($item['img'])){
-            $img = '<img src="photo/pizza/'.$item['img'].'" class="img elements">';
+            $img = '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"><img src="photo/pizza/'.$item['img'].'" class="img elements"></div>';
         }else{
             $img = '';
         }
@@ -197,19 +197,31 @@ function get_product()
         }else{
             $description = '';
         }
-        if ($item['catg'] == $_GET['page']){
-            $out .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="row">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">'.$img.'</div>
-                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        if (isset($item['head'])){
+            $head = '<p class="h3">'.$item['head'].'</p>';
+        }else{
+            $head = '';
+        }
+        if (isset($item['header'])){
+            $header = '    <div class="elements">
+                                    <p class="elements">'.$item['header'].'</p>
+                                </div>';
+        }else{
+            $header = '';
+        }
+        if (isset($item['price'])){
+            $price = '<p class="price">'.$item['price'].'p</p>';
+        }else{
+            $price = '';
+        }
+        if (isset($item['img']) or isset($item['weight']) or isset($item['description']) or isset($item['header']) or isset($item['price'])){
+            $col = '  
                     <div class="block_content">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                ' . $header . '   
                                 <div class="elements">
-                                    <p class="elements">'.$item['header'].'</p>
-                                </div>
-                                <div class="elements">
-                                    <p class="text_content">'.$description.'</p>
+                                    <p class="text_content">' . $description . '</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -217,7 +229,7 @@ function get_product()
                                     <div class="elements">
                                         <div class="block_weight_price">
                                             <p class="weight"></p>
-                                            <p class="price">'.$item['price'].'р</p>
+                                            ' . $price . '
                                         </div>
                                     </div>
                                     <div class="elements">
@@ -226,12 +238,19 @@ function get_product()
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                </div>';
+        }else{
+            $col = '';
+        }
+        if ($item['catg'] == $_GET['page']){
+            $out .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                '.$img.$head.'
+              <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">'.$col.'
+            </div>
             </div>
          </div>';
         }
-
     }
     $out .= '</dov>';
     return $out;
