@@ -48,6 +48,16 @@ div, ul {
   padding: 0;
 }
 
+.form{
+  &-horizontal{
+    button{
+      float: none;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
 .content {
   background: #D8D6C6;
   width: 100%;
@@ -469,6 +479,14 @@ div, ul {
   .float{
     &-right{
       float: right;
+    }
+  }
+  .form{
+    &-horizontal{
+      button{
+        float: right;
+        width: auto;
+      }
     }
   }
   .content {
