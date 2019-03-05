@@ -48,14 +48,19 @@ div, ul {
   padding: 0;
 }
 
-.form{
-  &-horizontal{
-    button{
+.form {
+  &-horizontal {
+    button {
       float: none;
       display: block;
       width: 100%;
       text-align: center;
     }
+  }
+}
+.float{
+  &-right{
+    float: none;
   }
 }
 .content {
@@ -303,8 +308,8 @@ div, ul {
             margin: 0;
           }
         }
-        &_description{
-           background: @bg-white;
+        &_description {
+          background: @bg-white;
           border: 1px solid @bag-black;
           height: 100px;
         }
@@ -476,19 +481,22 @@ div, ul {
       }
     }
   }
-  .float{
-    &-right{
+
+  .float {
+    &-right {
       float: right;
     }
   }
-  .form{
-    &-horizontal{
-      button{
+
+  .form {
+    &-horizontal {
+      button {
         float: right;
         width: auto;
       }
     }
   }
+
   .content {
     .table {
       &-cell {

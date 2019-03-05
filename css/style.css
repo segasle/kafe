@@ -46,6 +46,9 @@ ul:before {
   width: 100%;
   text-align: center;
 }
+.float-right {
+  float: none;
+}
 .content {
   background: #D8D6C6;
   width: 100%;
