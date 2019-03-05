@@ -270,3 +270,9 @@ function basket_open(){
         header('location: ?page=basket');
     }
 }
+function registration(){
+
+}
+function login(){
+
+}
