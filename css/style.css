@@ -423,6 +423,9 @@ ul:before {
     background: #971a22;
     margin: 0 15px;
   }
+  .float-right {
+    float: right;
+  }
   .content .table-cell {
     width: 20%;
     display: table-cell;
