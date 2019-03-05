@@ -271,7 +271,60 @@ function basket_open(){
     }
 }
 function registration(){
+               $out = '';
+    if (isset($_POST['submit'])) {
+        $data = $_POST;
+        $email = $data['email'];
+        $errors = array();
+        $phone = $data['phone'];
+        if (!isset($data['checkbox'])) {
+            $errors[] = 'Не поставили галочку';
+        }
+        if (trim($data['name']) == '') {
+            $errors[] = 'Вы не ввели имя';
 
+        }
+        if (trim($data['email']) == '') {
+            $errors[] = 'Вы не ввели электронную почту';
+        }
+        if (!preg_match("/^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(.*@.+(\..{1,11})?)$/", "$email")) {
+            $errors[] = 'Вы неправильно ввели электронную почту';
+        }
+        if ($data['password1'] == '') {
+            $errors[] = 'Вы не ввели пароль';
+
+        }
+        if ($data['password1'] >= 6) {
+            $errors[] = 'короткий пароль';
+        }
+
+        if ($data['password2'] != $data['password1']) {
+            $errors[] = 'Вы не правильно ввели пароль';
+        }
+        if (!preg_match("/(^(?!\+.*\(.*\).*\-\-.*$)(?!\+.*\(.*\).*\-$)(\+[0-9]{1,3}\([0-9]{1,3}\)[0-9]{1}([-0-9]{0,8})?([0-9]{0,1})?)$)|(^[0-9]{1,4}$)/", "$phone")) {
+            $errors[] = "Вы непраильно ввели номер телефона, пример: +7(915)5473712";
+        }
+        if (trim($data['address']) == '') {
+            $errors[] = "Вы не ввели адрес";
+        }
+        if (empty($errors)) {
+            $result = do_query("SELECT COUNT(*) as count FROM users WHERE `email` = '{$data['email']}'");
+            $result = $result->fetch_object();
+            if (empty($result->count)) {
+                // сохраняет все данные в БД
+                $wer = do_query("INSERT INTO users (`name`, `surname`,`email`, `password`, `phone`, `address`) VALUES ('{$data['name']}','{$data['surname']}','{$data['email']}','" . password_hash($data['password2'], PASSWORD_DEFAULT) . "','{$data['phone']}','{$data['address']}')");
+                if (!empty($wer)) {
+                    $out = '<div class="go">Успешно зарегиревались</div>';
+                }
+            } else {
+                $out = '<div class="errors">Такая электронная почта уже есть</div>';
+            }
+        } else {
+            $out = '<div class="errors">' . array_shift($errors) . '</div>';
+        }
+
+    }
+    return $out;
 }
 function login(){
 
