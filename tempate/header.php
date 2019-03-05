@@ -16,7 +16,8 @@
     <title><?php echo $title; ?></title>
     <link rel="icon" href="photo/logo.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <link rel="stylesheet" href="css/style.css?t=<?php echo(microtime(true) . rand()); ?>">
     <link rel="stylesheet" href="icons/css/font-awesome.min.css">
     <script type="text/javascript">
