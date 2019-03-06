@@ -280,25 +280,25 @@ function registration(){
         if (!isset($data['checkbox'])) {
             $errors[] = 'Не поставили галочку';
         }
-        if (trim($data['name']) == '') {
+        if (empty(trim($data['login']))) {
             $errors[] = 'Вы не ввели имя';
 
         }
-        if (trim($data['email']) == '') {
+        if (empty(trim($data['email']))) {
             $errors[] = 'Вы не ввели электронную почту';
         }
         if (!preg_match("/^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(.*@.+(\..{1,11})?)$/", "$email")) {
             $errors[] = 'Вы неправильно ввели электронную почту';
         }
-        if ($data['password1'] == '') {
+        if (empty($data['pass_confirmation'])) {
             $errors[] = 'Вы не ввели пароль';
 
         }
-        if ($data['password1'] >= 6) {
+        if ($data['pass_confirmation'] >= 6) {
             $errors[] = 'короткий пароль';
         }
 
-        if ($data['password2'] != $data['password1']) {
+        if ($data['password2'] != $data['pass_confirmation']) {
             $errors[] = 'Вы не правильно ввели пароль';
         }
         if (!preg_match("/(^(?!\+.*\(.*\).*\-\-.*$)(?!\+.*\(.*\).*\-$)(\+[0-9]{1,3}\([0-9]{1,3}\)[0-9]{1}([-0-9]{0,8})?([0-9]{0,1})?)$)|(^[0-9]{1,4}$)/", "$phone")) {
@@ -322,7 +322,6 @@ function registration(){
         } else {
             $out = '<div class="errors">' . array_shift($errors) . '</div>';
         }
-
     }
     return $out;
 }
