@@ -327,4 +327,32 @@ function registration(){
 }
 function login(){
 
+    $data = $_POST;
+    if (isset($data['sub'])) {
+        $email = $data['email'];
+        $password = $data['password'];
+        $resilt = mysqli_fetch_assoc(do_query("SELECT * FROM `users` WHERE `email` ='" . $email . "'"));
+        if ($resilt) {
+            if (password_verify($password, $resilt['password'])) {
+//                setcookie('id', $data['email'], time()+3600*24*30*12, '/');
+//                setcookie('password', $data['password'], time()+3600*24*30*12, '/');
+//                header('location: ' .$_SERVER['HTTP_REFERER']);
+
+                $_SESSION['outh'] = true;
+                $_SESSION['id'] = $resilt['id'];
+                $_SESSION['email'] = $resilt['email'];
+                $_SESSION['name'] = $resilt['name'];
+                $_SESSION['photo'] = $resilt['photo'];
+                $_SESSION['phone'] = $resilt['phone'];
+                $_SESSION['surname'] = $resilt['surname'];
+                $_SESSION['address'] = $resilt['address'];
+                header('location: ?page=main');
+            } else {
+                echo '<div class="errors">Пароль не верный</div>';
+            }
+        } else {
+            echo '<div class="errors">Пользоаатель не найден</div>';
+        }
+    }
+    return;
 }
