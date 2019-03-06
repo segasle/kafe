@@ -1,4 +1,4 @@
-<?php echo registration(); ?>
+
 <h1 class="text-center">Регистрация</h1>
 <?php
 $array = array(
@@ -45,9 +45,10 @@ $array = array(
         'placeholder' => 'Адрес',
     ),
 );
+echo registration();
 
 ?>
-<form action="" id="registration-form" class="form-reg" method="post">
+<form action="" class="form-reg" method="post">
     <?php
     foreach ($array as $item) {
         echo '<div class="form-group">
@@ -59,9 +60,9 @@ $array = array(
     ?>
     <div class="checkbox">
         <label>
-            <input type="checkbox">
+            <input type="checkbox" name="checkbox">
             Вы должны согласится со правами на <a target="_blank" href="">сборку персоналых данных</a>
         </label>
     </div>
-    <button type="submit" name="event" class="btn btn-default">Отправить</button>
+    <button type="submit" name="submit" class="btn btn-default">Отправить</button>
 </form>
