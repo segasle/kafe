@@ -49,6 +49,16 @@ ul:before {
 .float-right {
   float: none;
 }
+.errors,
+.go {
+  background: #971a22;
+  color: #ffffff;
+  padding: 10px;
+  font-size: 17px;
+}
+.go {
+  background: #0dff82;
+}
 .content {
   background: #D8D6C6;
   width: 100%;
