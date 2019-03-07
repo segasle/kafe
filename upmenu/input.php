@@ -1,19 +1,36 @@
-<?php echo login();?>
+
 <h1 class="text-center">Авторизация</h1>
+<?php echo login(); ?>
 <form action="" class="form-input" method="post">
-    <div class="form-group">
-        <label for="exampleInputEmail1">Ваш email</label>
-        <input type="text" class="form-control" name="email" id="exampleInputEmail1" placeholder="Email">
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Пароль</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" name="password1" placeholder="Пароль">
-    </div>
+    <?php
+    $array = array(
+        array(
+            'for' => 'exampleInputEmail1',
+            'head' => 'Ваш email',
+            'type' => 'text',
+            'name' => 'email',
+            'placeholder' => 'Email',
+        ),
+        array(
+            'for' => 'exampleInputPassword1',
+            'head' => 'Пароль',
+            'type' => 'password',
+            'name' => 'password',
+            'placeholder' => 'Пароль',
+        ),
+    );
+    foreach ($array as $item) {
+        $name = $item['name'];
+        echo '<div class="form-group">
+        <label for="'.$item['for'].'">'.$item['head'].'</label>
+        <input type="'.$item['type'].'" class="form-control" name="'.$item['name'].'" id="'.$item['for'].'" placeholder="'.$item['placeholder'].'" value="'.@$_POST[$name].'">
+    </div>';
+    }
+    ?>
     <div class="checkbox">
         <label>
             <input type="radio"> Заполнить меня
         </label>
     </div>
     <button type="submit" class="btn btn-default" name="submit">Войти</button>
-    <input type="hidden" name="event" value="login">
 </form>
