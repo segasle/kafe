@@ -182,44 +182,44 @@ function get_product()
     $product = do_query("SELECT * FROM `products` JOIN `menu` WHERE products.categories = menu.id");
     $out = '<div class="row">';
     foreach ($product as $item) {
-        if (isset($item['img'])){
-            $img = '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"><img src="photo/pizza/'.$item['img'].'" class="img elements"></div>';
-        }else{
+        if (isset($item['img'])) {
+            $img = '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"><img src="photo/pizza/' . $item['img'] . '" class="img elements"></div>';
+        } else {
             $img = '';
         }
-        if (isset($item['weight'])){
-            $weight = ' <p class="weight">'.$item['weight'].'гр </p>';
-        }else{
+        if (isset($item['weight'])) {
+            $weight = ' <p class="weight">' . $item['weight'] . 'гр </p>';
+        } else {
             $weight = '';
         }
-        if (isset($item['description'])){
+        if (isset($item['description'])) {
             $description = $item['description'];
-        }else{
+        } else {
             $description = '';
         }
-        if (isset($item['head'])){
-            $head = '<p class="h3">'.$item['head'].'</p>';
-        }else{
+        if (isset($item['head'])) {
+            $head = '<p class="h3">' . $item['head'] . '</p>';
+        } else {
             $head = '';
         }
-        if (isset($item['header'])){
+        if (isset($item['header'])) {
             $header = '    <div class="elements">
-                                    <p class="elements">'.$item['header'].'</p>
+                                    <p class="elements">' . $item['header'] . '</p>
                                 </div>';
-        }else{
+        } else {
             $header = '';
         }
-        if (isset($item['price'])){
-            $price = '<p class="price">'.$item['price'].'p</p>';
-        }else{
+        if (isset($item['price'])) {
+            $price = '<p class="price">' . $item['price'] . 'p</p>';
+        } else {
             $price = '';
         }
-        if (isset($item['price2'])){
-            $price2 = '<p class="price">'.$item['price2'].'p</p>';
-        }else{
+        if (isset($item['price2'])) {
+            $price2 = '<p class="price">' . $item['price2'] . 'p</p>';
+        } else {
             $price2 = '';
         }
-        if (isset($item['img']) or isset($item['weight']) or isset($item['description']) or isset($item['header']) or isset($item['price']) or isset($item['price2'])){
+        if (isset($item['img']) or isset($item['weight']) or isset($item['description']) or isset($item['header']) or isset($item['price']) or isset($item['price2'])) {
             $col = ' <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">             <div class="block_content">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -233,7 +233,7 @@ function get_product()
                                     <div class="elements">
                                         <div class="block_weight_price">
                                            
-                                            '.$weight . $price . $price2.'
+                                            ' . $weight . $price . $price2 . '
                                             
                                         </div>
                                     </div>
@@ -249,13 +249,13 @@ function get_product()
                         </div>
                         </div>
                 </div>';
-        }else{
+        } else {
             $col = '';
         }
-        if ($item['catg'] == $_GET['page']){
+        if ($item['catg'] == $_GET['page']) {
             $out .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="row">
-                '.$img.$head.$col.'
+                ' . $img . $head . $col . '
             
             
             </div>
@@ -265,13 +265,17 @@ function get_product()
     $out .= '</dov>';
     return $out;
 }
-function basket_open(){
-    if (isset($_POST['basket'])){
+
+function basket_open()
+{
+    if (isset($_POST['basket'])) {
         header('location: ?page=basket');
     }
 }
-function registration(){
-               $out = '';
+
+function registration()
+{
+    $out = '';
     if (isset($_POST['submit'])) {
         $data = $_POST;
         $email = $data['email'];
@@ -325,7 +329,9 @@ function registration(){
     }
     return $out;
 }
-function login(){
+
+function login()
+{
 
     $out = '';
     $data = $_POST;
@@ -334,20 +340,7 @@ function login(){
         $password = $data['password'];
         $resilt = mysqli_fetch_assoc(do_query("SELECT * FROM `users` WHERE `email` ='" . $email . "'"));
         if ($resilt) {
-            if (password_verify($password, $resilt['password'])) {
-                setcookie('user', json_encode($resilt), time()+60*24*30*12);
-                //setcookie('password', $data['password'], time()+3600*24*30*12, '/');
-              //  header('location: ' .$_SERVER['HTTP_REFERER']);
-
-                $_COOKIE['user'] = $resilt['id'];
-                if (isset($_COOKIE['user'])){
-                    $out = '<div class="go">Пароль не верный</div>';
-                }else{
-                    $out = '<div class="errors">Пар</div>';
-
-                }
-                //header('location: ?page=main');
-            } else {
+            if (!password_verify($password, $resilt['password'])) {
                 $out = '<div class="errors">Пароль не верный</div>';
             }
         } else {
@@ -355,4 +348,28 @@ function login(){
         }
     }
     return $out;
+}
+
+function user_login()
+{
+    $data = $_POST;
+
+    $resilt = mysqli_fetch_assoc(do_query("SELECT * FROM `users`"));
+    if (isset($data['submit'])) {
+        if (isset($data['check'])) {
+            setcookie('user', json_encode($resilt), time() + 3600 * 24 * 30 * 12);
+
+            $_COOKIE['user'] = $resilt['id'];
+            if (isset($_COOKIE['user'])) {
+                header('location: ?page=main');
+            }
+        } else {
+            setcookie('user', json_encode($resilt));
+            $_COOKIE['user'] = $resilt['id'];
+            if (isset($_COOKIE['user'])) {
+                header('location: ?page=main');
+            }
+        }
+    }
+    //return;
 }

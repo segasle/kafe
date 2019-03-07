@@ -29,7 +29,7 @@
     ?>
     <div class="checkbox">
         <label>
-            <input type="radio"> Заполнить меня
+            <input type="radio" name="check"> Заполнить меня
         </label>
     </div>
     <button type="submit" class="btn btn-default" name="submit">Войти</button>
