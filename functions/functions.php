@@ -35,16 +35,28 @@ function menu()
     $menu = do_query("SELECT * FROM `menu` WHERE `parent` = '0' ORDER BY menu.id");
     $user = do_query("SELECT * FROM `menu` WHERE `parent` = '1' ORDER BY menu.id");
     $food = do_query("SELECT * FROM `menu` WHERE `parent` = '2' ORDER BY menu.id");
+    $users = do_query("SELECT * FROM `menu` WHERE `parent` = '3' ORDER BY menu.id");
     $out = '<div class="menu_up"><ul>';
     foreach ($menu as $item) {
         $out .= '<li><a href="' . $item['link'] . '">' . $item['title'] . '</a></li>';
     }
     $out .= '</ul>';
-    $out1 = '<div class="menu_food"><ul class="user_account">';
-    foreach ($user as $item) {
-        $out1 .= '<li><a href="' . $item['link'] . '">' . $item['title'] . '</a></li>';
+    if (!isset($_COOKIE['user'])) {
+        $out1 = '<div class="menu_food"><ul class="user_account">';
+        foreach ($user as $item) {
+            $out1 .= '<li><a href="' . $item['link'] . '">' . $item['title'] . '</a></li>';
+        }
+        $out1 .= '</ul></div>';
+    } else {
+        $out1 = '<div class="menu_user"><ul>';
+        foreach ($users as $user) {
+            $out1 .= '<li><a href="' . $user['link'] . '">' . $user['title'] . '</a></li>';
+
+        }
+        $out1 .= '</ul></div>';
+
     }
-    $out1 .= '</ul></div>';
+
     $out2 = '<ul>';
     foreach ($food as $item) {
         $out2 .= '<li class="red"><a href="' . $item['link'] . '">' . $item['title'] . '</a></li>';
