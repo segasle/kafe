@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:8889
--- Время создания: Мар 06 2019 г., 11:40
+-- Время создания: Мар 07 2019 г., 17:39
 -- Версия сервера: 5.7.23
 -- Версия PHP: 7.2.8
 
@@ -13,6 +13,74 @@ SET time_zone = "+00:00";
 --
 -- База данных: `kade_louis`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `comment`
+--
+
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `data` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `content` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `events`
+--
+
+CREATE TABLE `events` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `surname` varchar(255) NOT NULL,
+  `phone` text NOT NULL,
+  `event` varchar(255) NOT NULL,
+  `rooms` varchar(255) NOT NULL,
+  `data` datetime NOT NULL,
+  `addition` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `menu`
+--
+
+CREATE TABLE `menu` (
+  `id` int(10) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `parent` int(10) NOT NULL DEFAULT '0',
+  `link` varchar(255) NOT NULL DEFAULT '?page=',
+  `catg` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `menu`
+--
+
+INSERT INTO `menu` (`id`, `title`, `parent`, `link`, `catg`) VALUES
+(1, 'Главная', 0, '?page=main', NULL),
+(2, 'Мероприятия', 0, '?page=events', NULL),
+(3, 'Отзывы', 0, '?page=comments', NULL),
+(4, 'Контакты', 0, '?page=contacts', NULL),
+(5, 'Вход', 1, '?page=input', NULL),
+(6, 'Регистрация', 1, '?page=reg', NULL),
+(7, 'Пицца', 2, '?page=pizza', 'pizza'),
+(8, 'Горячите напитки ', 2, '?page=hot_drink', 'hot_drink'),
+(9, 'Напитки', 2, '?page=drinks', 'drinks'),
+(10, 'Холодные закуски и сэндвичи', 2, '?page=cold_appetizers_and_salads', 'cold_appetizers_and_salads'),
+(11, 'Горячие блюда и пасты', 2, '?page=hot_dishes_and_pasta', 'hot_dishes_and_pasta'),
+(12, 'Выпечка и десерты', 2, '?page=pastries_and_desserts', 'pastries_and_desserts'),
+(13, 'Гарниры, закуски и соусы', 2, '?page=Side_dishes_snacks_and_sauces', 'Side_dishes_snacks_and_sauces'),
+(14, 'Салаты и первые блюда', 2, '?page=Salads_and_first_courses', 'Salads_and_first_courses'),
+(15, 'Моя информация', 3, '?page=myinfo', NULL),
+(16, 'Контактная информация', 3, '?page=contactsinfo', NULL),
+(17, 'Пароль', 3, '?page=passwordgo', NULL),
+(18, 'Адресная книга', 3, '?page=addressbook', NULL);
 
 -- --------------------------------------------------------
 
@@ -83,11 +151,72 @@ INSERT INTO `products` (`id`, `header`, `description`, `price`, `weight`, `img`,
 (47, '«Мясное ассорти \"', 'язык говяжий, \"буженина\", говядина', 250, 200, NULL, 10, NULL, NULL, NULL),
 (48, '«Ассорти овощное\"', 'болгарский перец, огурцы, помидоры, редис, зеленый лук, петрушка, кинза', 250, 300, NULL, 10, NULL, NULL, NULL),
 (49, '«Оливки, маслины(ассорти) »', NULL, 200, 200, NULL, 10, NULL, NULL, NULL),
-(50, '«Рыбное ассорти \"', 'рыба Маслянная(белая) рыба с/с красная(Сёмга)', 350, 200, NULL, 10, NULL, NULL, NULL);
+(50, '«Рыбное ассорти \"', 'рыба Маслянная(белая) рыба с/с красная(Сёмга)', 350, 200, NULL, 10, NULL, NULL, NULL),
+(51, '«Лимон »', NULL, 60, 60, NULL, 10, NULL, NULL, NULL),
+(52, '«Соленья »', 'черемша, чеснок, помидоры, огурцы', 300, 250, NULL, 10, NULL, NULL, NULL),
+(53, '«Селёдочка под водочку\"', 'селёдка, картофель отварной, лук красный', 150, 180, NULL, 10, NULL, NULL, NULL),
+(54, '«Говяжий язык с хреном \"', NULL, 350, 250, NULL, 10, NULL, NULL, NULL),
+(55, '\"Клаб сэндвич с курицей\"', 'тосты, куринное филе, помидоры свежие, огурцы свежие, салат \"Айсберг\", бекон, яйцо, соус Цезарь, картофель фри', 350, 400, NULL, 10, NULL, NULL, NULL),
+(56, '«Рулеты из Баклажанов»', 'баклажаны, сыр, чеснок, майонез, грецкий орех, укроп', 250, 250, NULL, 10, NULL, NULL, NULL),
+(57, '«Рулеты из ветчины с сыром»', 'ветчина, сыр, чеснок, майонез, грецкий орех, укроп', 300, 250, NULL, 10, NULL, NULL, NULL),
+(58, '«Тарталетки с икрой»', 'тарталетки(6 шт) икра, сливочная масло', 600, 250, NULL, 10, NULL, NULL, NULL),
+(59, NULL, NULL, NULL, NULL, NULL, 10, 'Сэндвичи', NULL, NULL),
+(60, '«Клаб сэндвич с курицей»', 'тосты, куринное филе, помидоры свежие, огурцы свежие, салат \"Айсберг\", бекон, яйцо, соус Цезарь, картофель фри', 350, 400, NULL, 10, NULL, NULL, NULL),
+(61, '«Клаб сэндвич с лососем»\r\n', 'тосты, лосось, авокадо, салат \"Романо\", огурцы свежие, сыр \"Креметта\", соус Цезарь, картофель фри', 370, 400, NULL, 10, NULL, NULL, NULL),
+(62, '«Гамбургер»', 'Булка, котлета говяжья, лист салата, сыр Чеддер, помидор, огурец соленный, соус Цезарь', 150, NULL, NULL, 10, NULL, NULL, NULL),
+(63, NULL, NULL, NULL, NULL, NULL, 11, 'горячие блюда', NULL, NULL),
+(64, '«Куриные крылышки в медово-соевом соусе\"', NULL, 230, 150, NULL, 11, NULL, NULL, NULL),
+(65, '«Стейк Лосося»', 'лосось, соус Тартар', 550, 250, NULL, 11, NULL, NULL, NULL),
+(66, '«Курица по-милански»', 'куриное филе, помидор, сыр Моцарелла', 250, 200, NULL, 11, NULL, NULL, NULL),
+(67, '«Жульен с курицей»', 'лук репчатый, сыр Моцарелла, куринное филе, сливки', 150, 120, NULL, 11, NULL, NULL, NULL),
+(68, '«Жульен с грибами\"', 'лук репчатый, сыр Моцарелла, шампиньоны, сливки', 150, 120, NULL, 11, NULL, NULL, NULL),
+(69, '«Жульен с курицей и грибами»', 'лук репчатый, куриное филе, шампиньоны, сыр «Моцарелла», сливки', 170, 120, NULL, 11, NULL, NULL, NULL),
+(70, '«Гречка с овощами»', 'гречка, шампиньоны, перец болгарский, кабачок, баклажан, соевый соус, кисло сладкий соус', 250, 200, NULL, 11, NULL, NULL, NULL),
+(71, '«Наггетсы»', 'куринная грудка, панировочные сухари', 200, 6, NULL, 11, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `login` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `address` text NOT NULL,
+  `phone` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `users`
+--
+
+INSERT INTO `users` (`id`, `email`, `login`, `password`, `address`, `phone`) VALUES
+(1, 'segasle@gmail.com', 'Сергей', '$2y$10$O2sFJ8u3REG0BYLnuRLTOuJs4ULulRdxlz9ysp/kxvRC7AKNyxzDq', 'Истра', '+7(915)5473712');
 
 --
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `comment`
+--
+ALTER TABLE `comment`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `events`
+--
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `menu`
+--
+ALTER TABLE `menu`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `products`
@@ -96,11 +225,41 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
+
+--
+-- AUTO_INCREMENT для таблицы `comment`
+--
+ALTER TABLE `comment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `events`
+--
+ALTER TABLE `events`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `menu`
+--
+ALTER TABLE `menu`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+
+--
+-- AUTO_INCREMENT для таблицы `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
