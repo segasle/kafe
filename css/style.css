@@ -23,6 +23,16 @@ ul:before {
   display: block;
   clear: both;
 }
+button,
+.button {
+  padding: 10px;
+  background: #6B1544;
+  color: #ffffff;
+  margin: 10px auto;
+  display: block;
+  border: none;
+  text-transform: capitalize;
+}
 .fa-bars,
 .fa-shopping-basket {
   color: #ffffff;
@@ -166,16 +176,6 @@ ul:before {
   color: #6B1544;
   font-weight: bold;
   display: block;
-}
-.content button,
-.content .button {
-  padding: 10px;
-  background: #6B1544;
-  color: #ffffff;
-  margin: 10px auto;
-  display: block;
-  border: none;
-  text-transform: capitalize;
 }
 .content .button {
   float: none;
@@ -441,6 +441,15 @@ ul:before {
     float: left;
     background: #971a22;
     margin: 0 15px;
+  }
+  .heder .cap .menu_user ul {
+    display: table;
+    width: 100%;
+  }
+  .heder .cap .menu_user ul li {
+    display: table-cell;
+    text-align: center;
+    background: #6B1544;
   }
   .float-right {
     float: right;

@@ -27,6 +27,17 @@ div, ul {
   }
 }
 
+button,
+.button {
+  padding: 10px;
+  background: @bg-purple;
+  color: @bg-white;
+  margin: 10px auto;
+  display: block;
+  border: none;
+  text-transform: capitalize;
+}
+
 .fa {
   &-bars, &-shopping-basket {
     color: @bg-white;
@@ -47,7 +58,11 @@ div, ul {
 .container-fluid {
   padding: 0;
 }
+ul{
+  li{
 
+  }
+}
 .form {
   &-horizontal {
     button {
@@ -58,20 +73,24 @@ div, ul {
     }
   }
 }
-.float{
-  &-right{
+
+.float {
+  &-right {
     float: none;
   }
 }
-.errors, .go{
+
+.errors, .go {
   background: @bg-red;
   color: @bg-white;
   padding: 10px;
   font-size: 17px;
 }
-.go{
+
+.go {
   background: #0dff82;
 }
+
 .content {
   background: #D8D6C6;
   width: 100%;
@@ -182,16 +201,6 @@ div, ul {
         }
       }
     }
-  }
-  button,
-  .button {
-    padding: 10px;
-    background: @bg-purple;
-    color: @bg-white;
-    margin: 10px auto;
-    display: block;
-    border: none;
-    text-transform: capitalize;
   }
   .button {
     float: none;
@@ -484,6 +493,17 @@ div, ul {
               float: left;
               background: @bg-red;
               margin: 0 15px;
+            }
+          }
+        }
+        &_user {
+          ul {
+            display: table;
+            width: 100%;
+            li {
+              display: table-cell;
+              text-align: center;
+              background: @bg-purple;
             }
           }
         }
