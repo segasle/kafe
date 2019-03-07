@@ -304,7 +304,7 @@ function registration(){
         if (!preg_match("/(^(?!\+.*\(.*\).*\-\-.*$)(?!\+.*\(.*\).*\-$)(\+[0-9]{1,3}\([0-9]{1,3}\)[0-9]{1}([-0-9]{0,8})?([0-9]{0,1})?)$)|(^[0-9]{1,4}$)/", "$phone")) {
             $errors[] = "Вы непраильно ввели номер телефона, пример: +7(915)5473712";
         }
-        if (trim($data['address']) == '') {
+        if (empty(trim($data['address']))) {
             $errors[] = "Вы не ввели адрес";
         }
         if (empty($errors)) {
@@ -312,7 +312,7 @@ function registration(){
             $result = $result->fetch_object();
             if (empty($result->count)) {
                 // сохраняет все данные в БД
-                $wer = do_query("INSERT INTO users (`name`, `surname`,`email`, `password`, `phone`, `address`) VALUES ('{$data['name']}','{$data['surname']}','{$data['email']}','" . password_hash($data['password2'], PASSWORD_DEFAULT) . "','{$data['phone']}','{$data['address']}')");
+                $wer = do_query("INSERT INTO users (`login`, `email`, `password`, `phone`, `address`) VALUES ('{$data['login']}','{$data['email']}','" . password_hash($data['password2'], PASSWORD_DEFAULT) . "','{$data['phone']}','{$data['address']}')");
                 if (!empty($wer)) {
                     $out = '<div class="go">Успешно зарегиревались</div>';
                 }
@@ -334,9 +334,9 @@ function login(){
         $resilt = mysqli_fetch_assoc(do_query("SELECT * FROM `users` WHERE `email` ='" . $email . "'"));
         if ($resilt) {
             if (password_verify($password, $resilt['password'])) {
-//                setcookie('id', $data['email'], time()+3600*24*30*12, '/');
-//                setcookie('password', $data['password'], time()+3600*24*30*12, '/');
-//                header('location: ' .$_SERVER['HTTP_REFERER']);
+                setcookie('user', $resilt, time()+60*24*30*12);
+                //setcookie('password', $data['password'], time()+3600*24*30*12, '/');
+              //  header('location: ' .$_SERVER['HTTP_REFERER']);
 
                 $_SESSION['outh'] = true;
                 $_SESSION['id'] = $resilt['id'];

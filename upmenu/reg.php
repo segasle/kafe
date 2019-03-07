@@ -10,7 +10,7 @@ $array = array(
         'placeholder' => 'Email',
     ),
     array(
-        'head' => 'Придумаете логин',
+        'head' => 'Ваше имя',
         'for' => 'exampleInputLogin2',
         'type' => 'text',
         'name' => 'login',
@@ -51,9 +51,10 @@ echo registration();
 <form action="" class="form-reg" method="post">
     <?php
     foreach ($array as $item) {
+        $name = $item['name'];
         echo '<div class="form-group">
         <label for="' . $item['for'] . '" class="point">' . $item['head'] . '</label>
-        <input type="' . $item['type'] . '" class="form-control" name="' . $item['name'] . '" id="' . $item['for'] . '" placeholder="' . $item['placeholder'] . '">
+        <input type="' . $item['type'] . '" class="form-control" name="' . $item['name'] . '" id="' . $item['for'] . '" placeholder="' . $item['placeholder'] . '" value="'.@$_POST[$name].'">
     </div>';
     }
 
