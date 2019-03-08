@@ -58,11 +58,7 @@ button,
 .container-fluid {
   padding: 0;
 }
-ul{
-  li{
 
-  }
-}
 .form {
   &-horizontal {
     button {
@@ -77,6 +73,25 @@ ul{
 .float {
   &-right {
     float: none;
+  }
+}
+
+ul {
+  li {
+    list-style: none;
+    a {
+      color: @bg-white;
+      padding: 16px;
+      display: block;
+      font-size: 16px;
+      text-decoration: none;
+      font-weight: 100;
+      font-family: cursive;
+      &:hover {
+        background: @bg-hover;
+        color: @bg-white;
+      }
+    }
   }
 }
 
@@ -393,22 +408,6 @@ ul{
           padding-left: 16px;
           display: block;
           float: left;
-          li {
-
-            list-style: none;
-            a {
-              color: @bg-white;
-              display: block;
-              font-size: 16px;
-              text-decoration: none;
-              font-weight: 100;
-              font-family: cursive;
-              padding: 10px;
-              &:hover {
-                background: @bg-hover;
-              }
-            }
-          }
         }
         .user_account {
           padding-left: 16px;
@@ -422,18 +421,9 @@ ul{
         margin: 0 15px;
         ul {
           li {
-            list-style: none;
+
             &:hover {
               background: @bg-hover;
-            }
-            a {
-              color: @bg-white;
-              padding: 16px;
-              display: block;
-              font-size: 16px;
-              text-decoration: none;
-              font-weight: 100;
-              font-family: cursive;
             }
           }
         }
@@ -443,6 +433,15 @@ ul{
 }
 
 @media screen and (min-width: 1024px) {
+
+  ul {
+
+    li {
+      text-align: center;
+
+    }
+  }
+
   .heder {
     .cap {
       .menu {
@@ -502,7 +501,7 @@ ul{
             width: 100%;
             li {
               display: table-cell;
-              text-align: center;
+
               background: @bg-purple;
             }
           }

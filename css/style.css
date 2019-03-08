@@ -59,6 +59,22 @@ button,
 .float-right {
   float: none;
 }
+ul li {
+  list-style: none;
+}
+ul li a {
+  color: #ffffff;
+  padding: 16px;
+  display: block;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 100;
+  font-family: cursive;
+}
+ul li a:hover {
+  background: #8b00ff;
+  color: #ffffff;
+}
 .errors,
 .go {
   background: #971a22;
@@ -355,21 +371,6 @@ button,
   display: block;
   float: left;
 }
-.heder .cap .menu_up ul li {
-  list-style: none;
-}
-.heder .cap .menu_up ul li a {
-  color: #ffffff;
-  display: block;
-  font-size: 16px;
-  text-decoration: none;
-  font-weight: 100;
-  font-family: cursive;
-  padding: 10px;
-}
-.heder .cap .menu_up ul li a:hover {
-  background: #8b00ff;
-}
 .heder .cap .menu_up .user_account {
   padding-left: 16px;
   display: block;
@@ -378,22 +379,13 @@ button,
 .heder .cap .menu_food {
   margin: 0 15px;
 }
-.heder .cap .menu_food ul li {
-  list-style: none;
-}
 .heder .cap .menu_food ul li:hover {
   background: #8b00ff;
 }
-.heder .cap .menu_food ul li a {
-  color: #ffffff;
-  padding: 16px;
-  display: block;
-  font-size: 16px;
-  text-decoration: none;
-  font-weight: 100;
-  font-family: cursive;
-}
 @media screen and (min-width: 1024px) {
+  ul li {
+    text-align: center;
+  }
   .heder .cap .menu {
     height: fit-content;
     position: inherit;
@@ -448,7 +440,6 @@ button,
   }
   .heder .cap .menu_user ul li {
     display: table-cell;
-    text-align: center;
     background: #6B1544;
   }
   .float-right {
