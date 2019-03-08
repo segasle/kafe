@@ -440,6 +440,7 @@ ul li a:hover {
   }
   .heder .cap .menu_user ul li {
     display: table-cell;
+    border-right: 2px solid #ffffff;
     background: #6B1544;
   }
   .float-right {
