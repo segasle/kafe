@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:8889
--- Время создания: Мар 07 2019 г., 17:39
+-- Время создания: Мар 09 2019 г., 10:08
 -- Версия сервера: 5.7.23
 -- Версия PHP: 7.2.8
 
@@ -172,7 +172,42 @@ INSERT INTO `products` (`id`, `header`, `description`, `price`, `weight`, `img`,
 (68, '«Жульен с грибами\"', 'лук репчатый, сыр Моцарелла, шампиньоны, сливки', 150, 120, NULL, 11, NULL, NULL, NULL),
 (69, '«Жульен с курицей и грибами»', 'лук репчатый, куриное филе, шампиньоны, сыр «Моцарелла», сливки', 170, 120, NULL, 11, NULL, NULL, NULL),
 (70, '«Гречка с овощами»', 'гречка, шампиньоны, перец болгарский, кабачок, баклажан, соевый соус, кисло сладкий соус', 250, 200, NULL, 11, NULL, NULL, NULL),
-(71, '«Наггетсы»', 'куринная грудка, панировочные сухари', 200, 6, NULL, 11, NULL, NULL, NULL);
+(71, '«Наггетсы»', 'куринная грудка, панировочные сухари', 200, 6, NULL, 11, NULL, NULL, NULL),
+(72, '«Мясо по-Французски»', 'свинина, сыр «Моцарелла», лук репчатый, майонез, помидор, шампиньоны', 300, 200, NULL, 11, NULL, NULL, NULL),
+(73, '«Пельмешка по-Домашнему»', 'свинина, лук, специи, зелень, сыр, сметана', 250, 250, NULL, 11, NULL, NULL, NULL),
+(74, NULL, NULL, NULL, NULL, NULL, 11, 'Паста', NULL, NULL),
+(75, '«Паста с грибами в сливочном соусе»', 'паста, куринное филе, грибы, соус сливочный, пармезан, чеснок', 350, 300, NULL, 11, NULL, NULL, NULL),
+(76, 'Паста«Карбонара»', 'паста, бекон, сливочный соус, пармезан, желток\r\n', 320, 300, NULL, 11, NULL, NULL, NULL),
+(77, 'Паста«Болоньезе»', 'паста, мясной фарш, сыр «Пармезан», томатный соус', 350, 300, NULL, 11, NULL, NULL, NULL),
+(78, 'Паста «Сальмоне»', 'свежий лосось, сливочный соус, паста', 370, 300, NULL, 11, NULL, NULL, NULL),
+(79, 'Кленовый пекан', NULL, 50, NULL, NULL, 12, NULL, NULL, NULL),
+(80, 'Улитка с карамелью', NULL, 70, NULL, NULL, 12, NULL, NULL, NULL),
+(81, 'Штрудель с яблоком и мороженным\r\n\r\n', NULL, 100, NULL, NULL, 12, NULL, NULL, NULL),
+(82, 'Пончик с клубникой', NULL, 70, NULL, NULL, 12, NULL, NULL, NULL),
+(83, 'Пончик с бананом\r\n\r\n', NULL, 70, NULL, NULL, 12, NULL, NULL, NULL),
+(84, 'Маффин mini ванильный с шоколадом', NULL, 40, NULL, NULL, 12, NULL, NULL, NULL),
+(85, 'Маффин ванильный с шоколадом\r\n\r\n', NULL, 50, NULL, NULL, 12, NULL, NULL, NULL),
+(86, 'Эклер ванильный\r\n', NULL, 40, NULL, NULL, 12, NULL, NULL, NULL),
+(87, 'Эклер шоколадный\r\n\r\n', NULL, 40, NULL, NULL, 12, NULL, NULL, NULL),
+(88, 'Пирожок с мясом\r\n\r\n', NULL, 30, NULL, NULL, 12, NULL, NULL, NULL),
+(89, 'Пирожок с капустой\r\n\r\n', NULL, 20, NULL, NULL, 12, NULL, NULL, NULL),
+(90, 'Слойка с сыром\r\n\r\n', NULL, 30, NULL, NULL, 12, NULL, NULL, NULL),
+(91, 'Венгерка с творогом', NULL, 30, NULL, NULL, 12, NULL, NULL, NULL),
+(92, 'Булочка с яблоком\r\n\r\n', NULL, 20, NULL, NULL, 12, NULL, NULL, NULL),
+(93, 'Блинчик с мясом\r\n\r\n', NULL, 30, NULL, NULL, 12, NULL, NULL, NULL),
+(94, '«Тирамису»\r\n\r\n', NULL, 200, NULL, NULL, 12, NULL, NULL, NULL),
+(95, '«Наполеон»\r\n\r\n', NULL, 200, NULL, NULL, 12, NULL, NULL, NULL),
+(96, 'Блинчик с бананом и шоколадом\r\n\r\n', NULL, 150, NULL, NULL, 12, NULL, NULL, NULL),
+(97, NULL, NULL, NULL, NULL, NULL, 13, 'Гарниры', NULL, NULL),
+(98, 'Пюре', NULL, 70, 150, NULL, 13, NULL, NULL, NULL),
+(99, 'Картофель по-деревенски', NULL, 120, 180, NULL, 13, NULL, NULL, NULL),
+(100, 'Картофель Фри', NULL, 100, 150, NULL, 13, NULL, NULL, NULL),
+(101, 'Рис', NULL, 70, 120, NULL, 13, NULL, NULL, NULL),
+(102, 'Макароны', NULL, 80, 120, NULL, 13, NULL, NULL, NULL),
+(103, 'Гречка с луком', NULL, 80, 150, NULL, 13, NULL, NULL, NULL),
+(104, 'Гречка с грибами\r\n\r\n', NULL, 100, 200, NULL, 13, NULL, NULL, NULL),
+(105, 'Овощи гриль', NULL, 250, 180, NULL, 13, NULL, NULL, NULL),
+(106, NULL, NULL, NULL, NULL, NULL, 13, 'Закуски', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -256,7 +291,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
