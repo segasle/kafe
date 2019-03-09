@@ -15,11 +15,14 @@ function connections()
     include 'tempate/header.php';
     if (file_exists('food/' . $file . '.php')) {
         include 'food/' . $file . '.php';
-    }elseif (file_exists('users/' . $file . '.php')){
-        include 'users/' . $file . '.php';
+    } elseif (file_exists('users/' . $file . '.php')) {
+        if (isset($_COOKIE['user'])) {
+            include 'users/' . $file . '.php';
+        }else{
+            include 'upmenu/404.php';
+        }
 
-    }
-    else {
+    } else {
         include 'upmenu/' . $file . '.php';
     }
     include 'tempate/footer.php';
