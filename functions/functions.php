@@ -257,9 +257,9 @@ function get_product()
                                         </div>
                                     </div>
                                     <div class="elements">
-                                    <form action="">
+                                    <form action="" method="get">
                                     <input type="number" value="1" class="number"> 
-                                    <button type="submit" name="submit">добавить</button>
+                                    <button type="submit" name="'.$item['id'].'">добавить</button>
 </form>
                                        
                                     </div>
@@ -391,4 +391,11 @@ function user_login()
         }
     }
     //return;
+}
+function addbasket(){
+    $add = $_GET;
+    $projecs = do_query("SELECT * FROM `products` WHERE `id` = $add");
+    if (isset($_GET)){
+
+    }
 }
