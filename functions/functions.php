@@ -257,7 +257,7 @@ function get_product()
                                         </div>
                                     </div>
                                     <div class="elements">
-                                    <form action="" method="get">
+                                    <form action="" method="post">
                                     <input type="number" value="1" class="number"> 
                                     <button type="submit" name="'.$item['idd'].'">добавить</button>
 </form>
@@ -393,17 +393,22 @@ function user_login()
     //return;
 }
 function addbasket(){
-    $add = $_GET;
+
     $projecs = do_query("SELECT * FROM `products`");
     foreach ($projecs as $projec){
        $id = $projec['idd'];
        //echo $_GET;
-        if (isset($_GET[$id])){
-
+        if (isset($_POST[$id])){
+            //echo $id;
+            $pro = mysqli_fetch_assoc(do_query("SELECT * FROM `products` WHERE `idd` = $id"));
+            $_SESSION['id'] = $pro['idd'];
+            $_SESSION['header'] = $pro['header'];
+            $_SESSION['price'] = $pro['price'];
+            $_SESSION['description'] = $pro['description'];
+            $_SESSION['price2'] = $pro['price2'];
+            $_SESSION['weight'] = $pro['weight'];
+            $_SESSION['weight2'] = $pro['weight2'];
         }
     }
-    //print_r($projecs['idd']);
-
-    return $_GET;
+    return true;
 }
-echo addbasket();
