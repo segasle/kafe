@@ -3,26 +3,26 @@
     <?php
     $array = array(
         array(
-            'head' => 'Изображения',
-        ),
-        array(
             'head' => 'Названия',
+            'session' => $_SESSION['header'],
         ),
         array(
             'head' => 'Количество',
+            'session' => $_SESSION['id'],
+
         ),
         array(
             'head' => 'Сумма',
+            'session' => $_SESSION['price'],
+
         ),
-        array(
-            'head' => 'Итого',
-        ),
+
     );
     foreach ($array as $item) {
         echo "<div class=\"table-cell\">
         <div class=\"block\">
             <div class=\"block_title\"><p>" . $item['head'] . "</p></div>
-            <div class=\"block_description\"></div>
+            <div class=\"block_description\">".$item['session']++."</div>
         </div>
     </div>";
     }
