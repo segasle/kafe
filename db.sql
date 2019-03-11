@@ -3,15 +3,15 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:8889
--- Время создания: Мар 10 2019 г., 09:06
+-- Время создания: Мар 11 2019 г., 15:16
 -- Версия сервера: 5.7.23
--- Версия PHP: 7.2.10
+-- Версия PHP: 7.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- База данных: `kafe`
+-- База данных: `kade_louis`
 --
 
 -- --------------------------------------------------------
@@ -89,7 +89,7 @@ INSERT INTO `menu` (`id`, `title`, `parent`, `link`, `catg`) VALUES
 --
 
 CREATE TABLE `products` (
-  `id` int(11) NOT NULL,
+  `idd` int(11) NOT NULL,
   `header` varchar(255) DEFAULT NULL,
   `description` text,
   `price` float DEFAULT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE `products` (
 -- Дамп данных таблицы `products`
 --
 
-INSERT INTO `products` (`id`, `header`, `description`, `price`, `weight`, `img`, `categories`, `head`, `price2`, `weight2`) VALUES
+INSERT INTO `products` (`idd`, `header`, `description`, `price`, `weight`, `img`, `categories`, `head`, `price2`, `weight2`) VALUES
 (1, '«Милано»', 'колбаса пепперони, сыр «Моцарелла», говядина, лук, томаты черри, соус томати, огурцы, маслины', 500, NULL, 'pizza6.png', 7, NULL, NULL, NULL),
 (2, '«Франческо»', 'ветчина, сыр «Моцарелла», грибы, соус сливочный', 460, NULL, 'pizza5.png', 7, NULL, NULL, NULL),
 (3, '«Цезарь»', 'соус Цезарь, криное филе, сыр «Моцарелла», сыр «Пармезан», помидоры, салат «Айсберг»', 480, NULL, 'pizza4.png', 7, NULL, NULL, NULL),
@@ -292,7 +292,7 @@ ALTER TABLE `menu`
 -- Индексы таблицы `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`idd`);
 
 --
 -- Индексы таблицы `users`
@@ -326,7 +326,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `idd` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
