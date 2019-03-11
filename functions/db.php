@@ -33,4 +33,5 @@ foreach ($bd as $item => $key) {
             }
         }
     }
+    session_start();
 }
