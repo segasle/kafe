@@ -36,6 +36,12 @@ button,
   display: block;
   border: none;
   text-transform: capitalize;
+  &:hover{
+    background: @bg-hover;
+  }
+  &:active{
+    background: @bg-red;
+  }
 }
 
 .fa {
@@ -53,6 +59,11 @@ button,
   border-radius: 100%;
   width: 50px;
   height: 50px;
+  p{
+    font-weight: bold;
+    margin-top: 5px;
+    color: black;
+  }
 }
 
 .container-fluid {
