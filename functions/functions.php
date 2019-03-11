@@ -259,7 +259,7 @@ function get_product()
                                     <div class="elements">
                                     <form action="" method="post">
                                     <input type="number" value="1" class="number"> 
-                                    <button type="submit" name="'.$item['idd'].'">добавить</button>
+                                    <button type="button" class="js-basket" data-id="'.$item['idd'].'" name="'.$item['idd'].'">добавить</button>
 </form>
                                        
                                     </div>
@@ -408,6 +408,7 @@ function addbasket(){
             $_SESSION['price2'] = $pro['price2'];
             $_SESSION['weight'] = $pro['weight'];
             $_SESSION['weight2'] = $pro['weight2'];
+
         }
     }
     return true;
