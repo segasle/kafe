@@ -259,7 +259,7 @@ function get_product()
                                     <div class="elements">
                                     <form action="" method="get">
                                     <input type="number" value="1" class="number"> 
-                                    <button type="submit" name="'.$item['id'].'">добавить</button>
+                                    <button type="submit" name="'.$item['idd'].'">добавить</button>
 </form>
                                        
                                     </div>
@@ -394,8 +394,16 @@ function user_login()
 }
 function addbasket(){
     $add = $_GET;
-    $projecs = do_query("SELECT * FROM `products` WHERE `id` = $add");
-    if (isset($_GET)){
+    $projecs = do_query("SELECT * FROM `products`");
+    foreach ($projecs as $projec){
+       $id = $projec['idd'];
+       //echo $_GET;
+        if (isset($_GET[$id])){
 
+        }
     }
+    //print_r($projecs['idd']);
+
+    return $_GET;
 }
+echo addbasket();
