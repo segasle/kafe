@@ -13,6 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (mysqli_num_rows($cart) > 0){
         $row = mysqli_fetch_array($cart);
         $new = $row['count']+1;
-        $update = do_query("UPDATE `products` SET `count` = '$new' WHERE ");
+        $update = do_query("UPDATE `products` SET `count` = '$new' WHERE ip = '{$_SERVER['REQUEST_METHOD']}' AND idd = $id");
+    }else{
+        $cart = do_query("SELECT * FROM `products` WHERE idd = '{$_SERVER['REQUEST_METHOD']}' AND idd = $id");
+
     }
 }
