@@ -71,7 +71,9 @@
 
 <body>
 <div class="container-fluid">
-    <?php include 'basket.php';?>
+    <form action="" method="post">
+        <button type="submit" name="basket" class="basket js-button-basket"><i class="fa fa-shopping-basket fa-2x"></i><p></p></button>
+    </form>
     <header>
         <div class="heder">
             <div class="cap">
