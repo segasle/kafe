@@ -284,7 +284,9 @@ function get_product()
     $out .= '</dov>';
     return $out;
 }
-
+function clear_string($str) {
+    return trim(strip_tags($str));
+}
 function basket_open()
 {
     if (isset($_POST['basket'])) {
@@ -409,6 +411,9 @@ function addbasket(){
             $_SESSION['weight'] = $pro['weight'];
             $_SESSION['weight2'] = $pro['weight2'];
 
+//            $json = json_encode($pro);
+//            echo $json;
+//            die();
         }
     }
     return true;
