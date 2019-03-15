@@ -26,7 +26,7 @@ $('.js-basket').click(function () {
     console.log(id);
     $.ajax({
         type: 'POST',
-        url: 'inc/ajax.php',
+        url: '../functions/ajax.php',
         data: 'id='+data-id,
         dataType: 'html',
         cache: false,
@@ -40,7 +40,7 @@ function basket() {
 
     $.ajax({
         type: 'POST',
-        url: 'inc/basket.php',
+        url: '../functions/basket.php',
         dataType: 'html',
         cache: false,
         success: function (data) {
