@@ -1,26 +1,4 @@
-// var car = {};
-// $('.js-basket').on('click', basket);
-//
-// function basket() {
-//     var id =  $(this).attr('data-id');
-//     if (car[id] == undefined){
-//         car[id] = 1;
-//     }else {
-//         car[id]++;
-//     }
-//     console.log(car[id]);
-// }
-// function showBasket() {
-//     //var out = '<button>';
-//     var src = 'function/function.php';
-//     var xhr = new XMLHttpRequest();
-//     xhr = open('get', src, false);
-//     var respose = xhr.response;
-//     respose = JSON.parse(respose);
-// //var name = JSON.parse('<?php echo $json; ?>');
-// console.log(respose);
-// }
-// showBasket();
+
 $('.js-basket').click(function () {
     var id = $(this).attr('data-id');
     console.log(id);
