@@ -1,5 +1,5 @@
 <?php
-require '../.gitignore';
+//require '../.gitignore';
 $us = 'root';
 $bd = array(
     array(
