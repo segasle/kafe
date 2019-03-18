@@ -8,7 +8,11 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     require 'db.php';
     require 'functions.php';
-    $id = clear_string($_POST['id']);
+    // В связи со странным методом передачи id (почему-то в ключе передаеться), такой способ его получения:
+    foreach ($_POST as $key => $value) {
+        $id = $key;
+        break;
+    }
     $cart = do_query("SELECT * FROM `cart` WHERE `ip` = '{$_SERVER['REQUEST_METHOD']}' AND `id_products` = $id");
     if (mysqli_num_rows($cart) > 0){
         $row = mysqli_fetch_array($cart);
@@ -20,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         if (empty($row['price2'])){
             $row['price2'] = $row['price'];
         }
-        do_query("INSERT INTO `cart`(`ip`, `price`, `id_products`) VALUES ('".$_SERVER['REQUEST_METHOD']."','".$row['price2']."','".$id."')");
-
+        do_query("INSERT INTO `cart` (`ip`, `price`, `id_products`) VALUES ('".$_SERVER['REQUEST_METHOD']."','".$row['price2']."','".$id."')");
     }
 }

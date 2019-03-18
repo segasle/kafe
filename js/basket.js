@@ -1,33 +1,31 @@
-
+// Тут передает id тавара в ../functions/ajax.php для заполнени ятаблицы cart
 $('.js-basket').click(function () {
     var id = $(this).attr('data-id');
-    console.log(id);
-    $.ajax({
-        type: 'POST',
-        url: '../functions/ajax.php',
-        data: 'id='+data-id,
-        dataType: 'html',
-        cache: false,
-        success: function (data) {
-            basket();
-        }
-    });
+    axios.post('../functions/ajax.php', id,
+      {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      }).then(function (response) {
+        basket();
+        //console.log(response);
+      }).catch(function (error) {
+        //console.log(error);
+      });     
+
 });
 
 function basket() {
-
-    $.ajax({
-        type: 'POST',
-        url: '../functions/basket.php',
-        dataType: 'html',
-        cache: false,
-        success: function (data) {
-            if (data == 0){
-                $('.js-button-basket > p').html('');
-            }else {
-                $('.js-button-basket > p').html(data);
-
-            }
+    axios.post('../functions/basket.php', {},
+      {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      })
+      .then(function (data) {
+        if (data == 0){
+          $('.js-button-basket > p').html('');
+        }else {
+          $('.js-button-basket > p').html(data);
         }
-    });
+        console.log(data);
+      }).catch(function (error) {
+        console.log(error);
+      }); 
 }
