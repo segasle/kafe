@@ -4,16 +4,16 @@
     $array = array(
         array(
             'head' => 'Названия',
-            'session' => $_SESSION['header'],
+         //   'session' => $_SESSION['header'],
         ),
         array(
             'head' => 'Количество',
-            'session' => $_SESSION['id'],
+           // 'session' => $_SESSION['id'],
 
         ),
         array(
             'head' => 'Сумма',
-            'session' => $_SESSION['price'],
+            //'session' => $_SESSION['price'],
 
         ),
 
@@ -22,7 +22,7 @@
         echo "<div class=\"table-cell\">
         <div class=\"block\">
             <div class=\"block_title\"><p>" . $item['head'] . "</p></div>
-            <div class=\"block_description\">".$item['session']++."</div>
+            <div class=\"block_description\"></div>
         </div>
     </div>";
     }
