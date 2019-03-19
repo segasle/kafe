@@ -13,15 +13,19 @@
         <tbody>
         <?php
         $sum_price = 0;
+        $header = '';
+        $count = '';
         //Запрос на получения товаров из корзины (в будущем надо вместо cart.ip = 'POST' привязать к таблице users)
         $res = do_query("SELECT * FROM products JOIN cart WHERE cart.ip = 'POST' AND products.idd = cart.id_products");
         foreach ($res as $item) {
             $sum_price += $item['count'] * $item['price'];
+            $header = $item['header'];
+            $count = $item['count'];
             echo "<tr>
-                  <td>" . $item['header'] . "</td>
-                  <td>" . $item['count'] . "</td>
+                  <td>" . $header . "</td>
+                  <td>" . $count . "</td>
                   <td>" . $item['price'] . "</td>
-                  <td>" . $item['count'] * $item['price'] . "</td>
+                  <td>" . $count * $item['price'] . "</td>
                   <td>
                   <form action='' method='post'>
                     <button type=\"submit\" name='" . $item['id'] . "'>
@@ -75,25 +79,25 @@
         <div class="form-group">
             <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
             <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="Email">
+                <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="Email" value="<?php $_POST['email']?>">
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Номер телефона</label>
             <div class="col-sm-10">
-                <input type="tel" class="form-control" id="inputPassword3" name="phone" placeholder="Номер">
+                <input type="tel" class="form-control" id="inputPassword3" name="phone" placeholder="Номер" value="<?php $_POST['phone']?>">
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Адрес</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword3" name="address" placeholder="Адрес">
+                <input type="text" class="form-control" id="inputPassword3" name="address" placeholder="Адрес" value="<?php $_POST['address']?>">
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Сообщения</label>
             <div class="col-sm-10">
-                <textarea class="form-control"></textarea>
+                <textarea class="form-control" name="sms"><?php $_POST['sms']?></textarea>
             </div>
         </div>
         <div class="form-group">
@@ -104,13 +108,13 @@
     </form>
 </div>
 <?php
-$out = '';
-if (isset($_POST['submit2'])){
+
+if (isset($_POST['submit2'])) {
     $data = $_POST;
     $phone = $data['phone'];
     $email = $data['email'];
     $errors = array();
-    if (empty($data['email'])){
+    if (empty($data['email'])) {
         $errors[] = '';
     }
     if (!preg_match("/^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(.*@.+(\..{1,11})?)$/", "$email")) {
@@ -119,13 +123,36 @@ if (isset($_POST['submit2'])){
     if (!preg_match("/(^(?!\+.*\(.*\).*\-\-.*$)(?!\+.*\(.*\).*\-$)(\+[0-9]{1,3}\([0-9]{1,3}\)[0-9]{1}([-0-9]{0,8})?([0-9]{0,1})?)$)|(^[0-9]{1,4}$)/", "$phone")) {
         $errors[] = "Вы непраильно ввели номер телефона, пример: +7(915)5473712";
     }
-    if (empty($data['address'])){
+    if (empty($data['address'])) {
         $errors[] = 'Не ввели адрес';
     }
-    if (empty($errors)){
+    if (empty($errors)) {
+        if (empty($data['sms'])) {
+            $dat = do_query("INSERT INTO `order` (`email`, `phone`, `address`) VALUES ('{$data['email']}','{$data['phone']}','{$data['email']}')");
+            if ($dat) {
+                $cart = do_query("SELECT * FROM `cart`");
+                $order = mysqli_fetch_array(do_query("SELECT * FROM `order`"));
+                foreach ($cart as $item) {
+                    //$mess = '';
 
-    }else{
-        $out = "<div class='errors'><".array_shift($errors)."</div>";
+                    $me = implode("<br>", $order);
+                    $arr = implode("<br>", $array);
+                    $mess = $arr.$me;
+                }
+                $to = 'segasle@yandex.ru';
+                $subject = 'Заказ продуктов';
+                $message = "$mess";
+                $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
+                    'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
+                    "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
+                    . 'X-Mailer: PHP/' . phpversion();
+
+                mail("$to", "$subject", "$message", "$headers");
+            }
+        } else {
+            $dat = do_query("INSERT INTO `order`(`email`, `phone`, `address`, `sms`) VALUES ('{$data['email']}','{$data['phone']}','{$data['email']}','{$data['sms']}')");
+        }
+    } else {
+        echo "<div class='errors'>" . array_shift($errors) . "</div>";
     }
 }
-return $out;
