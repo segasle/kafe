@@ -18,6 +18,19 @@ if (empty($_COOKIE['count'])) {
 } else {
     $_COOKIE['count'] = $count;
 }
+if ($_GET['page'] == 'basket'){
+    $di = do_query("SELECT * FROM `cart`");
+    foreach ($di as $value){
+        $id = $value['id'];
+        if (isset($_POST[$id])){
+            $del = do_query("DELETE FROM `cart` WHERE `id` = $id");
+            if ($del){
+                header('location: ?page=basket');
+            }
+        }
+    }
+
+}
 ?>
 <!doctype html>
 <html lang="ru">
