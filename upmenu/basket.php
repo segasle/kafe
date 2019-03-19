@@ -66,12 +66,12 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" name="submit">Отправить заказ</button>
+                <button type="submit" class="btn btn-default button" name="submit1">Отправить заказ</button>
             </div>
         </div>
     </form>
     <p class="h3 text-center">Быстрый заказ</p>
-    <form class="form-horizontal">
+    <form class="form-horizontal" method="post">
         <div class="form-group">
             <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
             <div class="col-sm-10">
@@ -81,19 +81,51 @@
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Номер телефона</label>
             <div class="col-sm-10">
-                <input type="tel" class="form-control" id="inputPassword3" name="phone" placeholder="Password">
+                <input type="tel" class="form-control" id="inputPassword3" name="phone" placeholder="Номер">
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Адрес</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword3" name="address" placeholder="Password">
+                <input type="text" class="form-control" id="inputPassword3" name="address" placeholder="Адрес">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">Сообщения</label>
+            <div class="col-sm-10">
+                <textarea class="form-control"></textarea>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" name="submit">Отправить заказ</button>
+                <button type="submit" class="btn btn-default button" name="submit2">Отправить заказ</button>
             </div>
         </div>
     </form>
 </div>
+<?php
+$out = '';
+if (isset($_POST['submit2'])){
+    $data = $_POST;
+    $phone = $data['phone'];
+    $email = $data['email'];
+    $errors = array();
+    if (empty($data['email'])){
+        $errors[] = '';
+    }
+    if (!preg_match("/^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(.*@.+(\..{1,11})?)$/", "$email")) {
+        $errors[] = 'Вы неправильно ввели электронную почту';
+    }
+    if (!preg_match("/(^(?!\+.*\(.*\).*\-\-.*$)(?!\+.*\(.*\).*\-$)(\+[0-9]{1,3}\([0-9]{1,3}\)[0-9]{1}([-0-9]{0,8})?([0-9]{0,1})?)$)|(^[0-9]{1,4}$)/", "$phone")) {
+        $errors[] = "Вы непраильно ввели номер телефона, пример: +7(915)5473712";
+    }
+    if (empty($data['address'])){
+        $errors[] = 'Не ввели адрес';
+    }
+    if (empty($errors)){
+
+    }else{
+        $out = "<div class='errors'><".array_shift($errors)."</div>";
+    }
+}
+return $out;
