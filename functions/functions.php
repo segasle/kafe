@@ -394,27 +394,3 @@ function user_login()
     }
     //return;
 }
-function addbasket(){
-
-    $projecs = do_query("SELECT * FROM `products`");
-    foreach ($projecs as $projec){
-       $id = $projec['idd'];
-       //echo $_GET;
-        if (isset($_POST[$id])){
-            //echo $id;
-            $pro = mysqli_fetch_assoc(do_query("SELECT * FROM `products` WHERE `idd` = $id"));
-            $_SESSION['id'] = $pro['idd'];
-            $_SESSION['header'] = $pro['header'];
-            $_SESSION['price'] = $pro['price'];
-            $_SESSION['description'] = $pro['description'];
-            $_SESSION['price2'] = $pro['price2'];
-            $_SESSION['weight'] = $pro['weight'];
-            $_SESSION['weight2'] = $pro['weight2'];
-
-//            $json = json_encode($pro);
-//            echo $json;
-//            die();
-        }
-    }
-    return true;
-}
