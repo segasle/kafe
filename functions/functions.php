@@ -361,6 +361,20 @@ function login()
         if ($resilt) {
             if (!password_verify($password, $resilt['password'])) {
                 $out = '<div class="errors">Пароль не верный</div>';
+            }else{
+                if (isset($data['check'])) {
+                    setcookie('user', json_encode($resilt), time() + 3600 * 24 * 30 * 12);
+                    $_COOKIE['user'] = $resilt['id'];
+                    if (isset($_COOKIE['user'])) {
+                        echo '<script>window.location="https://stackoverflow.com";</script>';
+                    }
+                } else {
+                    setcookie('user', json_encode($resilt));
+                    $_COOKIE['user'] = $resilt['id'];
+                    if (isset($_COOKIE['user'])) {
+                        echo '<script>window.location="https://stackoverflow.com";</script>';
+                    }
+                }
             }
         } else {
             $out = '<div class="errors">Пользоаатель не найден</div>';
@@ -368,27 +382,8 @@ function login()
     }
     return $out;
 }
-
-function user_login()
-{
-    $data = $_POST;
-
-    $resilt = mysqli_fetch_assoc(do_query("SELECT * FROM `users`"));
-    if (isset($data['submit'])) {
-        if (isset($data['check'])) {
-            setcookie('user', json_encode($resilt), time() + 3600 * 24 * 30 * 12);
-
-            $_COOKIE['user'] = $resilt['id'];
-            if (isset($_COOKIE['user'])) {
-                header('location: ?page=main');
-            }
-        } else {
-            setcookie('user', json_encode($resilt));
-            $_COOKIE['user'] = $resilt['id'];
-            if (isset($_COOKIE['user'])) {
-                header('location: ?page=main');
-            }
-        }
+function addbasket(){
+    if (isset($_POST['basket'])){
+        header('location: ?page=basket');
     }
-    //return;
 }
