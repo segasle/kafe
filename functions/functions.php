@@ -259,7 +259,7 @@ function get_product()
                                     <div class="elements">
                                     <form action="" method="post">
                                     <input type="number" value="1" class="number"> 
-                                    <button type="button" class="js-basket" data-id="'.$item['idd'].'" name="'.$item['idd'].'">добавить</button>
+                                    <button type="button" class="js-basket" data-id="'.$item['idd'].'">добавить</button>
 </form>
                                        
                                     </div>
@@ -284,9 +284,7 @@ function get_product()
     $out .= '</dov>';
     return $out;
 }
-function clear_string($str) {
-    return trim(strip_tags($str));
-}
+
 function basket_open()
 {
     if (isset($_POST['basket'])) {

@@ -74,31 +74,34 @@
             </div>
         </div>
     </form>
-    <?php login();?>
+    <?php login(); ?>
     <p class="h3 text-center">Быстрый заказ</p>
     <form class="form-horizontal" method="post">
         <div class="form-group">
             <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
             <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="Email" value="<?php @$_POST['email']?>">
+                <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="Email"
+                       value="<?php @$_POST['email'] ?>">
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Номер телефона</label>
             <div class="col-sm-10">
-                <input type="tel" class="form-control" id="inputPassword3" name="phone" placeholder="Номер" value="<?php @$_POST['phone']?>">
+                <input type="tel" class="form-control" id="inputPassword3" name="phone" placeholder="Номер"
+                       value="<?php @$_POST['phone'] ?>">
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Адрес</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword3" name="address" placeholder="Адрес" value="<?php @$_POST['address']?>">
+                <input type="text" class="form-control" id="inputPassword3" name="address" placeholder="Адрес"
+                       value="<?php @$_POST['address'] ?>">
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Сообщения</label>
             <div class="col-sm-10">
-                <textarea class="form-control" name="sms"><?php @$_POST['sms']?></textarea>
+                <textarea class="form-control" name="sms"><?php @$_POST['sms'] ?></textarea>
             </div>
         </div>
         <div class="form-group">
@@ -129,19 +132,20 @@ if (isset($_POST['submit2'])) {
     }
     if (empty($errors)) {
         if (empty($data['sms'])) {
-            setcookie('phone', $phone, time()+6000);
-            setcookie('address', $data['address'], time() +6000);
-            $_COOKIE['phone'] = $phone;
-            $_COOKIE['address'] = $data['address'];
+
+//            setcookie('phone', $phone, time() + 6000);
+//            setcookie('address', $data['address'], time() + 6000);
+            $_SESSION['phone'] = $phone;
+            $_SESSION['address'] = $data['address'];
             $dat = do_query("INSERT INTO `order` (`email`, `phone`, `address`) VALUES ('{$data['email']}','{$data['phone']}','{$data['address']}')");
             if ($dat) {
                 $cart = do_query("SELECT * FROM `cart` JOIN `products` WHERE cart.id_products = products.idd");
                 $mess = '';
                 foreach ($cart as $item) {
-                    $mess .= $item['header'] .' ' .$item['count'].'шт'.',';
+                    $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ',';
                 }
-                $mess .= 'Сумма ' . $sum_price.'руб';
-                $mess .= $_COOKIE['phone'] .', ' .$_COOKIE['address'];
+                $mess .= 'Сумма ' . $sum_price . 'руб';
+                $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'];
                 $to = 'segasle@yandex.ru';
                 $subject = 'Заказ продуктов';
                 $message = "$mess";
@@ -149,14 +153,15 @@ if (isset($_POST['submit2'])) {
                     'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
                     "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
                     . 'X-Mailer: PHP/' . phpversion();
-               $mail = mail("$to", "$subject", "$message", "$headers");
-               if ($mail){
-                   $del = do_query("DELETE FROM `cart` WHERE ip = 'POST'");
-                   if ($del){echo '<div class="go">Успешно отправлено</div>';
-                       echo '<script>setTimeout(\'location="/"\', 10000)</script>';
+                $mail = mail("$to", "$subject", "$message", "$headers");
+                if ($mail) {
+                    $del = do_query("DELETE FROM `cart` WHERE ip = 'POST'");
+                    if ($del) {
+                        echo '<div class="go">Успешно отправлено</div>';
+                        echo '<script>setTimeout(\'location="/"\', 10000)</script>';
 
-                   }
-               }
+                    }
+                }
             }
         } else {
             $dat = do_query("INSERT INTO `order`(`email`, `phone`, `address`, `sms`) VALUES ('{$data['email']}','{$data['phone']}','{$data['email']}','{$data['sms']}')");
