@@ -131,12 +131,12 @@ if (isset($_POST['submit2'])) {
         $errors[] = 'Не ввели адрес';
     }
     if (empty($errors)) {
+        $_SESSION['phone'] = $phone;
+        $_SESSION['address'] = $data['address'];
         if (empty($data['sms'])) {
 
 //            setcookie('phone', $phone, time() + 6000);
 //            setcookie('address', $data['address'], time() + 6000);
-            $_SESSION['phone'] = $phone;
-            $_SESSION['address'] = $data['address'];
             $dat = do_query("INSERT INTO `order` (`email`, `phone`, `address`) VALUES ('{$data['email']}','{$data['phone']}','{$data['address']}')");
             if ($dat) {
                 $cart = do_query("SELECT * FROM `cart` JOIN `products` WHERE cart.id_products = products.idd");
@@ -158,13 +158,37 @@ if (isset($_POST['submit2'])) {
                     $del = do_query("DELETE FROM `cart` WHERE ip = 'POST'");
                     if ($del) {
                         echo '<div class="go">Успешно отправлено</div>';
-                        echo '<script>setTimeout(\'location="/"\', 10000)</script>';
-
+                        echo '<script>setTimeout(\'location="?page=basket"\', 20000)</script>';
                     }
                 }
             }
         } else {
             $dat = do_query("INSERT INTO `order`(`email`, `phone`, `address`, `sms`) VALUES ('{$data['email']}','{$data['phone']}','{$data['email']}','{$data['sms']}')");
+            $_SESSION['sms'] = $data['sms'];
+            if ($dat) {
+                $cart = do_query("SELECT * FROM `cart` JOIN `products` WHERE cart.id_products = products.idd");
+                $mess = '';
+                foreach ($cart as $item) {
+                    $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ',';
+                }
+                $mess .= 'Сумма ' . $sum_price . 'руб';
+                $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'] . ', ' .$_SESSION['sms'];
+                $to = 'segasle@yandex.ru';
+                $subject = 'Заказ продуктов';
+                $message = "$mess";
+                $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
+                    'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
+                    "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
+                    . 'X-Mailer: PHP/' . phpversion();
+                $mail = mail("$to", "$subject", "$message", "$headers");
+                if ($mail) {
+                    $del = do_query("DELETE FROM `cart` WHERE ip = 'POST'");
+                    if ($del) {
+                        echo '<div class="go">Успешно отправлено</div>';
+                        echo '<script>setTimeout(\'location="?page=basket"\', 20000)</script>';
+                    }
+                }
+            }
         }
     } else {
         echo "<div class='errors'>" . array_shift($errors) . "</div>";
