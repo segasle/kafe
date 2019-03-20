@@ -8,3 +8,4 @@ if (empty($mysqli)) {
 if (mysqli_connect_errno()) {
     echo 'ошибка в подключении к БД (' . mysqli_connect_errno() . ')' . mysqli_connect_error();
 }
+session_start();
