@@ -55,7 +55,7 @@
         </tbody>
     </table>
     <p class="h3 text-center">Для зарегистрованных пользователей</p>
-    <form class="form-horizontal">
+    <form class="form-horizontal" method="post">
         <div class="form-group">
             <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
             <div class="col-sm-10">
@@ -74,34 +74,43 @@
             </div>
         </div>
     </form>
-    <?php login(); ?>
+    <?php
+    if (isset($_POST['submit'])) {
+        if (!empty(mysqli_fetch_array($res))) {
+            login();
+        } else {
+            echo "<div class='errors'>Корзина пуста</div>";
+        }
+    }
+
+    ?>
     <p class="h3 text-center">Быстрый заказ</p>
     <form class="form-horizontal" method="post">
         <div class="form-group">
             <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
             <div class="col-sm-10">
                 <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="Email"
-                       value="<?php @$_POST['email'] ?>">
+                       value="<?php echo @$_POST['email'] ?>">
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Номер телефона</label>
             <div class="col-sm-10">
                 <input type="tel" class="form-control" id="inputPassword3" name="phone" placeholder="Номер"
-                       value="<?php @$_POST['phone'] ?>">
+                       value="<?php echo @$_POST['phone'] ?>">
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Адрес</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="inputPassword3" name="address" placeholder="Адрес"
-                       value="<?php @$_POST['address'] ?>">
+                       value="<?php echo @$_POST['address'] ?>">
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Сообщения</label>
             <div class="col-sm-10">
-                <textarea class="form-control" name="sms"><?php @$_POST['sms'] ?></textarea>
+                <textarea class="form-control" name="sms"><?php echo @$_POST['sms'] ?></textarea>
             </div>
         </div>
         <div class="form-group">
@@ -117,80 +126,81 @@ if (isset($_POST['submit2'])) {
     $data = $_POST;
     $phone = $data['phone'];
     $email = $data['email'];
-    $errors = array();
-    if (empty($data['email'])) {
-        $errors[] = '';
-    }
-    if (!preg_match("/^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(.*@.+(\..{1,11})?)$/", "$email")) {
-        $errors[] = 'Вы неправильно ввели электронную почту';
-    }
-    if (!preg_match("/(^(?!\+.*\(.*\).*\-\-.*$)(?!\+.*\(.*\).*\-$)(\+[0-9]{1,3}\([0-9]{1,3}\)[0-9]{1}([-0-9]{0,8})?([0-9]{0,1})?)$)|(^[0-9]{1,4}$)/", "$phone")) {
-        $errors[] = "Вы непраильно ввели номер телефона, пример: +7(915)5473712";
-    }
-    if (empty($data['address'])) {
-        $errors[] = 'Не ввели адрес';
-    }
-    if (empty($errors)) {
-        $_SESSION['phone'] = $phone;
-        $_SESSION['address'] = $data['address'];
-        if (empty($data['sms'])) {
-
-//            setcookie('phone', $phone, time() + 6000);
-//            setcookie('address', $data['address'], time() + 6000);
-            $dat = do_query("INSERT INTO `order` (`email`, `phone`, `address`) VALUES ('{$data['email']}','{$data['phone']}','{$data['address']}')");
-            if ($dat) {
-                $cart = do_query("SELECT * FROM `cart` JOIN `products` WHERE cart.id_products = products.idd");
-                $mess = '';
-                foreach ($cart as $item) {
-                    $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ',';
+    if (!empty(mysqli_fetch_array($res))) {
+        $errors = array();
+        if (empty($data['email'])) {
+            $errors[] = '';
+        }
+        if (!preg_match("/^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(.*@.+(\..{1,11})?)$/", "$email")) {
+            $errors[] = 'Вы неправильно ввели электронную почту';
+        }
+        if (!preg_match("/(^(?!\+.*\(.*\).*\-\-.*$)(?!\+.*\(.*\).*\-$)(\+[0-9]{1,3}\([0-9]{1,3}\)[0-9]{1}([-0-9]{0,8})?([0-9]{0,1})?)$)|(^[0-9]{1,4}$)/", "$phone")) {
+            $errors[] = "Вы непраильно ввели номер телефона, пример: +7(915)5473712";
+        }
+        if (empty($data['address'])) {
+            $errors[] = 'Не ввели адрес';
+        }
+        if (empty($errors)) {
+            $_SESSION['phone'] = $phone;
+            $_SESSION['address'] = $data['address'];
+            if (empty($data['sms'])) {
+                $dat = do_query("INSERT INTO `order` (`email`, `phone`, `address`) VALUES ('{$data['email']}','{$data['phone']}','{$data['address']}')");
+                if ($dat) {
+                    $cart = do_query("SELECT * FROM `cart` JOIN `products` WHERE cart.id_products = products.idd");
+                    $mess = '';
+                    foreach ($cart as $item) {
+                        $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ',';
+                    }
+                    $mess .= 'Сумма ' . $sum_price . 'руб';
+                    $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'];
+                    $to = 'segasle@yandex.ru';
+                    $subject = 'Заказ продуктов';
+                    $message = "$mess";
+                    $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
+                        'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
+                        "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
+                        . 'X-Mailer: PHP/' . phpversion();
+                    $mail = mail("$to", "$subject", "$message", "$headers");
+                    if ($mail) {
+                        $del = do_query("DELETE FROM `cart` WHERE ip = 'POST'");
+                        if ($del) {
+                            echo '<div class="go">Успешно отправлено</div>';
+                            echo '<script>setTimeout(\'location="?page=basket"\', 10000)</script>';
+                        }
+                    }
                 }
-                $mess .= 'Сумма ' . $sum_price . 'руб';
-                $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'];
-                $to = 'segasle@yandex.ru';
-                $subject = 'Заказ продуктов';
-                $message = "$mess";
-                $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
-                    'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
-                    "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
-                    . 'X-Mailer: PHP/' . phpversion();
-                $mail = mail("$to", "$subject", "$message", "$headers");
-                if ($mail) {
-                    $del = do_query("DELETE FROM `cart` WHERE ip = 'POST'");
-                    if ($del) {
-                        echo '<div class="go">Успешно отправлено</div>';
-                        echo '<script>setTimeout(\'location="?page=basket"\', 20000)</script>';
+            } else {
+                $dat = do_query("INSERT INTO `order`(`email`, `phone`, `address`, `sms`) VALUES ('{$data['email']}','{$data['phone']}','{$data['email']}','{$data['sms']}')");
+                $_SESSION['sms'] = $data['sms'];
+                if ($dat) {
+                    $cart = do_query("SELECT * FROM `cart` JOIN `products` WHERE cart.id_products = products.idd");
+                    $mess = '';
+                    foreach ($cart as $item) {
+                        $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ',';
+                    }
+                    $mess .= 'Сумма ' . $sum_price . 'руб';
+                    $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'] . ', ' . $_SESSION['sms'];
+                    $to = 'segasle@yandex.ru';
+                    $subject = 'Заказ продуктов';
+                    $message = "$mess";
+                    $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
+                        'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
+                        "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
+                        . 'X-Mailer: PHP/' . phpversion();
+                    $mail = mail("$to", "$subject", "$message", "$headers");
+                    if ($mail) {
+                        $del = do_query("DELETE FROM `cart` WHERE ip = 'POST'");
+                        if ($del) {
+                            echo '<div class="go">Успешно отправлено</div>';
+                            echo '<script>setTimeout(\'location="?page=basket"\', 20000)</script>';
+                        }
                     }
                 }
             }
         } else {
-            $dat = do_query("INSERT INTO `order`(`email`, `phone`, `address`, `sms`) VALUES ('{$data['email']}','{$data['phone']}','{$data['email']}','{$data['sms']}')");
-            $_SESSION['sms'] = $data['sms'];
-            if ($dat) {
-                $cart = do_query("SELECT * FROM `cart` JOIN `products` WHERE cart.id_products = products.idd");
-                $mess = '';
-                foreach ($cart as $item) {
-                    $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ',';
-                }
-                $mess .= 'Сумма ' . $sum_price . 'руб';
-                $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'] . ', ' .$_SESSION['sms'];
-                $to = 'segasle@yandex.ru';
-                $subject = 'Заказ продуктов';
-                $message = "$mess";
-                $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
-                    'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
-                    "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
-                    . 'X-Mailer: PHP/' . phpversion();
-                $mail = mail("$to", "$subject", "$message", "$headers");
-                if ($mail) {
-                    $del = do_query("DELETE FROM `cart` WHERE ip = 'POST'");
-                    if ($del) {
-                        echo '<div class="go">Успешно отправлено</div>';
-                        echo '<script>setTimeout(\'location="?page=basket"\', 20000)</script>';
-                    }
-                }
-            }
+            echo "<div class='errors'>" . array_shift($errors) . "</div>";
         }
     } else {
-        echo "<div class='errors'>" . array_shift($errors) . "</div>";
+        echo "<div class='errors'>Корзина пуста</div>";
     }
 }
