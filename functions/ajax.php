@@ -13,17 +13,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $id = $key;
         break;
     }
-    $cart = do_query("SELECT * FROM `cart` WHERE `ip` = '{$_SERVER['REQUEST_METHOD']}' AND `id_products` = $id");
-    if (mysqli_num_rows($cart) > 0){
-        $row = mysqli_fetch_array($cart);
-        $new = $row['count']+1;
-        $update = do_query("UPDATE `cart` SET `count` = '$new' WHERE ip = '{$_SERVER['REQUEST_METHOD']}' AND id_products = $id");
-    }else{
-        $cart = do_query("SELECT * FROM `products` WHERE idd = $id");
-        $row = mysqli_fetch_array($cart);
-        if (empty($row['price2'])){
-            $row['price2'] = $row['price'];
+    if (isset($_COOKIE['user'])){
+        $cart = do_query("SELECT * FROM `cart` WHERE `ip` = '{$_SERVER['REQUEST_METHOD']}' AND `id_products` = $id");
+        if (mysqli_num_rows($cart) > 0){
+            $row = mysqli_fetch_array($cart);
+            $new = $row['count']+1;
+            $update = do_query("UPDATE `cart` SET `count` = '$new' WHERE ip = '{$_SERVER['REQUEST_METHOD']}' AND id_products = $id");
+        }else{
+            $cart = do_query("SELECT * FROM `products` WHERE idd = $id");
+            $row = mysqli_fetch_array($cart);
+            if (empty($row['price2'])){
+                $row['price2'] = $row['price'];
+            }
+            do_query("INSERT INTO `cart` (`ip`, `price`, `id_products`, `id_users`) VALUES ('".$_SERVER['REQUEST_METHOD']."','".$row['price2']."','".$id."', '".$_COOKIE['user']."')");
         }
-        do_query("INSERT INTO `cart` (`ip`, `price`, `id_products`) VALUES ('".$_SERVER['REQUEST_METHOD']."','".$row['price2']."','".$id."')");
     }
+
 }
