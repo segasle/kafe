@@ -1,24 +1,28 @@
 <?php
+$user = json_decode($_COOKIE['user']);
 // Получаем количество товаров в корзине
-$res = do_query("SELECT count FROM cart"); // надо WHERE для конкретного пользователя, когда будет свзять с таблицей users
-// проверям, есть ли у данного пользователя есть товары в корзине
-if ($res) {
-    // если есть, считаем их сумму
-    $count = 0;
-    foreach ($res as $item) {
-        $count += $item['count'];
+if ( !empty($user->id) ) {
+    $res = do_query("SELECT count FROM cart WHERE 'id_users' = $user->id");
+    // проверям, есть ли у данного пользователя есть товары в корзине
+    if ($res) {
+        // если есть, считаем их сумму
+        $count = 0;
+        foreach ($res as $item) {
+            $count += $item['count'];
+        }
+    } else {
+        // это если нет товаров в корзине
+        $count = 0;
     }
-} else {
-    // это если нет товаров в корзине
-    $count = 0;
 }
 // тут проверяем наличие куки "count", если нет, создает, если есть, туда записываем значение $count
-if (empty($_COOKIE['count'])) {
+if ( empty($_COOKIE['count']) ) {
     setcookie('count', $count);
-} else {
+} elseif ( !empty($user->id) ) {
     $_COOKIE['count'] = $count;
 }
-if ($_GET['page'] == 'basket'){
+
+if (isset($_GET['page']) and $_GET['page'] == 'basket'){
     $di = do_query("SELECT * FROM `cart`");
     foreach ($di as $value){
         $id = $value['id'];
