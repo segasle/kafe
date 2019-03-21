@@ -365,12 +365,14 @@ function login()
                 if (isset($data['check'])) {
                     setcookie('user', json_encode($resilt), time() + 3600 * 24 * 30 * 12);
                     $_COOKIE['user'] = $resilt['id'];
+
                     if (isset($_COOKIE['user'])) {
                         echo '<script>window.location="/";</script>';
                     }
                 } else {
                     setcookie('user', json_encode($resilt));
                     $_COOKIE['user'] = $resilt['id'];
+
                     if (isset($_COOKIE['user'])) {
                         echo '<script>window.location="/";</script>';
                     }
