@@ -2,16 +2,22 @@
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Хост: localhost:8889
--- Время создания: Мар 15 2019 г., 16:34
--- Версия сервера: 5.7.23
--- Версия PHP: 7.2.8
+-- Хост: localhost
+-- Время создания: Мар 21 2019 г., 13:26
+-- Версия сервера: 5.6.39-83.1
+-- Версия PHP: 5.6.37
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
--- База данных: `kade_louis`
+-- База данных: `ca57629_log`
 --
 
 -- --------------------------------------------------------
@@ -20,14 +26,16 @@ SET time_zone = "+00:00";
 -- Структура таблицы `cart`
 --
 
-CREATE TABLE `cart` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `cart` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip` varchar(255) NOT NULL,
   `datatime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `price` float NOT NULL,
   `count` int(11) NOT NULL DEFAULT '1',
-  `id_products` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_products` int(11) NOT NULL,
+  `id_users` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -35,11 +43,12 @@ CREATE TABLE `cart` (
 -- Структура таблицы `comment`
 --
 
-CREATE TABLE `comment` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `data` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `content` text NOT NULL
+  `content` text NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -48,15 +57,16 @@ CREATE TABLE `comment` (
 -- Структура таблицы `events`
 --
 
-CREATE TABLE `events` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `events` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `surname` varchar(255) NOT NULL,
   `phone` text NOT NULL,
   `event` varchar(255) NOT NULL,
   `rooms` varchar(255) NOT NULL,
   `data` datetime NOT NULL,
-  `addition` text NOT NULL
+  `addition` text NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -65,13 +75,14 @@ CREATE TABLE `events` (
 -- Структура таблицы `menu`
 --
 
-CREATE TABLE `menu` (
-  `id` int(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `menu` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `parent` int(10) NOT NULL DEFAULT '0',
   `link` varchar(255) NOT NULL DEFAULT '?page=',
-  `catg` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `catg` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `menu`
@@ -100,11 +111,49 @@ INSERT INTO `menu` (`id`, `title`, `parent`, `link`, `catg`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `order`
+--
+
+CREATE TABLE IF NOT EXISTS `order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `address` text NOT NULL,
+  `sms` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `order`
+--
+
+INSERT INTO `order` (`id`, `email`, `phone`, `address`, `sms`) VALUES
+(13, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22 квартира 51', NULL),
+(12, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22 квартира 51', NULL),
+(11, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22 квартира 51', NULL),
+(10, 'segasle@gmail.com', '+7(915)3301314', 'Кострово дом 22 квартира 51', NULL),
+(14, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22 квартира 51', NULL),
+(15, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22 ', NULL),
+(16, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22 ', NULL),
+(17, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22 ', NULL),
+(18, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22 ', NULL),
+(19, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22 ', NULL),
+(20, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22 55', NULL),
+(21, 'segasle@gmail.com', '+7(915)3301314', 'костроао', NULL),
+(22, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22 55', NULL),
+(23, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22', NULL),
+(24, 'segasle@gmail.com', '+7(915)3301314', 'кострово дом 22', NULL),
+(25, 'segasle@gmail.com', '+7(915)3301314', 'костроао', NULL),
+(26, 'segasle@gmail.com', '+7(915)3301314', 'segasle@gmail.com', 'оплата картой');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `products`
 --
 
-CREATE TABLE `products` (
-  `idd` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `products` (
+  `idd` int(11) NOT NULL AUTO_INCREMENT,
   `header` varchar(255) DEFAULT NULL,
   `description` text,
   `price` float DEFAULT NULL,
@@ -113,8 +162,9 @@ CREATE TABLE `products` (
   `categories` int(11) NOT NULL,
   `head` text,
   `price2` float DEFAULT NULL,
-  `weight2` float DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `weight2` float DEFAULT NULL,
+  PRIMARY KEY (`idd`)
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `products`
@@ -265,14 +315,15 @@ INSERT INTO `products` (`idd`, `header`, `description`, `price`, `weight`, `img`
 -- Структура таблицы `users`
 --
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL,
   `login` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `address` text NOT NULL,
-  `phone` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `phone` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `users`
@@ -281,82 +332,6 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `email`, `login`, `password`, `address`, `phone`) VALUES
 (1, 'segasle@gmail.com', 'Сергей', '$2y$10$O2sFJ8u3REG0BYLnuRLTOuJs4ULulRdxlz9ysp/kxvRC7AKNyxzDq', 'Истра', '+7(915)5473712');
 
---
--- Индексы сохранённых таблиц
---
-
---
--- Индексы таблицы `cart`
---
-ALTER TABLE `cart`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `comment`
---
-ALTER TABLE `comment`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `events`
---
-ALTER TABLE `events`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `menu`
---
-ALTER TABLE `menu`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`idd`);
-
---
--- Индексы таблицы `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT для сохранённых таблиц
---
-
---
--- AUTO_INCREMENT для таблицы `cart`
---
-ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT для таблицы `comment`
---
-ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT для таблицы `events`
---
-ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT для таблицы `menu`
---
-ALTER TABLE `menu`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
--- AUTO_INCREMENT для таблицы `products`
---
-ALTER TABLE `products`
-  MODIFY `idd` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
-
---
--- AUTO_INCREMENT для таблицы `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
