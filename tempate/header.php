@@ -1,7 +1,7 @@
 <?php
-$user = json_decode($_COOKIE['user']);
 // Получаем количество товаров в корзине
-if ( !empty($user->id) ) {
+if ( !empty($_COOKIE['user']) ) {
+    $user = json_decode($_COOKIE['user']);
     $res = do_query("SELECT count FROM cart WHERE 'id_users' = $user->id");
     // проверям, есть ли у данного пользователя есть товары в корзине
     if ($res) {
@@ -14,13 +14,20 @@ if ( !empty($user->id) ) {
         // это если нет товаров в корзине
         $count = 0;
     }
+    if ( !isset($_COOKIE['count']) ) {
+        setcookie('count', $count);
+    } else {
+        $_COOKIE['count'] = $count;
+    }
+} else {
+    if ( empty($_SESSION['prod']) ) {
+            setcookie('count', 0);
+    } else {
+        $_COOKIE['count'] = count($_SESSION['prod']);
+    }
 }
 // тут проверяем наличие куки "count", если нет, создает, если есть, туда записываем значение $count
-if ( empty($_COOKIE['count']) ) {
-    setcookie('count', $count);
-} elseif ( !empty($user->id) ) {
-    $_COOKIE['count'] = $count;
-}
+
 
 if (isset($_GET['page']) and $_GET['page'] == 'basket'){
     $di = do_query("SELECT * FROM `cart`");
@@ -114,7 +121,7 @@ if (isset($_GET['page']) and $_GET['page'] == 'basket'){
         <button type="submit" name="basket" class="basket js-button-basket">
 
             <i class="fa fa-shopping-basket fa-2x"></i>
-            <p class="count_products_in_cart"><?= $_COOKIE['count'] ?></p>
+            <p class="count_products_in_cart"><?= isset($_COOKIE['count']) ? $_COOKIE['count'] : 0 ?></p>
         </button>
     </form>
     <header>

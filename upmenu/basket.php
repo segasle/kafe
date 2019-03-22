@@ -1,3 +1,74 @@
+<?php 
+    $sum_price = 0;
+    $header = '';
+    $count = '';
+
+    
+    if ( isset($_POST['delete']) ) {
+        foreach ($_SESSION['prod'] as $key => $value) {
+            if ($value['id_products'] == $_POST['id']) {
+                unset($_SESSION['prod'][$key]);
+                break;
+            }
+        }
+    }
+
+    if (isset($_POST['submit2'])) {
+        $data = $_POST;
+        $phone = $data['phone'];
+        $email = $data['email'];
+        $errors = array();
+        if (empty($data['email'])) {
+            $errors[] = 'Не ввели email';
+        }
+        if (!preg_match("/^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(.*@.+(\..{1,11})?)$/", "$email")) {
+            $errors[] = 'Вы неправильно ввели электронную почту';
+        }
+        if (!preg_match("/(^(?!\+.*\(.*\).*\-\-.*$)(?!\+.*\(.*\).*\-$)(\+[0-9]{1,3}\([0-9]{1,3}\)[0-9]{1}([-0-9]{0,8})?([0-9]{0,1})?)$)|(^[0-9]{1,4}$)/", "$phone")) {
+            $errors[] = "Вы непраильно ввели номер телефона, пример: +7(915)5473712";
+        }
+        if (empty($data['address'])) {
+            $errors[] = 'Не ввели адрес';
+        }
+        if (empty($errors)) {
+            $_SESSION['phone'] = $phone;
+            $_SESSION['address'] = $data['address'];
+            if (empty($data['sms'])) {
+                $sms = 0;
+            } else {
+                $sms = $data['sms'];
+            }
+            $dat = do_query("INSERT INTO `order` (`email`, `phone`, `address`, `sms`) VALUES ('{$data['email']}','{$data['phone']}','{$data['address']}', '{$sms}')");
+            if ($dat) {
+                $mess = '';
+                foreach ($_SESSION['prod'] as $prod) {
+                    $idd = $prod['id_products'];
+                    $res = do_query("SELECT * FROM products WHERE idd = $idd");
+                    $item = mysqli_fetch_array($res);
+                    $mess .= $item['header'] . ' ' . $prod['count'] . 'шт' . ',';
+                }
+                $mess .= 'Сумма ' . $sum_price . 'руб';
+                $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'] . ', ' . $sms;
+                $to = 'segasle@yandex.ru';
+                $subject = 'Заказ продуктов';
+                $message = "$mess";
+                $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
+                    'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
+                    "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
+                    . 'X-Mailer: PHP/' . phpversion();
+                $mail = mail("$to", "$subject", "$message", "$headers");
+                if ($mail) {
+                    unset($_SESSION['prod']);
+                    echo '<div class="go">Успешно отправлено</div>';
+                    echo '<script>setTimeout(\'location="?page=basket"\', 10000)</script>';
+                }
+            }
+            
+        } else {
+            echo "<div class='errors'>" . array_shift($errors) . "</div>";
+        }
+    }
+?>
 <h1 class="text-center">Корзина</h1>
 <div class="container">
     <table class="table table-bordered table-sm">
@@ -12,12 +83,9 @@
         </thead>
         <tbody>
         <?php
-        $sum_price = 0;
-        $header = '';
-        $count = '';
-        $user = json_decode($_COOKIE['user']);
         //Запрос на получения товаров из корзины (в будущем надо вместо cart.ip = 'POST' привязать к таблице users)
-        if ( !$user ) {
+        if ( isset($_COOKIE['user']) ) {
+            $user = json_decode($_COOKIE['user']);
             $res = do_query("SELECT * FROM products JOIN cart WHERE cart.id_users = $user->id AND products.idd = cart.id_products");
             foreach ($res as $item) {
                 $sum_price += $item['count'] * $item['price'];
@@ -36,28 +104,27 @@
                       </td>
                     </tr>";
             }
-        } else {
-            $products = json_decode($_COOKIE['prod']);
-            foreach ($products as $item) {
-                $idd = $item['id_products'];
-                $res = do_query("SELECT * FROM products WHERE idd = $idd']");
-                foreach ($res as $item) {
-                    $sum_price += $item['count'] * $item['price'];
-                    $header = $item['header'];
-                    $count = $item['count'];
-                    echo "<tr>
-                          <td>" . $header . "</td>
-                          <td>" . $count . "</td>
-                          <td>" . $item['price'] . "</td>
-                          <td>" . $count * $item['price'] . "</td>
-                          <td>
-                          <form action='' method='post'>
-                            <button type=\"submit\" name='" . $item['id'] . "'>
-                             <i class=\"fa fa-trash-o fa-2x\" aria-hidden=\"true\"></i>
-                            </button></form>
-                          </td>
-                        </tr>";
-                }
+        } elseif ( isset($_SESSION['prod']) ) {
+            foreach ($_SESSION['prod'] as $prod) {
+                $idd = $prod['id_products'];
+                $res = do_query("SELECT * FROM products WHERE idd = $idd");
+                $item = mysqli_fetch_array($res);
+                $sum_price += $prod['count'] * $item['price'];
+                $header = $item['header'];
+                $count = $prod['count'];
+                echo "<tr>
+                      <td>" . $header . "</td>
+                      <td>" . $count . "</td>
+                      <td>" . $item['price'] . "</td>
+                      <td>" . $count * $item['price'] . "</td>
+                      <td>
+                      <form action='' method='post'>
+                        <input type=\"hidden\" name=\"id\" value=". $item['idd'] .">
+                        <button type=\"submit\" name=\"delete\" class=\"js-delete_prod\">
+                         <i class=\"fa fa-trash-o fa-2x\" aria-hidden=\"true\"></i>
+                        </button></form>
+                      </td>
+                    </tr>";
             }
 
         }
@@ -175,86 +242,4 @@
 </div>
 <?php
 
-    if (isset($_POST['submit2'])) {
-        $data = $_POST;
-        $phone = $data['phone'];
-        $email = $data['email'];
-        if (!empty(mysqli_fetch_array($res))) {
-            $errors = array();
-            if (empty($data['email'])) {
-                $errors[] = '';
-            }
-            if (!preg_match("/^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(.*@.+(\..{1,11})?)$/", "$email")) {
-                $errors[] = 'Вы неправильно ввели электронную почту';
-            }
-            if (!preg_match("/(^(?!\+.*\(.*\).*\-\-.*$)(?!\+.*\(.*\).*\-$)(\+[0-9]{1,3}\([0-9]{1,3}\)[0-9]{1}([-0-9]{0,8})?([0-9]{0,1})?)$)|(^[0-9]{1,4}$)/", "$phone")) {
-                $errors[] = "Вы непраильно ввели номер телефона, пример: +7(915)5473712";
-            }
-            if (empty($data['address'])) {
-                $errors[] = 'Не ввели адрес';
-            }
-            if (empty($errors)) {
-                $_SESSION['phone'] = $phone;
-                $_SESSION['address'] = $data['address'];
-                if (empty($data['sms'])) {
-                    $dat = do_query("INSERT INTO `order` (`email`, `phone`, `address`) VALUES ('{$data['email']}','{$data['phone']}','{$data['address']}')");
-                    if ($dat) {
-                        $cart = do_query("SELECT * FROM `cart` JOIN `products` WHERE cart.id_products = products.idd");
-                        $mess = '';
-                        foreach ($cart as $item) {
-                            $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ',';
-                        }
-                        $mess .= 'Сумма ' . $sum_price . 'руб';
-                        $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'];
-                        $to = 'segasle@yandex.ru';
-                        $subject = 'Заказ продуктов';
-                        $message = "$mess";
-                        $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
-                            'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
-                            "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
-                            . 'X-Mailer: PHP/' . phpversion();
-                        $mail = mail("$to", "$subject", "$message", "$headers");
-                        if ($mail) {
-                            $del = do_query("DELETE FROM `cart` WHERE id_users = $user->id");
-                            if ($del) {
-                                echo '<div class="go">Успешно отправлено</div>';
-                                echo '<script>setTimeout(\'location="?page=basket"\', 10000)</script>';
-                            }
-                        }
-                    }
-                } else {
-                    $dat = do_query("INSERT INTO `order`(`email`, `phone`, `address`, `sms`) VALUES ('{$data['email']}','{$data['phone']}','{$data['email']}','{$data['sms']}')");
-                    $_SESSION['sms'] = $data['sms'];
-                    if ($dat) {
-                        $cart = do_query("SELECT * FROM `cart` JOIN `products` WHERE cart.id_products = products.idd");
-                        $mess = '';
-                        foreach ($cart as $item) {
-                            $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ',';
-                        }
-                        $mess .= 'Сумма ' . $sum_price . 'руб';
-                        $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'] . ', ' . $_SESSION['sms'];
-                        $to = 'segasle@yandex.ru';
-                        $subject = 'Заказ продуктов';
-                        $message = "$mess";
-                        $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
-                            'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
-                            "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
-                            . 'X-Mailer: PHP/' . phpversion();
-                        $mail = mail("$to", "$subject", "$message", "$headers");
-                        if ($mail) {
-                            $del = do_query("DELETE FROM `cart` WHERE id_users = $user->id");
-                            if ($del) {
-                                echo '<div class="go">Успешно отправлено</div>';
-                                echo '<script>setTimeout(\'location="?page=basket"\', 20000)</script>';
-                            }
-                        }
-                    }
-                }
-            } else {
-                echo "<div class='errors'>" . array_shift($errors) . "</div>";
-            }
-        } else {
-            echo "<div class='errors'>Корзина пуста</div>";
-        }
     }
-}
