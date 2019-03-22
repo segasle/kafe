@@ -317,7 +317,7 @@ function registration()
             $errors[] = 'Вы не ввели пароль';
 
         }
-        if ($data['pass_confirmation'] >= 6) {
+        if ($data['pass_confirmation'] < 6) {
             $errors[] = 'короткий пароль';
         }
 
@@ -379,21 +379,22 @@ function user_login(){
         if (isset($_POST['submit'])) {
             $data = $_POST;
             $email = $data['email'];
-            $password = $data['password'];
+           // $password = $data['password'];
             $resilt = mysqli_fetch_assoc(do_query("SELECT * FROM `users` WHERE `email` ='" . $email . "'"));
             if (isset($data['check'])) {
                 setcookie('user', json_encode($resilt), time() + 3600 * 24 * 30 * 12);
-                $_COOKIE['user'] = $resilt['id'];
+                //$_COOKIE['user'] = $resilt['id'];
 
                 if (isset($_COOKIE['user'])) {
-                    echo '<script>window.location="/";</script>';
+                //    echo '<script>window.location="/";</script>';
+                    header('location: /');
                 }
             } else {
                 setcookie('user', json_encode($resilt));
-                $_COOKIE['user'] = $resilt['id'];
+                //$_COOKIE['user'] = $resilt['id'];
 
                 if (isset($_COOKIE['user'])) {
-                    echo '<script>window.location="/";</script>';
+                  //  echo '<script>window.location="/";</script>';
                 }
             }
         }
