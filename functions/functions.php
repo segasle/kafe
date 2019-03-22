@@ -361,22 +361,6 @@ function login()
         if ($resilt) {
             if (!password_verify($password, $resilt['password'])) {
                 $out = '<div class="errors">Пароль не верный</div>';
-            }else{
-                if (isset($data['check'])) {
-                    setcookie('user', json_encode($resilt), time() + 3600 * 24 * 30 * 12);
-                    $_COOKIE['user'] = $resilt['id'];
-
-                    if (isset($_COOKIE['user'])) {
-                        echo '<script>window.location="/";</script>';
-                    }
-                } else {
-                    setcookie('user', json_encode($resilt));
-                    $_COOKIE['user'] = $resilt['id'];
-
-                    if (isset($_COOKIE['user'])) {
-                        echo '<script>window.location="/";</script>';
-                    }
-                }
             }
         } else {
             $out = '<div class="errors">Пользоаатель не найден</div>';
@@ -388,4 +372,31 @@ function addbasket(){
     if (isset($_POST['basket'])){
         header('location: ?page=basket');
     }
+}
+function user_login(){
+
+    if ((isset($_GET['page'])) and $_GET['page'] =='input') {
+        if (isset($_POST['submit'])) {
+            $data = $_POST;
+            $email = $data['email'];
+            $password = $data['password'];
+            $resilt = mysqli_fetch_assoc(do_query("SELECT * FROM `users` WHERE `email` ='" . $email . "'"));
+            if (isset($data['check'])) {
+                setcookie('user', json_encode($resilt), time() + 3600 * 24 * 30 * 12);
+                $_COOKIE['user'] = $resilt['id'];
+
+                if (isset($_COOKIE['user'])) {
+                    echo '<script>window.location="/";</script>';
+                }
+            } else {
+                setcookie('user', json_encode($resilt));
+                $_COOKIE['user'] = $resilt['id'];
+
+                if (isset($_COOKIE['user'])) {
+                    echo '<script>window.location="/";</script>';
+                }
+            }
+        }
+    }
+
 }
