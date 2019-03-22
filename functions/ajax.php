@@ -13,34 +13,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $id = $key;
         break;
     }
-    $user = json_decode($_COOKIE['user']);
-    if ( $user ) {
-        $id_user = $user->id;
-        
-        $cart = do_query("SELECT * FROM `cart` WHERE `id_users` = $id_user AND `id_products` = $id");
+    if (isset($_COOKIE['user'])){
+        $cart = do_query("SELECT * FROM `cart` WHERE `ip` = '{$_SERVER['REQUEST_METHOD']}' AND `id_products` = $id");
         if (mysqli_num_rows($cart) > 0){
             $row = mysqli_fetch_array($cart);
             $new = $row['count']+1;
-            $update = do_query("UPDATE `cart` SET `count` = '$new' WHERE `id_users` = $id_user AND id_products = $id");
+            $update = do_query("UPDATE `cart` SET `count` = '$new' WHERE ip = '{$_SERVER['REQUEST_METHOD']}' AND id_products = $id");
         }else{
             $cart = do_query("SELECT * FROM `products` WHERE idd = $id");
             $row = mysqli_fetch_array($cart);
             if (empty($row['price2'])){
                 $row['price2'] = $row['price'];
             }
-            do_query("INSERT INTO `cart` (`ip`, `price`, `id_products`) VALUES ('".$id_user."','".$row['price2']."','".$id."')");
-        }
-    } else {
-        $products = do_query("SELECT * FROM `products` WHERE idd = $id");
-        $prod = mysqli_fetch_array($products);
-        if (empty($prod['price2'])){
-            $prod['price2'] = $prod['price'];
-        }
-        $data = array('price' => $prod['price2'], 'id_products' => $id, 'count' => $count);
-        if ( !isset($_COOKIE['prod']) ) {
-            setcookie('prod', json_encode($data), time() + 3600 * 24 * 30 * 12);
-        } else {
-            $_COOKIE['prod'] .= json_encode($data);
+            do_query("INSERT INTO `cart` (`ip`, `price`, `id_products`, `id_users`) VALUES ('".$_SERVER['REQUEST_METHOD']."','".$row['price2']."','".$id."', '".$_COOKIE['user']."')");
         }
     }
 }
