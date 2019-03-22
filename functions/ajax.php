@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $id = $key;
         break;
     }
-    if ( isset(($_COOKIE['user'])) ) {
+    if ( isset($_COOKIE['user'])) {
         $user = json_decode($_COOKIE['user']);
         $id_user = $user->id;
         
