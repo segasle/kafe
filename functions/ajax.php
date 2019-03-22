@@ -37,9 +37,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             $prod['price2'] = $prod['price'];
         }
         $data = array('price' => $prod['price2'], 'id_products' => $id, 'count' => 1);
-        $_SESSION['prod'][] = $data;
-
-        //$_COOKIE['prod'] .= json_encode($data);
+        if ( empty($_SESSION['prod']) ) {
+            $_SESSION['prod'][] = $data;
+         } else {
+            $flag = false;
+            foreach ($_SESSION['prod'] as $key => $value) {
+                if ( $value['id_products'] == $id ) {
+                    $_SESSION['prod'][$key]['count']++;
+                    $flag = true;
+                    break;
+                }
+            }
+            if ( !$flag ) {
+                $_SESSION['prod'][] = $data;
+            }
+        }
         
     }
 

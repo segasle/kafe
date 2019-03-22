@@ -23,7 +23,11 @@ if ( !empty($_COOKIE['user']) ) {
     if ( empty($_SESSION['prod']) ) {
             setcookie('count', 0);
     } else {
-        $_COOKIE['count'] = count($_SESSION['prod']);
+        $sum_p = 0;
+        foreach ($_SESSION['prod'] as $key => $prod) {
+            $sum_p += $prod['count'];
+        }
+        $_COOKIE['count'] = $sum_p;
     }
 }
 // тут проверяем наличие куки "count", если нет, создает, если есть, туда записываем значение $count
