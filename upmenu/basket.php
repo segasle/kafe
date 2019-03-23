@@ -170,37 +170,37 @@
         </div>
     </form>
     <?php
-        if (isset($_POST['submit'])) {
-            if (!empty(mysqli_fetch_array($res))) {
-                if (login()){
-                    $do = do_query("SELECT * FROM `cart` JOIN `products` WHERE cart.id_products = products.idd");
-                        $mess = '';
-                        foreach ($do as $item) {
-                            $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ',';
-                        }
-                        $mess .= 'Сумма ' . $sum_price . 'руб';
-                        $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'];
-                        $to = 'segasle@yandex.ru';
-                        $subject = 'Заказ продуктов';
-                        $message = "$mess";
-                        $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
-                            'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
-                            "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
-                    . 'X-Mailer: PHP/' . phpversion();
-                        $mail = mail("$to", "$subject", "$message", "$headers");
-                        if ($mail) {
-                            $del = do_query("DELETE FROM `cart` WHERE id_users = $user->id");
-                            if ($del) {
-                                echo '<div class="go">Успешно отправлено</div>';
-                                echo '<script>setTimeout(\'location="?page=basket"\', 10000)</script>';
-                            }
-                        }
-                }
-                //login();
-            } else {
-                echo "<div class='errors'>Корзина пуста</div>";
-            }
-        }
+//        if (isset($_POST['submit'])) {
+//            if (!empty(mysqli_fetch_array($res))) {
+//                if (login()){
+//                    $do = do_query("SELECT * FROM `cart` JOIN `products` WHERE cart.id_products = products.idd");
+//                        $mess = '';
+//                        foreach ($do as $item) {
+//                            $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ',';
+//                        }
+//                        $mess .= 'Сумма ' . $sum_price . 'руб';
+//                        $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'];
+//                        $to = 'segasle@yandex.ru';
+//                        $subject = 'Заказ продуктов';
+//                        $message = "$mess";
+//                        $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
+//                            'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
+//                            "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
+//                    . 'X-Mailer: PHP/' . phpversion();
+//                        $mail = mail("$to", "$subject", "$message", "$headers");
+//                        if ($mail) {
+//                            $del = do_query("DELETE FROM `cart` WHERE id_users = $user->id");
+//                            if ($del) {
+//                                echo '<div class="go">Успешно отправлено</div>';
+//                                echo '<script>setTimeout(\'location="?page=basket"\', 10000)</script>';
+//                            }
+//                        }
+//                }
+//                //login();
+//            } else {
+//                echo "<div class='errors'>Корзина пуста</div>";
+//            }
+//        }
     } else {
 
     ?>
