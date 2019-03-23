@@ -139,6 +139,10 @@ if (isset($_GET['page']) and $_GET['page'] == 'basket'){
                     <nav>
                         <?php echo menu(); ?>
                     </nav>
+                    <?php if (isset($_COOKIE['user'])){
+                  echo  '<form action="" method="post"><button type="submit" name="esc" class="btn button btn-default">Выйти</button></form>';
+}?>
+
                 </div>
             </div>
         </div>
