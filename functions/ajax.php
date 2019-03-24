@@ -13,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $id = $key;
         break;
     }
-    if ( isset($_COOKIE['user'])) {
-        $user = json_decode($_COOKIE['user']);
+    if ( isset($_SESSION['user'])) {
+        $user = json_decode($_SESSION['user']);
         $id_user = $user->id;
         
         $cart = do_query("SELECT * FROM `cart` WHERE `id_users` = $id_user AND `id_products` = $id");

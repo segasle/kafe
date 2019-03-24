@@ -48,7 +48,7 @@ function menu()
         $out .= '<li><a href="' . $item['link'] . '">' . $item['title'] . '</a></li>';
     }
     $out .= '</ul>';
-    if (!isset($_COOKIE['user'])) {
+    if (!isset($_SESSION['user'])) {
         $out1 = '<div class="menu_food"><ul class="user_account">';
         foreach ($user as $item) {
             $out1 .= '<li><a href="' . $item['link'] . '">' . $item['title'] . '</a></li>';
@@ -75,7 +75,7 @@ function menu()
 function esc_user(){
   //  if (isset($_COOKIE['user'])){
         if (isset($_POST['esc'])){
-            unset($_COOKIE['user']);
+            unset($_SESSION['user']);
             header('location: ?page=main');
         }
 
@@ -390,17 +390,19 @@ function user_login(){
             if (!empty($email) and !empty($data['password'])){
                 $resilt = mysqli_fetch_assoc(do_query("SELECT * FROM `users` WHERE `email` ='" . $email . "'"));
                 if (isset($data['check'])) {
-                    setcookie('user', json_encode($resilt), time() + 3600 * 24 * 30 * 12);
+                    $_SESSION['user'] = json_encode($resilt);
+                    //setcookie('user', json_encode($resilt), time() + 3600 * 24 * 30 * 12);
                     //if (isset($_COOKIE['user'])) {
                     header('location: ?page=main');
                     //}
-                } else {
-                    setcookie('user', json_encode($resilt));
+                } //else {
+
+                   // setcookie('user', json_encode($resilt));
                     // if (isset($_COOKIE['user'])) {
                     header('location: ?page=main');
 
                     //}
-                }
+                //}
 
             }
         }

@@ -1,7 +1,7 @@
 <?php
 // Получаем количество товаров в корзине
-if ( !empty($_COOKIE['user']) ) {
-    $user = json_decode($_COOKIE['user']);
+if ( !empty($_SESSION['user']) ) {
+    $user = json_decode($_SESSION['user']);
     $res = do_query("SELECT count FROM cart WHERE 'id_users' = $user->id");
     // проверям, есть ли у данного пользователя есть товары в корзине
     if ($res) {
@@ -139,7 +139,7 @@ if (isset($_GET['page']) and $_GET['page'] == 'basket'){
                     <nav>
                         <?php echo menu(); ?>
                     </nav>
-                    <?php if (isset($_COOKIE['user'])){
+                    <?php if (isset($_SESSION['user'])){
                   echo  '<form action="" method="post"><button type="submit" name="esc" class="btn button btn-default">Выйти</button></form>';
 }?>
 

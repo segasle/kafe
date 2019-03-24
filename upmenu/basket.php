@@ -84,8 +84,8 @@
         <tbody>
         <?php
         //Запрос на получения товаров из корзины (в будущем надо вместо cart.ip = 'POST' привязать к таблице users)
-        if ( isset($_COOKIE['user']) ) {
-            $user = json_decode($_COOKIE['user']);
+        if ( isset($_SESSION['user']) ) {
+            $user = json_decode($_SESSION['user']);
             $res = do_query("SELECT * FROM products JOIN cart WHERE cart.id_users = $user->id AND products.idd = cart.id_products");
             foreach ($res as $item) {
                 $sum_price += $item['count'] * $item['price'];
@@ -148,7 +148,7 @@
         ?>
         </tbody>
     </table>
-    <?php if ( isset($_COOKIE['user']) ) {  ?>
+    <?php if ( isset($_SESSION['user']) ) {  ?>
     <p class="h3 text-center">Для зарегистрованных пользователей</p>
     <form class="form-horizontal" method="post">
         <div class="form-group">
