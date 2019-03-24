@@ -78,6 +78,7 @@ function esc_user(){
             unset($_COOKIE['user']);
             header('location: ?page=main');
         }
+
     //}
 }
 function comm()
@@ -386,19 +387,21 @@ function user_login(){
         if (isset($_POST['submit'])) {
             $data = $_POST;
             $email = $data['email'];
-            // $password = $data['password'];
-            $resilt = mysqli_fetch_assoc(do_query("SELECT * FROM `users` WHERE `email` ='" . $email . "'"));
-            if (isset($data['check'])) {
-                setcookie('user', json_encode($resilt), time() + 3600 * 24 * 30 * 12);
-                //if (isset($_COOKIE['user'])) {
+            if (!empty($email) and !empty($data['password'])){
+                $resilt = mysqli_fetch_assoc(do_query("SELECT * FROM `users` WHERE `email` ='" . $email . "'"));
+                if (isset($data['check'])) {
+                    setcookie('user', json_encode($resilt), time() + 3600 * 24 * 30 * 12);
+                    //if (isset($_COOKIE['user'])) {
                     header('location: ?page=main');
-                //}
-            } else {
-                setcookie('user', json_encode($resilt));
-               // if (isset($_COOKIE['user'])) {
+                    //}
+                } else {
+                    setcookie('user', json_encode($resilt));
+                    // if (isset($_COOKIE['user'])) {
                     header('location: ?page=main');
 
-                //}
+                    //}
+                }
+
             }
         }
     //}
