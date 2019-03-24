@@ -2,9 +2,10 @@
 // Получаем количество товаров в корзине
 if ( !empty($_SESSION['user']) ) {
     $user = json_decode($_SESSION['user']);
-    $res = do_query("SELECT count FROM cart WHERE 'id_users' = $user->id");
+    $user_id = $user->id;
+    $res = do_query("SELECT count FROM cart WHERE `id_users` = $user_id");
     // проверям, есть ли у данного пользователя есть товары в корзине
-    if ($res) {
+    if (mysqli_num_rows($res) > 0 ) {
         // если есть, считаем их сумму
         $count = 0;
         foreach ($res as $item) {

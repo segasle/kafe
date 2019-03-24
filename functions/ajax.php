@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if ( isset($_SESSION['user'])) {
         $user = json_decode($_SESSION['user']);
         $id_user = $user->id;
-        
         $cart = do_query("SELECT * FROM `cart` WHERE `id_users` = $id_user AND `id_products` = $id");
         if (mysqli_num_rows($cart) > 0){
             $row = mysqli_fetch_array($cart);
@@ -28,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             if (empty($row['price2'])){
                 $row['price2'] = $row['price'];
             }
-            do_query("INSERT INTO `cart` (`ip`, `price`, `id_products`) VALUES ('".$id_user."','".$row['price2']."','".$id."')");
+            // Когда изменешь таблицу cart, удали из строки ниже `ip` и '1'
+            do_query("INSERT INTO `cart` (`ip`, `id_users`, `price`, `id_products`) VALUES ('1', '".$id_user."','".$row['price2']."','".$id."')");
         }
     } else {
         $products = do_query("SELECT * FROM `products` WHERE idd = $id");
