@@ -18,7 +18,7 @@ function connections()
     } elseif (file_exists('users/' . $file . '.php')) {
         if (isset($_COOKIE['user'])) {
             include 'users/' . $file . '.php';
-        }else{
+        } else {
             include 'upmenu/404.php';
         }
 
@@ -72,15 +72,18 @@ function menu()
     return $out . $out2 . $out1;
 
 }
-function esc_user(){
-  //  if (isset($_COOKIE['user'])){
-        if (isset($_POST['esc'])){
-            unset($_SESSION['user']);
-            header('location: ?page=main');
-        }
+
+function esc_user()
+{
+    //  if (isset($_COOKIE['user'])){
+    if (isset($_POST['esc'])) {
+        unset($_SESSION['user']);
+        header('location: ?page=main');
+    }
 
     //}
 }
+
 function comm()
 {
     if (isset($_POST['comm'])) {
@@ -246,8 +249,15 @@ function get_product()
         } else {
             $price2 = '';
         }
-        if (isset($item['img']) or isset($item['weight']) or isset($item['description']) or isset($item['header']) or isset($item['price']) or isset($item['price2'])) {
-            $col = ' <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">             <div class="block_content">
+        if (isset($item['weight2'])){
+            $weight2 = ' <p class="weight">' . $item['weight2'] . 'гр </p>';
+        }else{
+            $weight2 ='';
+        }
+        if (isset($item['img']) or isset($item['weight2']) or isset($item['weight']) or isset($item['description']) or isset($item['header']) or isset($item['price']) or isset($item['price2'])) {
+
+
+            $col = ' <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">             <div class="block_content">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 ' . $header . '   
@@ -260,14 +270,13 @@ function get_product()
                                     <div class="elements">
                                         <div class="block_weight_price">
                                            
-                                            ' . $weight . $price . $price2 . '
+                                            ' . $weight .$weight2. $price . $price2 . '
                                             
                                         </div>
                                     </div>
                                     <div class="elements">
-                                    <form action="" method="post">
-                                    <input type="number" value="1" class="number"> 
-                                    <button type="button" class="js-basket" data-id="'.$item['idd'].'">добавить</button>
+                                    <form action="" method="post"> 
+                                    <button type="button" class="js-basket" data-id="' . $item['idd'] . '">добавить</button>
 </form>
                                        
                                     </div>
@@ -359,7 +368,6 @@ function registration()
 
 function login()
 {
-
     $out = '';
     $data = $_POST;
     if (isset($data['submit'])) {
@@ -376,36 +384,19 @@ function login()
     }
     return $out;
 }
-function addbasket(){
-    if (isset($_POST['basket'])){
-        header('location: ?page=basket');
-    }
-}
-function user_login(){
 
-    //if ((isset($_GET['page'])) and $_GET['page'] == 'input') {
-        if (isset($_POST['submit'])) {
-            $data = $_POST;
-            $email = $data['email'];
-            if (!empty($email) and !empty($data['password'])){
-                $resilt = mysqli_fetch_assoc(do_query("SELECT * FROM `users` WHERE `email` ='" . $email . "'"));
-                if (isset($data['check'])) {
-                    $_SESSION['user'] = json_encode($resilt);
-                    //setcookie('user', json_encode($resilt), time() + 3600 * 24 * 30 * 12);
-                    //if (isset($_COOKIE['user'])) {
-                    header('location: ?page=main');
-                    //}
-                } //else {
+function user_login()
+{
 
-                   // setcookie('user', json_encode($resilt));
-                    // if (isset($_COOKIE['user'])) {
-                    header('location: ?page=main');
-
-                    //}
-                //}
-
+    if (isset($_POST['submit'])) {
+        $data = $_POST;
+        $email = $data['email'];
+        if (!empty($email) and !empty($data['password'])) {
+            $resilt = mysqli_fetch_assoc(do_query("SELECT * FROM `users` WHERE `email` ='" . $email . "'"));
+            if ($resilt) {
+                $_SESSION['user'] = json_encode($resilt);
+                header('location: ?page=main');
             }
         }
-    //}
-
+    }
 }

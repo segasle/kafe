@@ -3,109 +3,6 @@ $sum_price = 0;
 $header = '';
 $count = '';
 $action = 10; // акция в %
-
-if (isset($_POST['delete'])) {
-    foreach ($_SESSION['prod'] as $key => $value) {
-        if ($value['id_products'] == $_POST['id']) {
-            unset($_SESSION['prod'][$key]);
-            break;
-        }
-    }
-}
-
-if (isset($_POST['submit_cart_login'])) {
-    $res = do_query("SELECT * FROM `cart` WHERE `id_users` = $user->id");
-    if (mysqli_num_rows($res) > 0) {
-        $user = json_decode($_SESSION['user']);
-        $do = do_query("SELECT * FROM `cart` JOIN `products` WHERE `id_users` = $user->id AND cart.id_products = products.idd");
-        $mess = '';
-        foreach ($do as $item) {
-            $sum_price += $item['count'] * $item['price'];
-            $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ', ';
-        }
-        $sum_price = $sum_price - $sum_price * 10 / 100; // 10 % акции..
-        $mess .= ' Сумма = ' . $sum_price . 'руб' . "<br>";
-        $mess .= $user->phone . ', ' . $user->address;
-        $to = 'segasle@yandex.ru';
-        $subject = 'Заказ продуктов';
-        $message = "$mess";
-        $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
-            'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
-            "Content-Type: text/html; charset=\"UTF-8\"\r\n"
-            . 'X-Mailer: PHP/' . phpversion();
-        $mail = mail("$to", "$subject", "$message", "$headers");
-        if ($mail) {
-            $del = do_query("DELETE FROM cart WHERE `id_users` = $user->id");
-            if ($del) {
-                echo '<div class="go">Успешно отправлено</div>';
-                $_COOKIE['count'] = 0;
-                echo '<script>setTimeout(\'location="?page=main"\', 2000)</script>';
-            }
-        }
-    } else {
-        echo "<div class='errors'>Корзина пуста</div>";
-    }
-}
-
-if (isset($_POST['submit2'])) {
-    if (isset($_SESSION['prod'])) {
-        $data = $_POST;
-        $phone = $data['phone'];
-        $email = $data['email'];
-        $errors = array();
-        if (empty($data['email'])) {
-            $errors[] = 'Не ввели email';
-        }
-        if (!preg_match("/^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(.*@.+(\..{1,11})?)$/", "$email")) {
-            $errors[] = 'Вы неправильно ввели электронную почту';
-        }
-        if (!preg_match("/(^(?!\+.*\(.*\).*\-\-.*$)(?!\+.*\(.*\).*\-$)(\+[0-9]{1,3}\([0-9]{1,3}\)[0-9]{1}([-0-9]{0,8})?([0-9]{0,1})?)$)|(^[0-9]{1,4}$)/", "$phone")) {
-            $errors[] = "Вы непраильно ввели номер телефона, пример: +7(915)5473712";
-        }
-        if (empty($data['address'])) {
-            $errors[] = 'Не ввели адрес';
-        }
-        if (empty($errors)) {
-            $_SESSION['phone'] = $phone;
-            $_SESSION['address'] = $data['address'];
-            if (empty($data['sms'])) {
-                $sms = '';
-            } else {
-                $sms = $data['sms'];
-            }
-            $dat = do_query("INSERT INTO `order` (`email`, `phone`, `address`, `sms`) VALUES ('{$data['email']}','{$data['phone']}','{$data['address']}', '{$sms}')");
-            if ($dat) {
-                $mess = '';
-                foreach ($_SESSION['prod'] as $prod) {
-                    $idd = $prod['id_products'];
-                    $res = do_query("SELECT * FROM products WHERE idd = $idd");
-                    $item = mysqli_fetch_array($res);
-                    $mess .= $item['header'] . ' ' . $prod['count'] . 'шт' . ',';
-                }
-                $mess .= 'Сумма ' . $sum_price . 'руб';
-                $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'] . ', ' . $sms;
-                $to = 'segasle@yandex.ru';
-                $subject = 'Заказ продуктов';
-                $message = "$mess";
-                $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
-                    'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
-                    "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
-                    . 'X-Mailer: PHP/' . phpversion();
-                $mail = mail("$to", "$subject", "$message", "$headers");
-                if ($mail) {
-                    unset($_SESSION['prod']);
-                    echo '<div class="go">Успешно отправлено</div>';
-                    echo '<script>setTimeout(\'location="?page=main"\', 2000)</script>';
-                }
-            }
-
-        } else {
-            echo "<div class='errors'>" . array_shift($errors) . "</div>";
-        }
-    }else{
-        echo '<div class="errors">Корзина пуста</div>';
-    }
-}
 ?>
     <h1 class="text-center">Корзина</h1>
     <div class="container">
@@ -164,7 +61,6 @@ if (isset($_POST['submit2'])) {
                       </td>
                     </tr>";
             }
-
         }
         ?>
         </tbody>
@@ -179,8 +75,8 @@ if (isset($_POST['submit2'])) {
         </thead>
         <tbody>
         <?php
-        $action_text = $action . ' %';
-        if ($sum_price > 1500){
+        $action_text = 'От 1500 рублей акция, бутылка колы в подарок';
+        if ($sum_price > 1500) {
             $action_text = 'литровая  бутылка колы  в подарок!';
         }
 
@@ -191,7 +87,7 @@ if (isset($_POST['submit2'])) {
         echo "<tr>
                   <td>" . $action_text . "</td>
                   <td>" . $sum_price . "</td>";
-                  //<td scope=\"col\">" . ($sum_price - $sum_price * $action / 100) . "</td>";
+        //<td scope=\"col\">" . ($sum_price - $sum_price * $action / 100) . "</td>";
         ?>
         </tbody>
     </table>
@@ -247,3 +143,107 @@ if (isset($_POST['submit2'])) {
     <?php
 
 }
+
+if (isset($_POST['delete'])) {
+    foreach ($_SESSION['prod'] as $key => $value) {
+        if ($value['id_products'] == $_POST['id']) {
+            unset($_SESSION['prod'][$key]);
+            break;
+        }
+    }
+}
+
+if (isset($_POST['submit_cart_login'])) {
+    $res = do_query("SELECT * FROM `cart` WHERE `id_users` = $user->id");
+    if (mysqli_num_rows($res) > 0) {
+        $user = json_decode($_SESSION['user']);
+        $do = do_query("SELECT * FROM `cart` JOIN `products` WHERE `id_users` = $user->id AND cart.id_products = products.idd");
+        $mess = '';
+        foreach ($do as $item) {
+            $sum_price += $item['count'] * $item['price'];
+            $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . '<br>';
+        }
+        $sum_price = $sum_price / 2; // 10 % акции..
+        $mess .= ' Сумма = ' . $sum_price . 'руб' . "<br>";
+        $mess .= $user->phone . ', ' . $user->address;
+        $to = 'segasle@yandex.ru';
+        $subject = 'Заказ продуктов';
+        $message = "$mess";
+        $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
+            'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
+            "Content-Type: text/html; charset=\"UTF-8\"\r\n"
+            . 'X-Mailer: PHP/' . phpversion();
+        $mail = mail("$to", "$subject", "$message", "$headers");
+        if ($mail) {
+            $del = do_query("DELETE FROM cart WHERE `id_users` = $user->id");
+            if ($del) {
+                echo '<div class="go">Успешно отправлено</div>';
+                $_COOKIE['count'] = 0;
+                //  echo '<script>setTimeout(\'location="?page=main"\', 2000)</script>';
+            }
+        }
+    } else {
+        echo "<div class='errors'>Корзина пуста</div>";
+    }
+}
+
+if (isset($_POST['submit2'])) {
+    if (isset($_SESSION['prod'])) {
+        $data = $_POST;
+        $phone = $data['phone'];
+        $email = $data['email'];
+        $errors = array();
+        if (empty($data['email'])) {
+            $errors[] = 'Не ввели email';
+        }
+        if (!preg_match("/^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(.*@.+(\..{1,11})?)$/", "$email")) {
+            $errors[] = 'Вы неправильно ввели электронную почту';
+        }
+        if (!preg_match("/(^(?!\+.*\(.*\).*\-\-.*$)(?!\+.*\(.*\).*\-$)(\+[0-9]{1,3}\([0-9]{1,3}\)[0-9]{1}([-0-9]{0,8})?([0-9]{0,1})?)$)|(^[0-9]{1,4}$)/", "$phone")) {
+            $errors[] = "Вы непраильно ввели номер телефона, пример: +7(915)5473712";
+        }
+        if (empty($data['address'])) {
+            $errors[] = 'Не ввели адрес';
+        }
+        if (empty($errors)) {
+            $_SESSION['phone'] = $phone;
+            $_SESSION['address'] = $data['address'];
+            if (empty($data['sms'])) {
+                $sms = '';
+            } else {
+                $sms = $data['sms'];
+            }
+            $dat = do_query("INSERT INTO `order` (`email`, `phone`, `address`, `sms`) VALUES ('{$data['email']}','{$data['phone']}','{$data['address']}', '{$sms}')");
+            if ($dat) {
+                $mess = '';
+                foreach ($_SESSION['prod'] as $prod) {
+                    $idd = $prod['id_products'];
+                    $res = do_query("SELECT * FROM products WHERE idd = $idd");
+                    $item = mysqli_fetch_array($res);
+                    $mess .= $item['header'] . ' ' . $prod['count'] . 'шт' . '<br>';
+                }
+                $mess .= 'Сумма =' . $sum_price . 'руб <br>';
+                $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'] . ', ' . $sms;
+                $to = 'segasle@yandex.ru';
+                $subject = 'Заказ продуктов';
+                $message = "$mess";
+                $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
+                    'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
+                    "Content-Type: text/html; charset=\"UTF-8\"\r\n"
+                    . 'X-Mailer: PHP/' . phpversion();
+                $mail = mail("$to", "$subject", "$message", "$headers");
+                if ($mail) {
+                    unset($_SESSION['prod']);
+                    echo '<div class="go">Успешно отправлено</div>';
+                    //echo '<script>setTimeout(\'location="?page=main"\', 2000)</script>';
+                }
+            }
+
+        } else {
+            echo "<div class='errors'>" . array_shift($errors) . "</div>";
+        }
+    } else {
+        echo '<div class="errors">Корзина пуста</div>';
+    }
+}
+
