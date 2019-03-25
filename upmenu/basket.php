@@ -166,7 +166,7 @@ if (isset($_POST['submit_cart_login'])) {
         $sum_price = $sum_price / 2; // 10 % акции..
         $mess .= ' Сумма = ' . $sum_price . 'руб' . "<br>";
         $mess .= $user->phone . ', ' . $user->address;
-        $to = 'segasle@yandex.ru';
+        $to = 'kafe-lyi@yandex.ru';
         $subject = 'Заказ продуктов';
         $message = "$mess";
         $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
@@ -224,7 +224,7 @@ if (isset($_POST['submit2'])) {
                 }
                 $mess .= 'Сумма =' . $sum_price . 'руб <br>';
                 $mess .= $_SESSION['phone'] . ', ' . $_SESSION['address'] . ', ' . $sms;
-                $to = 'segasle@yandex.ru';
+                $to = 'kafe-lyi@yandex.ru';
                 $subject = 'Заказ продуктов';
                 $message = "$mess";
                 $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
