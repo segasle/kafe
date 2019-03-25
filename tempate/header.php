@@ -1,11 +1,11 @@
 <?php
 // Получаем количество товаров в корзине
-if ( !empty($_SESSION['user']) ) {
+if (!empty($_SESSION['user'])) {
     $user = json_decode($_SESSION['user']);
     $user_id = $user->id;
     $res = do_query("SELECT count FROM cart WHERE `id_users` = $user_id");
     // проверям, есть ли у данного пользователя есть товары в корзине
-    if (mysqli_num_rows($res) > 0 ) {
+    if (mysqli_num_rows($res) > 0) {
         // если есть, считаем их сумму
         $count = 0;
         foreach ($res as $item) {
@@ -15,14 +15,14 @@ if ( !empty($_SESSION['user']) ) {
         // это если нет товаров в корзине
         $count = 0;
     }
-    if ( !isset($_COOKIE['count']) ) {
+    if (!isset($_COOKIE['count'])) {
         setcookie('count', $count);
     } else {
         $_COOKIE['count'] = $count;
     }
 } else {
-    if ( empty($_SESSION['prod']) ) {
-            setcookie('count', 0);
+    if (empty($_SESSION['prod'])) {
+        setcookie('count', 0);
     } else {
         $sum_p = 0;
         foreach ($_SESSION['prod'] as $key => $prod) {
@@ -34,13 +34,13 @@ if ( !empty($_SESSION['user']) ) {
 // тут проверяем наличие куки "count", если нет, создает, если есть, туда записываем значение $count
 
 
-if (isset($_GET['page']) and $_GET['page'] == 'basket'){
+if (isset($_GET['page']) and $_GET['page'] == 'basket') {
     $di = do_query("SELECT * FROM `cart`");
-    foreach ($di as $value){
+    foreach ($di as $value) {
         $id = $value['id'];
-        if (isset($_POST[$id])){
+        if (isset($_POST[$id])) {
             $del = do_query("DELETE FROM `cart` WHERE `id` = $id");
-            if ($del){
+            if ($del) {
                 header('location: ?page=basket');
             }
         }
@@ -140,9 +140,9 @@ if (isset($_GET['page']) and $_GET['page'] == 'basket'){
                     <nav>
                         <?php echo menu(); ?>
                     </nav>
-                    <?php if (isset($_SESSION['user'])){
-                  echo  '<form action="" method="post"><button type="submit" name="esc" class="btn button btn-default">Выйти</button></form>';
-}?>
+                    <?php if (isset($_SESSION['user'])) {
+                        echo '<form action="" method="post"><button type="submit" name="esc" class="btn button btn-default">Выйти</button></form>';
+                    } ?>
 
                 </div>
             </div>

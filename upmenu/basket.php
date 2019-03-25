@@ -1,52 +1,54 @@
-<?php 
-    $sum_price = 0;
-    $header = '';
-    $count = '';
-    $action = 10; // акция в %
-    
-    if ( isset($_POST['delete']) ) {
-        foreach ($_SESSION['prod'] as $key => $value) {
-            if ($value['id_products'] == $_POST['id']) {
-                unset($_SESSION['prod'][$key]);
-                break;
-            }
+<?php
+$sum_price = 0;
+$header = '';
+$count = '';
+$action = 10; // акция в %
+
+if (isset($_POST['delete'])) {
+    foreach ($_SESSION['prod'] as $key => $value) {
+        if ($value['id_products'] == $_POST['id']) {
+            unset($_SESSION['prod'][$key]);
+            break;
         }
     }
+}
 
-    if (isset($_POST['submit_cart_login'])) {
-        if ( mysqli_num_rows($res) > 0 ) {
-            $user = json_decode($_SESSION['user']);
-            $do = do_query("SELECT * FROM `cart` JOIN `products` WHERE `id_users` = $user->id AND cart.id_products = products.idd");
-            $mess = '';
-            foreach ($do as $item) {
-                $sum_price += $item['count'] * $item['price'];
-                $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ', ';
-            }
-            $sum_price = $sum_price - $sum_price * 10 / 100; // 10 % акции..
-            $mess .= ' Сумма = ' . $sum_price . 'руб';
-            $mess .= $user->phone . ', ' . $user->address;
-            $to = 'segasle@yandex.ru';
-            $subject = 'Заказ продуктов';
-            $message = "$mess";
-            $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
-                'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
-                "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
-                . 'X-Mailer: PHP/' . phpversion();
-            $mail = mail("$to", "$subject", "$message", "$headers");
-            if ($mail) {
-                $del = do_query("DELETE FROM cart WHERE `id_users` = $user->id");
-                if ($del) {
-                    echo '<div class="go">Успешно отправлено</div>';
-                    $_COOKIE['count'] = 0;
-                    echo '<script>setTimeout(\'location="?page=main"\', 2000)</script>';
-                }
-           }
-        } else {
-            echo "<div class='errors'>Корзина пуста</div>";
+if (isset($_POST['submit_cart_login'])) {
+    $res = do_query("SELECT * FROM `cart` WHERE `id_users` = $user->id");
+    if (mysqli_num_rows($res) > 0) {
+        $user = json_decode($_SESSION['user']);
+        $do = do_query("SELECT * FROM `cart` JOIN `products` WHERE `id_users` = $user->id AND cart.id_products = products.idd");
+        $mess = '';
+        foreach ($do as $item) {
+            $sum_price += $item['count'] * $item['price'];
+            $mess .= $item['header'] . ' ' . $item['count'] . 'шт' . ', ';
         }
-   }
+        $sum_price = $sum_price - $sum_price * 10 / 100; // 10 % акции..
+        $mess .= ' Сумма = ' . $sum_price . 'руб' . "<br>";
+        $mess .= $user->phone . ', ' . $user->address;
+        $to = 'segasle@yandex.ru';
+        $subject = 'Заказ продуктов';
+        $message = "$mess";
+        $headers = 'From: segasle@kafe-lyi.ru' . "\r\n" .
+            'Reply-To: segasle@kafe-lyi.ru' . "\r\n" .
+            "Content-Type: text/html; charset=\"UTF-8\"\r\n"
+            . 'X-Mailer: PHP/' . phpversion();
+        $mail = mail("$to", "$subject", "$message", "$headers");
+        if ($mail) {
+            $del = do_query("DELETE FROM cart WHERE `id_users` = $user->id");
+            if ($del) {
+                echo '<div class="go">Успешно отправлено</div>';
+                $_COOKIE['count'] = 0;
+                echo '<script>setTimeout(\'location="?page=main"\', 2000)</script>';
+            }
+        }
+    } else {
+        echo "<div class='errors'>Корзина пуста</div>";
+    }
+}
 
-    if (isset($_POST['submit2'])) {
+if (isset($_POST['submit2'])) {
+    if (isset($_SESSION['prod'])) {
         $data = $_POST;
         $phone = $data['phone'];
         $email = $data['email'];
@@ -67,7 +69,7 @@
             $_SESSION['phone'] = $phone;
             $_SESSION['address'] = $data['address'];
             if (empty($data['sms'])) {
-                $sms = 0;
+                $sms = '';
             } else {
                 $sms = $data['sms'];
             }
@@ -96,14 +98,17 @@
                     echo '<script>setTimeout(\'location="?page=main"\', 2000)</script>';
                 }
             }
-            
+
         } else {
             echo "<div class='errors'>" . array_shift($errors) . "</div>";
         }
+    }else{
+        echo '<div class="errors">Корзина пуста</div>';
     }
+}
 ?>
-<h1 class="text-center">Корзина</h1>
-<div class="container">
+    <h1 class="text-center">Корзина</h1>
+    <div class="container">
     <table class="table table-bordered table-sm">
         <thead class="thead-dark">
         <tr>
@@ -117,7 +122,7 @@
         <tbody>
         <?php
         //Запрос на получения товаров из корзины (в будущем надо вместо cart.ip = 'POST' привязать к таблице users)
-        if ( isset($_SESSION['user']) ) {
+        if (isset($_SESSION['user'])) {
             $user = json_decode($_SESSION['user']);
             $res = do_query("SELECT * FROM products JOIN cart WHERE cart.id_users = $user->id AND products.idd = cart.id_products");
             foreach ($res as $item) {
@@ -137,7 +142,7 @@
                       </td>
                     </tr>";
             }
-        } elseif ( isset($_SESSION['prod']) ) {
+        } elseif (isset($_SESSION['prod'])) {
             foreach ($_SESSION['prod'] as $prod) {
                 $idd = $prod['id_products'];
                 $res = do_query("SELECT * FROM products WHERE idd = $idd");
@@ -152,7 +157,7 @@
                       <td>" . $count * $item['price'] . "</td>
                       <td>
                       <form action='' method='post'>
-                        <input type=\"hidden\" name=\"id\" value=". $item['idd'] .">
+                        <input type=\"hidden\" name=\"id\" value=" . $item['idd'] . ">
                         <button type=\"submit\" name=\"delete\" class=\"js-delete_prod\">
                          <i class=\"fa fa-trash-o fa-2x\" aria-hidden=\"true\"></i>
                         </button></form>
@@ -175,18 +180,18 @@
         <tbody>
         <?php
         $action_text = $action . ' %';
-        if ( isset($mail) and $mail == true ) {
+        if (isset($mail) and $mail == true) {
             $sum_price = 0;
         }
 
         echo "<tr>
-                  <td>". $action_text ."</td>
+                  <td>" . $action_text . "</td>
                   <td>" . $sum_price . "</td>
                   <td scope=\"col\">" . ($sum_price - $sum_price * $action / 100) . "</td>";
         ?>
         </tbody>
     </table>
-    <?php if ( isset($_SESSION['user']) ) {  ?>
+<?php if (isset($_SESSION['user'])) { ?>
     <form class="form-horizontal" method="post">
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
@@ -195,8 +200,8 @@
         </div>
     </form>
     <?php
-       
-    } else {
+
+} else {
 
     ?>
     <p class="h3 text-center">Быстрый заказ</p>
@@ -234,7 +239,7 @@
             </div>
         </div>
     </form>
-</div>
-<?php
+    </div>
+    <?php
 
-    }
+}
