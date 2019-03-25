@@ -172,22 +172,26 @@ if (isset($_POST['submit2'])) {
     <table class="table table-bordered table-sm">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">Скидка</th>
-            <th scope="col">Сумма</th>
+            <th scope="col">Акция</th>
+            <!--<th scope="col">Сумма</th>-->
             <th scope="col">Итого</th>
         </tr>
         </thead>
         <tbody>
         <?php
         $action_text = $action . ' %';
+        if ($sum_price > 1500){
+            $action_text = 'литровая  бутылка колы  в подарок!';
+        }
+
         if (isset($mail) and $mail == true) {
             $sum_price = 0;
         }
 
         echo "<tr>
                   <td>" . $action_text . "</td>
-                  <td>" . $sum_price . "</td>
-                  <td scope=\"col\">" . ($sum_price - $sum_price * $action / 100) . "</td>";
+                  <td>" . $sum_price . "</td>";
+                  //<td scope=\"col\">" . ($sum_price - $sum_price * $action / 100) . "</td>";
         ?>
         </tbody>
     </table>
