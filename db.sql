@@ -311,6 +311,11 @@ INSERT INTO `products` (`idd`, `header`, `description`, `price`, `weight`, `img`
 
 -- --------------------------------------------------------
 
+INSERT INTO `comment` (`id`, `name`, `data`, `content`) VALUES
+(3, 'Serg', '2018-11-09 14:11:57', 'Пиццы получаются вкусными ! Рекомендую всем посетить '),
+(2, 'Sega', '2018-11-08 12:32:21', 'все вкусно '),
+(4, 'Nika', '2018-11-11 18:03:28', 'Брали пиццу на вынос,приехали домой она горелая капец какая,и это уже не первый!Ребят исправляйте(((((('),
+(5, 'Gevorg', '2018-11-28 20:33:52', 'Че пицца норм!');
 --
 -- Структура таблицы `users`
 --
@@ -335,3 +340,4 @@ INSERT INTO `users` (`id`, `email`, `login`, `password`, `address`, `phone`) VAL
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
