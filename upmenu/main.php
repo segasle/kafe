@@ -1,26 +1,10 @@
-<h1 class="text-center">Скидки, акции</h1>
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="photo/original.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">  <img  class="d-block w-100" src="photo/rt.jpg" alt="...">
-        </div>
-        <div class="carousel-item">
-            <img src="photo/granada.jpg" class="d-block w-100" alt="...">
+<h1 class="text-center">Новости, вакансии</h1>
+<div class="container">
+    <div class="content">
+        <div class="content-text">
+            <p><span>В кафе "ЛУИ" требуется бармен/официант</span></p>
+            <p><span>График работы 2/2</span></p>
+            <p><span>Обращаться по телефону <a href="tel:89267845444">8 926 784 54 44</a> - Григорьева Елена Владимировна</span></p>
         </div>
     </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
 </div>
