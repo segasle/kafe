@@ -149,4 +149,4 @@ if (isset($_GET['page']) and $_GET['page'] == 'basket') {
         </div>
     </header>
     <description>
-        <div class="content">
+        <div class="content ndra-container">
